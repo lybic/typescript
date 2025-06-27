@@ -15,3 +15,46 @@ export const createSandboxSchema = z.object({
     .optional()
     .describe('The datacenter id to use for the sandbox. Use default if not provided.'),
 })
+
+export type CreateSandbox = z.infer<typeof createSandboxSchema>
+
+export const sandboxSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  expiredAt: z.date(),
+  createdAt: z.date(),
+  projectId: z.string(),
+})
+
+export type Sandbox = z.infer<typeof sandboxSchema>
+
+export enum InternetServiceProvider {
+  UNKNOWN = 0,
+  CHINA_MOBILE = 1,
+  CHINA_UNICOM = 2,
+  CHINA_TELECOM = 3,
+  GLOBAL_BGP = 4,
+}
+
+export enum GatewayType {
+  UNKNOWN = 0,
+  KCP = 4,
+  QUIC = 5,
+  WEB_TRANSPORT = 6,
+}
+
+export const sandboxConnectDetailsSchema = z.object({
+  gatewayAddresses: z.array(
+    z.object({
+      address: z.string(),
+      port: z.number(),
+      name: z.string(),
+      preferredProviders: z.array(z.nativeEnum(InternetServiceProvider)),
+      gatewayType: z.nativeEnum(GatewayType),
+    }),
+  ),
+  certificateHashBase64: z.string(),
+  endUserToken: z.string(),
+})
+
+export type SandboxConnectDetails = z.infer<typeof sandboxConnectDetailsSchema>
