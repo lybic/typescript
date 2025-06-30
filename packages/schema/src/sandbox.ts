@@ -1,25 +1,38 @@
 import { z } from 'zod'
-import { attachTitle } from './utils.js'
+import { attachMeta } from './utils.js'
 
 export const createSandboxSchema = z.object({
-  name: attachTitle(z.string().optional().default('sandbox').describe('The name of the sandbox.'), 'Sandbox Name'),
-  maxLifeSeconds: attachTitle(
+  name: attachMeta(z.string().optional().default('sandbox').describe('The name of the sandbox.'), {
+    title: 'Sandbox Name',
+  }),
+  maxLifeSeconds: attachMeta(
     z
       .number()
       .min(1)
       .max(60 * 60 * 24)
       .default(60 * 60)
       .describe('The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 day.'),
-    'Max Life Time',
+    {
+      title: 'Max Life Time',
+    },
   ),
-  projectId: attachTitle(
+  projectId: attachMeta(
     z.string().optional().describe('The project id to use for the sandbox. Use default if not provided.'),
-    'Project',
+    {
+      title: 'Project',
+      fieldComponent: 'project',
+    },
   ),
-  specId: attachTitle(z.string().optional().describe('The spec of the sandbox. Use default if not provided.'), 'Spec'),
-  datacenterId: attachTitle(
+  specId: attachMeta(z.string().optional().describe('The spec of the sandbox. Use default if not provided.'), {
+    title: 'Spec',
+    fieldComponent: 'hidden',
+  }),
+  datacenterId: attachMeta(
     z.string().optional().describe('The datacenter id to use for the sandbox. Use default if not provided.'),
-    'Datacenter',
+    {
+      title: 'Datacenter',
+      fieldComponent: 'hidden',
+    },
   ),
 })
 

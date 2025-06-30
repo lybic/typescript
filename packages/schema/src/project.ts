@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { attachTitle } from './utils.js'
+import { attachMeta } from './utils.js'
 
 export const projectSchema = z.object({
   id: z.string(),
@@ -11,7 +11,7 @@ export const projectSchema = z.object({
 export type Project = z.infer<typeof projectSchema>
 
 export const createProjectSchema = z.object({
-  name: attachTitle(z.string(), 'Project Name').describe('Name of the project.'),
+  name: attachMeta(z.string(), { title: 'Project Name' }).describe('Name of the project.'),
 })
 
 export type CreateProject = z.infer<typeof createProjectSchema>
