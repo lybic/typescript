@@ -11,7 +11,7 @@ export const projectSchema = z.object({
 export type Project = z.infer<typeof projectSchema>
 
 export const createProjectSchema = z.object({
-  name: attachMeta(z.string(), { title: 'Project Name' }).describe('Name of the project.'),
+  name: attachMeta(z.string().describe('Name of the project.'), { title: 'Project Name' }),
 })
 
 export type CreateProject = z.infer<typeof createProjectSchema>

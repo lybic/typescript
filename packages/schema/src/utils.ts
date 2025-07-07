@@ -16,8 +16,8 @@ export interface LybicZodMeta {
 
 const TITLE_KEY = Symbol.for('lybic.zod.title')
 
-export function attachMeta<T extends ZodType>(type: T, meta: LybicZodMeta) {
-  attach(type, TITLE_KEY, meta)
+export function attachMeta<T>(type: T, meta: LybicZodMeta): T {
+  attach(type as any, TITLE_KEY, meta)
   return type
 }
 
