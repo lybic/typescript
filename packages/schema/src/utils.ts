@@ -10,8 +10,8 @@ function get(type: ZodType, key: string | symbol) {
 
 export interface LybicZodMeta {
   title: string
-  fieldComponent?: 'project' | 'string' | 'hidden'
-  fieldProps?: Record<string, any>
+  fieldComponent?: 'project' | 'string' | 'hidden' | 'select'
+  fieldProps?: any
 }
 
 const TITLE_KEY = Symbol.for('lybic.zod.title')
