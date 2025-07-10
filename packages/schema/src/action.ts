@@ -131,6 +131,10 @@ export const computerUseActionSchema = z
   )
   .describe('All possible computer use actions, with optional callId')
 
+export const executeComputerUseActionSchema = z.object({
+  action: computerUseActionSchema,
+})
+
 export type ILength = z.infer<typeof lengthSchema>
 export type ILengthPixel = z.infer<typeof lengthPxSchema>
 export type ILengthFraction = z.infer<typeof lengthFractionSchema>
@@ -147,3 +151,5 @@ export type IComputerUseActionScreenshot = z.infer<typeof computerUseActionScree
 export type IComputerUseActionWait = z.infer<typeof computerUseActionWaitSchema>
 export type IComputerUseActionFinished = z.infer<typeof computerUseActionFinishedSchema>
 export type IComputerUseActionFailed = z.infer<typeof computerUseActionFailedSchema>
+
+export type IExecuteComputerUseAction = z.infer<typeof executeComputerUseActionSchema>
