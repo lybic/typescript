@@ -76,3 +76,16 @@ export const sandboxConnectDetailsSchema = z.object({
 })
 
 export type SandboxConnectDetails = z.infer<typeof sandboxConnectDetailsSchema>
+
+export const sandboxPreviewSchema = z.object({
+  screenShot: z.string().url(),
+  cursorPosition: z.object({
+    x: z.number(),
+    y: z.number(),
+    screenWidth: z.number(),
+    screenHeight: z.number(),
+    screenIndex: z.number(),
+  }),
+})
+
+export type SandboxPreview = z.infer<typeof sandboxPreviewSchema>
