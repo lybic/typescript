@@ -99,14 +99,14 @@ export const computerUseActionWaitSchema = z
 export const computerUseActionFinishedSchema = z
   .object({
     type: z.literal('finished'),
-    message: z.string().describe('Completion message'),
+    message: z.string().optional().describe('Completion message'),
   })
   .describe('Indicates the action has finished')
 
 export const computerUseActionFailedSchema = z
   .object({
     type: z.literal('failed'),
-    message: z.string().describe('Failure message'),
+    message: z.string().optional().describe('Failure message'),
   })
   .describe('Indicates the action has failed')
 
