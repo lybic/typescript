@@ -61,16 +61,16 @@ export enum GatewayType {
   WEB_TRANSPORT = 6,
 }
 
+const gatewayAddressSchema = z.object({
+  address: z.string(),
+  port: z.number(),
+  name: z.string(),
+  preferredProviders: z.array(z.nativeEnum(InternetServiceProvider)),
+  gatewayType: z.nativeEnum(GatewayType),
+})
+
 export const sandboxConnectDetailsSchema = z.object({
-  gatewayAddresses: z.array(
-    z.object({
-      address: z.string(),
-      port: z.number(),
-      name: z.string(),
-      preferredProviders: z.array(z.nativeEnum(InternetServiceProvider)),
-      gatewayType: z.nativeEnum(GatewayType),
-    }),
-  ),
+  gatewayAddresses: z.array(gatewayAddressSchema),
   certificateHashBase64: z.string(),
   endUserToken: z.string(),
 })
@@ -89,3 +89,53 @@ export const sandboxPreviewSchema = z.object({
 })
 
 export type SandboxPreview = z.infer<typeof sandboxPreviewSchema>
+
+export const createBringYourOwnSandboxSchema = z.object({
+  name: attachMeta(z.string().optional().default('sandbox').describe('The name of the sandbox.'), {
+    title: 'Sandbox Name',
+  }),
+  projectId: attachMeta(
+    z.string().optional().describe('The project id to use for the sandbox. Use default if not provided.'),
+    {
+      title: 'Project',
+      fieldComponent: 'project',
+    },
+  ),
+  maxLifeSeconds: attachMeta(
+    z
+      .number()
+      .min(1)
+      .max(60 * 60 * 24 * 365)
+      .default(60 * 60)
+      .describe('The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year.'),
+    {
+      title: 'Max Life Time',
+    },
+  ),
+  gatewayAddress: attachMeta(z.string().describe('The gateway address of the sandbox.'), {
+    title: 'Gateway Address',
+  }),
+  quicPort: attachMeta(z.number().describe('The quic port of the sandbox.'), {
+    title: 'Quic Port',
+  }),
+  webTransportPort: attachMeta(z.number().describe('The web transport port of the sandbox.'), {
+    title: 'Web Transport Port',
+  }),
+  roomCertificateHashBase64: attachMeta(
+    z.string().describe('The base64 encoded room certificate hash of the sandbox.'),
+    {
+      title: 'Room Certificate Hash',
+    },
+  ),
+  jwkX: attachMeta(z.string().describe('The x of the jwk of the sandbox.'), {
+    title: 'JWK X',
+  }),
+  jwkD: attachMeta(z.string().describe('The d of the jwk of the sandbox.'), {
+    title: 'JWK D',
+  }),
+  roomId: attachMeta(z.string().describe('The room id of the sandbox.'), {
+    title: 'Room ID',
+  }),
+})
+
+export type CreateBringYourOwnSandbox = z.infer<typeof createBringYourOwnSandboxSchema>
