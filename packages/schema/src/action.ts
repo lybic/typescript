@@ -133,6 +133,8 @@ export const computerUseActionSchema = z
 
 export const executeComputerUseActionSchema = z.object({
   action: computerUseActionSchema,
+  includeScreenShot: z.boolean().optional().default(true),
+  includeCursorPosition: z.boolean().optional().default(true),
 })
 
 export type ILength = z.infer<typeof lengthSchema>
