@@ -139,3 +139,10 @@ export const createBringYourOwnSandboxSchema = z.object({
 })
 
 export type CreateBringYourOwnSandbox = z.infer<typeof createBringYourOwnSandboxSchema>
+
+export const getSandboxResponseSchema = z.object({
+  sandbox: sandboxSchema,
+  connectDetails: sandboxConnectDetailsSchema,
+})
+
+export type GetSandboxResponse = z.infer<typeof getSandboxResponseSchema>
