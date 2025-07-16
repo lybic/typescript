@@ -159,3 +159,9 @@ export const executeComputerUseResponseSchema = z.object({
 })
 
 export type ExecuteComputerUseResponse = z.infer<typeof executeComputerUseResponseSchema>
+
+export const connectMcpServerToSandboxSchema = z.object({
+  sandboxId: z.string().nullable().describe('The ID of the sandbox to connect the MCP server to.'),
+})
+
+export type ConnectMcpServerToSandbox = z.infer<typeof connectMcpServerToSandboxSchema>

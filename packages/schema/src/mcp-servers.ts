@@ -24,6 +24,7 @@ export const mcpServerSchema = z.object({
   defaultMcpServer: z.boolean().describe('Whether this is the default MCP server for the organization.'),
   projectId: z.string().describe('Project ID to which the MCP server belongs.'),
   policy: mcpServerPolicySchema,
+  currentSandboxId: z.string().nullable().describe('ID of the currently connected sandbox.'),
 })
 
 export type McpServer = z.infer<typeof mcpServerSchema>
