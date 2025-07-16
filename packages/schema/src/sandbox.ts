@@ -6,7 +6,7 @@ export const createSandboxSchema = z.object({
     title: 'Sandbox Name',
   }),
   maxLifeSeconds: attachMeta(
-    z
+    z.coerce
       .number()
       .min(1)
       .max(60 * 60 * 24)
@@ -102,7 +102,7 @@ export const createBringYourOwnSandboxSchema = z.object({
     },
   ),
   maxLifeSeconds: attachMeta(
-    z
+    z.coerce
       .number()
       .min(1)
       .max(60 * 60 * 24 * 365)
