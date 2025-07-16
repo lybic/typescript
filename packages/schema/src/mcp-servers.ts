@@ -34,12 +34,18 @@ export const createMcpServerSchema = z.object({
     title: 'Project',
     fieldComponent: 'project',
   }),
-  sandboxMaxLifetimeSeconds: attachMeta(z.number().default(3600).describe('The maximum lifetime of a sandbox.'), {
-    title: 'Sandbox Max Lifetime',
-  }),
-  sandboxMaxIdleTimeSeconds: attachMeta(z.number().default(3600).describe('The maximum idle time of a sandbox.'), {
-    title: 'Sandbox Max Idle Time',
-  }),
+  sandboxMaxLifetimeSeconds: attachMeta(
+    z.coerce.number().default(3600).describe('The maximum lifetime of a sandbox.'),
+    {
+      title: 'Sandbox Max Lifetime',
+    },
+  ),
+  sandboxMaxIdleTimeSeconds: attachMeta(
+    z.coerce.number().default(3600).describe('The maximum idle time of a sandbox.'),
+    {
+      title: 'Sandbox Max Idle Time',
+    },
+  ),
   sandboxAutoCreation: attachMeta(
     z
       .boolean()
@@ -49,17 +55,20 @@ export const createMcpServerSchema = z.object({
       ),
     {
       title: 'Sandbox Auto Creation',
+      fieldComponent: 'switch',
     },
   ),
   sandboxExposeRecreateTool: attachMeta(
     z.boolean().default(false).describe('Whether to expose recreate tool to LLMs.'),
-    { title: 'Sandbox Expose Recreate Tool' },
+    { title: 'Sandbox Expose Recreate Tool', fieldComponent: 'switch' },
   ),
   sandboxExposeRestartTool: attachMeta(z.boolean().default(false).describe('Whether to expose restart tool to LLMs.'), {
     title: 'Sandbox Expose Restart Tool',
+    fieldComponent: 'switch',
   }),
   sandboxExposeDeleteTool: attachMeta(z.boolean().default(false).describe('Whether to expose delete tool to LLMs.'), {
     title: 'Sandbox Expose Delete Tool',
+    fieldComponent: 'switch',
   }),
 })
 
