@@ -2,22 +2,27 @@ import { z } from 'zod'
 import { attachMeta } from './utils.js'
 
 export const mcpServerPolicySchema = z.object({
-  sandboxMaxLifetimeSeconds: z.number().default(3600),
-  sandboxMaxIdleTimeSeconds: z.number().default(3600),
-  sandboxAutoCreation: z.boolean().default(false),
-  sandboxExposeRecreateTool: z.boolean().default(false),
-  sandboxExposeRestartTool: z.boolean().default(false),
-  sandboxExposeDeleteTool: z.boolean().default(false),
+  sandboxMaxLifetimeSeconds: z.number().default(3600).describe('The maximum lifetime of a sandbox.'),
+  sandboxMaxIdleTimeSeconds: z.number().default(3600).describe('The maximum idle time of a sandbox.'),
+  sandboxAutoCreation: z
+    .boolean()
+    .default(false)
+    .describe(
+      'Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools.',
+    ),
+  sandboxExposeRecreateTool: z.boolean().default(false).describe('Whether to expose recreate tool to LLMs.'),
+  sandboxExposeRestartTool: z.boolean().default(false).describe('Whether to expose restart tool to LLMs.'),
+  sandboxExposeDeleteTool: z.boolean().default(false).describe('Whether to expose delete tool to LLMs.'),
 })
 
 export type McpServerPolicy = z.infer<typeof mcpServerPolicySchema>
 
 export const mcpServerSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  createdAt: z.string(),
-  defaultMcpServer: z.boolean(),
-  projectId: z.string(),
+  id: z.string().describe('ID of the MCP server.'),
+  name: z.string().describe('Name of the MCP server.'),
+  createdAt: z.string().describe('Creation date of the MCP server.'),
+  defaultMcpServer: z.boolean().describe('Whether this is the default MCP server for the organization.'),
+  projectId: z.string().describe('Project ID to which the MCP server belongs.'),
   policy: mcpServerPolicySchema,
 })
 
