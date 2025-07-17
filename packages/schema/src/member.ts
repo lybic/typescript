@@ -51,6 +51,10 @@ export const createMemberInvitationSchema = z.object({
       fieldProps: {
         options: [
           {
+            label: 'Owner',
+            value: 'owner',
+          },
+          {
             label: 'Admin',
             value: 'admin',
           },
