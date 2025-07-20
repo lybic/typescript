@@ -73,6 +73,7 @@ export const sandboxConnectDetailsSchema = z.object({
   gatewayAddresses: z.array(gatewayAddressSchema),
   certificateHashBase64: z.string(),
   endUserToken: z.string(),
+  roomId: z.string(),
 })
 
 export type SandboxConnectDetails = z.infer<typeof sandboxConnectDetailsSchema>
