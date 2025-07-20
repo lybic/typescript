@@ -19,6 +19,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "zod": "^3.25.28"
+    "zod": "^3.25.76"
   }
 }
