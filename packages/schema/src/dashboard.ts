@@ -10,6 +10,8 @@ export type Stats = z.infer<typeof statsSchema>
 
 export const siteConfigSchema = z.object({
   apiUrl: z.string().describe('API URL'),
+  siteUrl: z.string().describe('Site URL'),
+  siteRegion: z.string().describe('Site region'),
   turnstileSiteKey: z.string().describe('Turnstile site key'),
 })
 
