@@ -49,9 +49,9 @@ export const sandboxSchema = z.object({
 export type Sandbox = z.infer<typeof sandboxSchema>
 
 export enum InternetServiceProvider {
-  CHINA_MOBILE = 1,
+  CHINA_TELECOM = 1,
   CHINA_UNICOM = 2,
-  CHINA_TELECOM = 3,
+  CHINA_MOBILE = 3,
   GLOBAL_BGP = 4,
 }
 
