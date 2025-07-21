@@ -155,8 +155,16 @@ export const computerUseActionSchema = z
 
 export const executeComputerUseActionSchema = z.object({
   action: computerUseActionSchema,
-  includeScreenShot: z.boolean().optional().default(true),
-  includeCursorPosition: z.boolean().optional().default(true),
+  includeScreenShot: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe('Whether to include the screenshot url after action in the response'),
+  includeCursorPosition: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe('Whether to include the cursor position after action in the response'),
 })
 
 export type ILength = z.infer<typeof lengthSchema>

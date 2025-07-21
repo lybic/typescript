@@ -79,14 +79,19 @@ export const sandboxConnectDetailsSchema = z.object({
 export type SandboxConnectDetails = z.infer<typeof sandboxConnectDetailsSchema>
 
 export const sandboxPreviewSchema = z.object({
-  screenShot: z.string().url(),
-  cursorPosition: z.object({
-    x: z.number(),
-    y: z.number(),
-    screenWidth: z.number(),
-    screenHeight: z.number(),
-    screenIndex: z.number(),
-  }),
+  screenShot: z
+    .string()
+    .url()
+    .describe('The screenshot URL of the sandbox. Only available if includeScreenShot is true.'),
+  cursorPosition: z
+    .object({
+      x: z.number().describe('The x position of the cursor.'),
+      y: z.number().describe('The y position of the cursor.'),
+      screenWidth: z.number().describe('The width of the screen.'),
+      screenHeight: z.number().describe('The height of the screen.'),
+      screenIndex: z.number().describe('The index of the screen.'),
+    })
+    .describe('The cursor position of the sandbox. Only available if includeCursorPosition is true.'),
 })
 
 export type SandboxPreview = z.infer<typeof sandboxPreviewSchema>
