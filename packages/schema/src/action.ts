@@ -25,6 +25,10 @@ export const computerUseActionMouseClickSchema = z
     x: lengthSchema.describe('X coordinate'),
     y: lengthSchema.describe('Y coordinate'),
     button: z.number().describe('Mouse button index'),
+    holdKey: z
+      .string()
+      .optional()
+      .describe('Key to hold down during click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
   })
   .describe('Click the mouse at the specified coordinates')
 
@@ -34,6 +38,10 @@ export const computerUseActionMouseDoubleClickSchema = z
     x: lengthSchema.describe('X coordinate'),
     y: lengthSchema.describe('Y coordinate'),
     button: z.number().describe('Mouse button index'),
+    holdKey: z
+      .string()
+      .optional()
+      .describe('Key to hold down during double click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
   })
   .describe('Double click the mouse at the specified coordinates')
 
@@ -52,6 +60,10 @@ export const computerUseActionMouseScrollSchema = z
     y: lengthSchema.describe('Y coordinate'),
     stepVertical: z.number().describe('Vertical scroll steps'),
     stepHorizontal: z.number().describe('Horizontal scroll steps'),
+    holdKey: z
+      .string()
+      .optional()
+      .describe('Key to hold down during scroll, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
   })
   .describe('Scroll the mouse')
 
@@ -62,6 +74,10 @@ export const computerUseActionMouseDragSchema = z
     startY: lengthSchema.describe('Start Y coordinate'),
     endX: lengthSchema.describe('End X coordinate'),
     endY: lengthSchema.describe('End Y coordinate'),
+    holdKey: z
+      .string()
+      .optional()
+      .describe('Key to hold down during drag, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
   })
   .describe('Drag the mouse from start to end coordinates')
 
@@ -80,6 +96,12 @@ export const computerUseActionKeyboardHotkeySchema = z
       .describe(
         'Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key).',
       ),
+    duration: z
+      .number()
+      .min(1)
+      .max(5000)
+      .optional()
+      .describe('Duration in milliseconds. If specified, the hotkey will be held for a while and then released.'),
   })
   .describe('Press a keyboard hotkey')
 
