@@ -42,7 +42,7 @@ export const createMemberInvitationSchema = z.object({
   ),
   role: attachMeta(
     z
-      .enum(['admin', 'member'])
+      .enum(['owner', 'admin', 'member'])
       .default('member')
       .describe('The role of the user in the organization if they accept the invitation.'),
     {
