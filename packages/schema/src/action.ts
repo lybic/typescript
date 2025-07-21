@@ -50,6 +50,10 @@ export const computerUseActionMouseMoveSchema = z
     type: z.literal('mouse:move'),
     x: lengthSchema.describe('X coordinate'),
     y: lengthSchema.describe('Y coordinate'),
+    holdKey: z
+      .string()
+      .optional()
+      .describe('Key to hold down during move, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
   })
   .describe('Move the mouse to the specified coordinates')
 
