@@ -69,3 +69,10 @@ export const createMemberInvitationSchema = z.object({
 })
 
 export type CreateMemberInvitation = z.infer<typeof createMemberInvitationSchema>
+
+export const addMemberToOrgSchema = z.object({
+  userId: z.string(),
+  role: z.enum(['admin', 'member', 'owner']),
+})
+
+export type AddMemberToOrg = z.infer<typeof addMemberToOrgSchema>
