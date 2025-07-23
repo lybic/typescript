@@ -24,7 +24,11 @@ export const computerUseActionMouseClickSchema = z
     type: z.literal('mouse:click'),
     x: lengthSchema.describe('X coordinate'),
     y: lengthSchema.describe('Y coordinate'),
-    button: z.number().describe('Mouse button index'),
+    button: z
+      .number()
+      .describe(
+        'Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once.',
+      ),
     holdKey: z
       .string()
       .optional()
