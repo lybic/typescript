@@ -154,14 +154,16 @@ export const getSandboxResponseSchema = z.object({
 export type GetSandboxResponse = z.infer<typeof getSandboxResponseSchema>
 
 export const executeComputerUseResponseSchema = z.object({
-  screenShot: z.string().url().describe('The screenshot of the sandbox after the action is executed.'),
-  cursorPosition: z.object({
-    x: z.number().describe('The x position of the cursor.'),
-    y: z.number().describe('The y position of the cursor.'),
-    screenWidth: z.number().describe('The width of the screen.'),
-    screenHeight: z.number().describe('The height of the screen.'),
-    screenIndex: z.number().describe('The index of the screen.'),
-  }),
+  screenShot: z.string().url().optional().describe('The screenshot of the sandbox after the action is executed.'),
+  cursorPosition: z
+    .object({
+      x: z.number().describe('The x position of the cursor.'),
+      y: z.number().describe('The y position of the cursor.'),
+      screenWidth: z.number().describe('The width of the screen.'),
+      screenHeight: z.number().describe('The height of the screen.'),
+      screenIndex: z.number().describe('The index of the screen.'),
+    })
+    .optional(),
 })
 
 export type ExecuteComputerUseResponse = z.infer<typeof executeComputerUseResponseSchema>
