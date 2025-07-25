@@ -93,6 +93,14 @@ export const computerUseActionKeyboardTypeSchema = z
   .object({
     type: z.literal('keyboard:type'),
     content: z.string().describe('Text content to type'),
+    treatNewLineAsEnter: z
+      .boolean()
+      .default(false)
+      .optional()
+      .nullable()
+      .describe(
+        'Whether to treat line breaks as enter. If true, any line breaks(\\n) in content will be treated as enter key press, and content will be split into multiple lines.',
+      ),
   })
   .describe('Type text content')
 
