@@ -1,0 +1,27 @@
+{
+  "name": "@lybic/core",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./src/index.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "swc src --source-maps -d dist --strip-leading-paths",
+    "watch": "swc -w src  --source-maps -d dist --strip-leading-paths"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.7.8",
+    "@swc/core": "^1.13.3",
+    "openapi-typescript": "^7.8.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.14.0"
+  }
+}
