@@ -14,6 +14,10 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "lib": ["ESNext"],
-    "allowUnreachableCode": true
+    "allowUnreachableCode": true,
+    "baseUrl": "../..",
+    "paths": {
+      "@lybic/core": ["packages/core-sdk/src"]
+    }
   }
 }
