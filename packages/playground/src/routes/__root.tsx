@@ -3,6 +3,8 @@ import type { ReactNode } from 'react'
 import { Outlet, createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import icon from '../assets/icon.svg'
 
+import appCss from '@/styles/app.css?url'
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -11,13 +13,16 @@ export const Route = createRootRoute({
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        content: 'width=960, initial-scale=1, user-scalable=yes',
       },
       {
         title: 'Lybic Playground',
       },
     ],
-    links: [{ rel: 'icon', href: icon }],
+    links: [
+      { rel: 'icon', href: icon },
+      { rel: 'stylesheet', href: appCss },
+    ],
   }),
   component: RootComponent,
 })
@@ -32,11 +37,11 @@ function RootComponent() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html>
+    <html className="h-full w-full">
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="h-full w-full overflow-x-hidden">
         {children}
         <Scripts />
       </body>
