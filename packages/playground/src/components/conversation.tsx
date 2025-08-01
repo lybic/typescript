@@ -55,8 +55,7 @@ export function Conversation() {
         <Textarea placeholder="Use the computer to ..." className="resize-none" />
         <div className="flex gap-2 mt-2 justify-between items-center">
           <div className="text-xs text-muted-foreground">
-            {/* <div>Planning: doubao-seed-1.6-flash</div> */}
-            <div>Model: doubao-seed-1.6-flash</div>
+            <div>LLM Credits: $23,233.1851</div>
           </div>
           <div>
             <Button variant="outline" size="icon">

@@ -48,7 +48,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <body className="h-full w-full overflow-x-hidden bg-transparent">
         {children}
         <Scripts />
-        <TanStackRouterDevtools position="bottom-right" />
+        <TanStackRouterDevtools position="bottom-left" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
       </body>
     </html>
