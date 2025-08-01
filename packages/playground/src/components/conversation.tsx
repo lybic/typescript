@@ -30,7 +30,7 @@ export function Conversation() {
               </div>
               <div>
                 <DropdownMenu>
-                  <DropdownMenuTrigger>
+                  <DropdownMenuTrigger asChild>
                     <Button size="icon" variant="ghost" className="size-4">
                       <IconDots className="size-3" />
                     </Button>

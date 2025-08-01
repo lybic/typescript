@@ -1,11 +1,14 @@
 /// <reference types="vite/client" />
 import type { ReactNode } from 'react'
-import { Outlet, createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
-import icon from '../assets/icon.svg'
+import { Outlet, createRootRoute, HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
+import icon from '../assets/icon.svg?no-inline'
 
 import appCss from '@/styles/app.css?url'
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { QueryClient } from '@tanstack/react-query'
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       {
@@ -24,6 +27,7 @@ export const Route = createRootRoute({
       { rel: 'stylesheet', href: appCss },
     ],
   }),
+  ssr: true,
   component: RootComponent,
 })
 
@@ -37,13 +41,15 @@ function RootComponent() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html className="h-full w-full">
+    <html className="h-full w-full bg-transparent">
       <head>
         <HeadContent />
       </head>
-      <body className="h-full w-full overflow-x-hidden">
+      <body className="h-full w-full overflow-x-hidden bg-transparent">
         {children}
         <Scripts />
+        <TanStackRouterDevtools position="bottom-right" />
+        <ReactQueryDevtools buttonPosition="bottom-left" />
       </body>
     </html>
   )

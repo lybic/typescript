@@ -1,10 +1,10 @@
-import { FormTrialPhoneNumber } from '@/components/form-trial-phone-number'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { IconBuilding, IconMoodPuzzled, IconPhone, IconRefresh } from '@tabler/icons-react'
+import { VerifyPhoneNumber } from './verification-dialog/verify-phone-number'
 
 export function VerificationDialog() {
   return (
@@ -12,7 +12,7 @@ export function VerificationDialog() {
       <DialogContent showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>Verification required</DialogTitle>
-          <DialogDescription>
+          <DialogDescription asChild>
             <Tabs defaultValue="trail" className="mt-2">
               <TabsList className="mb-4">
                 <TabsTrigger value="trail">
@@ -25,7 +25,7 @@ export function VerificationDialog() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="trail">
-                <FormTrialPhoneNumber />
+                <VerifyPhoneNumber />
               </TabsContent>
               <TabsContent value="org">
                 <Alert>
@@ -45,12 +45,6 @@ export function VerificationDialog() {
             </Tabs>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="mt-4">
-          <Button variant="outline" size="icon">
-            <IconRefresh />
-          </Button>
-          <Button>Verify</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
