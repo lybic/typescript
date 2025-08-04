@@ -16,6 +16,7 @@ import { sandboxQueryOptions } from '@/queries/sandbox-query'
 import { Countdown } from '../countdown'
 
 export function DesktopTopBar() {
+  const queryClient = useQueryClient()
   const session = useSnapshot(sessionStore)
   const sbState = useSnapshot(sandboxState)
   const sandboxQuery = useQuery(sandboxQueryOptions(session.orgId, sbState.id))
@@ -31,6 +32,13 @@ export function DesktopTopBar() {
     }
   }, [sandboxQuery.data, sandboxQuery.isPending])
 
+  const handleCountdownExpired = useEffectEvent(() => {
+    sandboxState.connectDetails = null
+    sandboxState.expiresAt = 0
+    sandboxState.id = ''
+    queryClient.invalidateQueries(sandboxesQueryOptions(session.orgId))
+  })
+
   return (
     <div className="desktop-top-bar flex w-full justify-between px-2 mb-2">
       {sbState.id && (
@@ -45,7 +53,11 @@ export function DesktopTopBar() {
             <div className="flex gap-1 items-center">
               <div className="text-xs">Expires in</div>
               <div className="font-mono flow items-center">
-                {sbState.expiresAt > 0 ? <Countdown expiresAt={sbState.expiresAt} /> : <Spinner />}
+                {sbState.expiresAt > 0 ? (
+                  <Countdown expiresAt={sbState.expiresAt} onCountdownExpired={handleCountdownExpired} />
+                ) : (
+                  <Spinner className="size-3" />
+                )}
               </div>
             </div>
             <Button size="sm" variant="outline" className="text-destructive hover:text-destructive">

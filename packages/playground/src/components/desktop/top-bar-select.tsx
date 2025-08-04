@@ -5,14 +5,16 @@ import { trailUserQueryOptions } from '@/queries/trail-user-query'
 import { sandboxState } from '@/stores/sandbox'
 import { sessionStore } from '@/stores/session'
 import { IconPlus, IconReload } from '@tabler/icons-react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
 import { useSnapshot } from 'valtio'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Spinner } from '../ui/spinner'
+import { sandboxQueryOptions } from '@/queries/sandbox-query'
 
 export function DesktopTopBarSelect() {
+  const queryClient = useQueryClient()
   const session = useSnapshot(sessionStore)
   const sandboxesQuery = useQuery(sandboxesQueryOptions(session.orgId))
   const trialUserQuery = useQuery(trailUserQueryOptions())
@@ -31,6 +33,7 @@ export function DesktopTopBarSelect() {
       createSandbox.mutateAsync().then(
         (sandbox) => {
           sandboxState.id = sandbox.id
+          queryClient.invalidateQueries(sandboxQueryOptions(session.orgId, sandbox.id))
         },
         () => {
           setSelectedSandboxId('')

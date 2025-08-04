@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 
-export function Countdown({ expiresAt }: { expiresAt: number }) {
+export function Countdown({ expiresAt, onCountdownExpired }: { expiresAt: number; onCountdownExpired?: () => void }) {
   const [countdown, setCountdown] = useState(formatTime(expiresAt - Date.now()))
   const [isWarning, setIsWarning] = useState(false)
 
@@ -11,6 +11,7 @@ export function Countdown({ expiresAt }: { expiresAt: number }) {
       if (diff <= 0) {
         setCountdown('00:00:00')
         setIsWarning(true)
+        onCountdownExpired?.()
         clearInterval(interval)
       } else {
         setCountdown(formatTime(diff))
@@ -28,6 +29,10 @@ export function Countdown({ expiresAt }: { expiresAt: number }) {
 }
 
 function formatTime(diff: number) {
+  if (diff < 0) {
+    return '00:00'
+  }
+
   const hours = Math.floor(diff / (1000 * 60 * 60))
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
   const seconds = Math.floor((diff % (1000 * 60)) / 1000)
