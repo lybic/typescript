@@ -1,0 +1,61 @@
+import { IconCast, IconPlus, IconReload } from '@tabler/icons-react'
+import { Button } from '@/components/ui/button'
+import { useSnapshot } from 'valtio'
+import { sandboxState } from '@/stores/sandbox'
+import { sandboxesQueryOptions } from '@/queries/sandboxes-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { sessionStore } from '@/stores/session'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select'
+import { Spinner } from '../ui/spinner'
+import { useEffectEvent } from 'use-effect-event'
+import { useCreateSandbox } from '@/hooks/use-create-sandbox'
+import { useEffect, useState } from 'react'
+import { trailUserQueryOptions } from '@/queries/trail-user-query'
+import { DesktopTopBarSelect } from './top-bar-select'
+import { sandboxQueryOptions } from '@/queries/sandbox-query'
+import { Countdown } from '../countdown'
+
+export function DesktopTopBar() {
+  const session = useSnapshot(sessionStore)
+  const sbState = useSnapshot(sandboxState)
+  const sandboxQuery = useQuery(sandboxQueryOptions(session.orgId, sbState.id))
+
+  useEffect(() => {
+    const { data, isPending } = sandboxQuery
+    if (data) {
+      sandboxState.connectDetails = data.connectDetails
+      sandboxState.expiresAt = new Date(data.sandbox.expiredAt).getTime()
+    } else if (!isPending) {
+      sandboxState.connectDetails = null
+      sandboxState.expiresAt = 0
+    }
+  }, [sandboxQuery.data, sandboxQuery.isPending])
+
+  return (
+    <div className="desktop-top-bar flex w-full justify-between px-2 mb-2">
+      {sbState.id && (
+        <div className="flex gap-2 items-center">
+          <IconCast className="size-4" />
+          <div className="text-sm">Live Stream</div>
+        </div>
+      )}
+      <div className="flex gap-2 text-sm text-muted-foreground items-center">
+        {sbState.id ? (
+          <>
+            <div className="flex gap-1 items-center">
+              <div className="text-xs">Expires in</div>
+              <div className="font-mono flow items-center">
+                {sbState.expiresAt > 0 ? <Countdown expiresAt={sbState.expiresAt} /> : <Spinner />}
+              </div>
+            </div>
+            <Button size="sm" variant="outline" className="text-destructive hover:text-destructive">
+              Terminate
+            </Button>
+          </>
+        ) : (
+          <DesktopTopBarSelect />
+        )}
+      </div>
+    </div>
+  )
+}

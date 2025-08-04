@@ -9,6 +9,8 @@ myAxios.interceptors.request.use((config) => {
   const { trialSessionToken } = sessionStore
   if (trialSessionToken) {
     config.headers.set('x-trial-session-token', trialSessionToken)
+  } else {
+    config.withCredentials = true
   }
   return config
 })

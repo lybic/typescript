@@ -1,6 +1,6 @@
 import { myAxios } from '@/lib/axios'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { trailUserQuery } from '@/queries/trail-user-query'
+import { trailUserQueryOptions } from '@/queries/trail-user-query'
 import { sessionStore } from '@/stores/session'
 
 export function useCreateTrialUser() {
@@ -24,7 +24,7 @@ export function useCreateTrialUser() {
       sessionStore.trialSessionToken = data.sessionToken
       sessionStore.signedInViaDashboard = false
       sessionStore.orgId = data.organizationId
-      queryClient.setQueryData(trailUserQuery().queryKey, data)
+      queryClient.setQueryData(trailUserQueryOptions().queryKey, data)
     },
   })
 
