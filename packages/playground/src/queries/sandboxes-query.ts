@@ -19,6 +19,7 @@ export const sandboxesQueryOptions = (orgId: string) =>
           return []
         }
         try {
+          await queryClient.resetQueries(sandboxQueryOptions(orgId, trialUser.allowedSandboxId!))
           const sandbox = await queryClient.ensureQueryData(sandboxQueryOptions(orgId, trialUser.allowedSandboxId!))
           return [sandbox.sandbox]
         } catch {
