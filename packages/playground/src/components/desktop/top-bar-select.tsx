@@ -31,9 +31,9 @@ export function DesktopTopBarSelect() {
     setSelectedSandboxId(value)
     if (value === 'create') {
       createSandbox.mutateAsync().then(
-        (sandbox) => {
-          sandboxState.id = sandbox.id
-          queryClient.invalidateQueries(sandboxQueryOptions(session.orgId, sandbox.id))
+        (user) => {
+          sandboxState.id = user.allowedSandboxId
+          queryClient.invalidateQueries(sandboxQueryOptions(session.orgId, user.allowedSandboxId))
         },
         () => {
           setSelectedSandboxId('')

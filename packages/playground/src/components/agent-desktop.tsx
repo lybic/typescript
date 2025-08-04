@@ -3,8 +3,15 @@ import { IconBoxOff, IconCast, IconSandbox } from '@tabler/icons-react'
 import BlurryBlob from './animata/background/blurry-blob'
 import { Badge } from './ui/badge'
 import { DesktopTopBar } from './desktop/top-bar'
+import { LiveStreamFrameHost } from './desktop/live-stream-frame-host'
+import { useSnapshot } from 'valtio'
+import { sandboxState } from '@/stores/sandbox'
+import { Spinner } from './ui/spinner'
+import { LiveStream } from './live-stream'
 
 export function AgentDesktop() {
+  const sb = useSnapshot(sandboxState)
+
   return (
     <div className="agent-desktop flex-1">
       <div
@@ -13,14 +20,25 @@ export function AgentDesktop() {
       >
         <DesktopTopBar />
         <div className="aspect-[16/9] w-[min(100%,177cqh)] border-1 shadow-sm relative rounded-lg overflow-hidden">
-          <canvas className="w-full h-full absolute" tabIndex={0}></canvas>
-          <div className="w-full h-full absolute clip-rounded-lg">
-            <BlurryBlob firstBlobColor="bg-blue-400" secondBlobColor="bg-purple-400" />
-          </div>
-          <div className="w-full h-full absolute flex flex-col items-center justify-center gap-4">
-            <IconSandbox className="size-10 text-muted-foreground" />
-            <div className="text-md text-muted-foreground">Select or create a sandbox to start</div>
-          </div>
+          {sb.connectDetails ? (
+            <LiveStream connectDetails={sb.connectDetails} />
+          ) : (
+            <>
+              <div className="w-full h-full absolute clip-rounded-lg">
+                <BlurryBlob firstBlobColor="bg-blue-400" secondBlobColor="bg-purple-400" />
+              </div>
+              <div className="w-full h-full absolute flex flex-col items-center justify-center gap-4">
+                {sb.id ? (
+                  <Spinner className="text-muted-foreground size-6" />
+                ) : (
+                  <>
+                    <IconSandbox className="size-10 text-muted-foreground" />
+                    <div className="text-md text-muted-foreground">Select or create a sandbox to start</div>
+                  </>
+                )}
+              </div>
+            </>
+          )}
         </div>
         <div className="agent-dock top-4 w-full px-2 py-4 flex justify-between">
           <div className="flex gap-2 flex-1">

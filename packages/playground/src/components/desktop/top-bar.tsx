@@ -36,7 +36,7 @@ export function DesktopTopBar() {
     sandboxState.connectDetails = null
     sandboxState.expiresAt = 0
     sandboxState.id = ''
-    queryClient.invalidateQueries(sandboxesQueryOptions(session.orgId))
+    queryClient.invalidateQueries()
   })
 
   return (

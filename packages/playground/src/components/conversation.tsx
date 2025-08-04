@@ -3,6 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@/component
 import { Textarea } from '@/components/ui/textarea'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { IconBlockquote, IconDots, IconPointer, IconScreenshot, IconSend, IconSettings } from '@tabler/icons-react'
+import { LLMBudget } from './conversation/llm-budget'
 
 export function Conversation() {
   return (
@@ -54,8 +55,10 @@ export function Conversation() {
       <div className="message-input p-2">
         <Textarea placeholder="Use the computer to ..." className="resize-none" />
         <div className="flex gap-2 mt-2 justify-between items-center">
-          <div className="text-xs text-muted-foreground">
-            <div>LLM Credits: $23,233.1851</div>
+          <div className="text-xs text-muted-foreground flex items-center">
+            <div>LLM Credits:</div>
+            <div className="ml-1">$</div>
+            <LLMBudget />
           </div>
           <div>
             <Button variant="outline" size="icon">
