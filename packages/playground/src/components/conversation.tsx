@@ -4,72 +4,51 @@ import { Textarea } from '@/components/ui/textarea'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { IconBlockquote, IconDots, IconPointer, IconScreenshot, IconSend, IconSettings } from '@tabler/icons-react'
 import { LLMBudget } from './conversation/llm-budget'
+import { MessageUser } from './conversation/message-user'
+import { MessageAssistant } from './conversation/message-assistant'
+import { useChat } from '@ai-sdk/react'
+import { DefaultChatTransport } from 'ai'
+import { useSnapshot } from 'valtio'
+import { sessionStore } from '@/stores/session'
+import { MessageParts } from './conversation/message-parts'
+import { InputArea } from './conversation/input-area'
+import { useEffect, useRef } from 'react'
 
 export function Conversation() {
+  const session = useSnapshot(sessionStore)
+  const messagesRef = useRef<HTMLDivElement>(null)
+  const chat = useChat({
+    experimental_throttle: 300,
+    transport: new DefaultChatTransport({
+      api: '/bff/chat',
+      headers: {
+        'X-Trial-Session-Token': session.trialSessionToken,
+      },
+    }),
+  })
+
+  useEffect(() => {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTo({ top: messagesRef.current.scrollHeight, behavior: 'smooth' })
+    }
+  }, [chat.messages])
+
   return (
     <div className="conversation w-96 py-4 text-sm flex flex-col">
-      <div className="messages flex-1 overflow-y-auto">
-        <div className="message-user-input mx-2">
-          <div className="w-4/5 ml-auto rounded-lg bg-accent text-accent-foreground p-2 px-4 break-words whitespace-pre-wrap">
-            打开浏览器抓取现在百度热榜（ https://top.baidu.com/board?tab=realtime
-            ）上第一名的热点，把排名、标题写入WPS表格。
-          </div>
-          <div className="message-footer text-xs text-muted-foreground text-right my-1">22:34</div>
-        </div>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <div key={index} className="message-assistant mx-2 hover:bg-accent rounded-lg p-2">
-            <div className="p-2 break-words whitespace-pre-wrap">
-              任务是打开浏览器抓取百度热榜第一名热点并写入WPS表格。首先需要打开浏览器，桌面上有Google
-              Chrome图标，所以第一步应该双击打开Google Chrome。这样才能访问目标网址获取信息。{'\n'}
-              总结：双击桌面上的Google Chrome图标以打开浏览器。
-            </div>
-            <div className="message-footer text-xs text-muted-foreground text-left ml-2 flex flex-wrap gap-2 items-center">
-              <div>23:45</div>
-              <div className="flex gap-1 items-center">
-                <IconPointer className="size-3" />
-                click
-              </div>
-              <div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button size="icon" variant="ghost" className="size-4">
-                      <IconDots className="size-3" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <IconBlockquote className="size-4" />
-                      Original
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <IconScreenshot className="size-4" />
-                      Screenshot
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="messages flex-1 overflow-y-auto" ref={messagesRef}>
+        {chat.messages.map((message) =>
+          message.role === 'user' ? (
+            <MessageUser time="" key={message.id}>
+              <MessageParts parts={message.parts} />
+            </MessageUser>
+          ) : message.role === 'assistant' ? (
+            <MessageAssistant time="" key={message.id}>
+              <MessageParts parts={message.parts} />
+            </MessageAssistant>
+          ) : null,
+        )}
       </div>
-      <div className="message-input p-2">
-        <Textarea placeholder="Use the computer to ..." className="resize-none" />
-        <div className="flex gap-2 mt-2 justify-between items-center">
-          <div className="text-xs text-muted-foreground flex items-center">
-            <div>LLM Credits:</div>
-            <div className="ml-1">$</div>
-            <LLMBudget />
-          </div>
-          <div>
-            <Button variant="outline" size="icon">
-              <IconSettings />
-            </Button>
-            <Button size="icon" className="ml-2">
-              <IconSend />
-            </Button>
-          </div>
-        </div>
-      </div>
+      <InputArea chat={chat} />
     </div>
   )
 }

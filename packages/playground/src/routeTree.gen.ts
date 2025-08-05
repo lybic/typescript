@@ -8,10 +8,16 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createServerRootRoute } from '@tanstack/react-start/server'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as StreamRouteImport } from './routes/stream'
+import { Route as QuickPrototypeRouteImport } from './routes/quick-prototype'
 import { Route as IndexRouteImport } from './routes/index'
+import { ServerRoute as BffChatServerRouteImport } from './routes/bff/chat'
+
+const rootServerRouteImport = createServerRootRoute()
 
 const VerifyRoute = VerifyRouteImport.update({
   id: '/verify',
@@ -23,40 +29,75 @@ const StreamRoute = StreamRouteImport.update({
   path: '/stream',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuickPrototypeRoute = QuickPrototypeRouteImport.update({
+  id: '/quick-prototype',
+  path: '/quick-prototype',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BffChatServerRoute = BffChatServerRouteImport.update({
+  id: '/bff/chat',
+  path: '/bff/chat',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/quick-prototype': typeof QuickPrototypeRoute
   '/stream': typeof StreamRoute
   '/verify': typeof VerifyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/quick-prototype': typeof QuickPrototypeRoute
   '/stream': typeof StreamRoute
   '/verify': typeof VerifyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/quick-prototype': typeof QuickPrototypeRoute
   '/stream': typeof StreamRoute
   '/verify': typeof VerifyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/stream' | '/verify'
+  fullPaths: '/' | '/quick-prototype' | '/stream' | '/verify'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/stream' | '/verify'
-  id: '__root__' | '/' | '/stream' | '/verify'
+  to: '/' | '/quick-prototype' | '/stream' | '/verify'
+  id: '__root__' | '/' | '/quick-prototype' | '/stream' | '/verify'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  QuickPrototypeRoute: typeof QuickPrototypeRoute
   StreamRoute: typeof StreamRoute
   VerifyRoute: typeof VerifyRoute
+}
+export interface FileServerRoutesByFullPath {
+  '/bff/chat': typeof BffChatServerRoute
+}
+export interface FileServerRoutesByTo {
+  '/bff/chat': typeof BffChatServerRoute
+}
+export interface FileServerRoutesById {
+  __root__: typeof rootServerRouteImport
+  '/bff/chat': typeof BffChatServerRoute
+}
+export interface FileServerRouteTypes {
+  fileServerRoutesByFullPath: FileServerRoutesByFullPath
+  fullPaths: '/bff/chat'
+  fileServerRoutesByTo: FileServerRoutesByTo
+  to: '/bff/chat'
+  id: '__root__' | '/bff/chat'
+  fileServerRoutesById: FileServerRoutesById
+}
+export interface RootServerRouteChildren {
+  BffChatServerRoute: typeof BffChatServerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StreamRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quick-prototype': {
+      id: '/quick-prototype'
+      path: '/quick-prototype'
+      fullPath: '/quick-prototype'
+      preLoaderRoute: typeof QuickPrototypeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -84,12 +132,30 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+declare module '@tanstack/react-start/server' {
+  interface ServerFileRoutesByPath {
+    '/bff/chat': {
+      id: '/bff/chat'
+      path: '/bff/chat'
+      fullPath: '/bff/chat'
+      preLoaderRoute: typeof BffChatServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+  }
+}
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  QuickPrototypeRoute: QuickPrototypeRoute,
   StreamRoute: StreamRoute,
   VerifyRoute: VerifyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+const rootServerRouteChildren: RootServerRouteChildren = {
+  BffChatServerRoute: BffChatServerRoute,
+}
+export const serverRouteTree = rootServerRouteImport
+  ._addFileChildren(rootServerRouteChildren)
+  ._addFileTypes<FileServerRouteTypes>()
