@@ -1,7 +1,7 @@
 import { IconCast, IconPlus, IconReload } from '@tabler/icons-react'
 import { Button } from '@/components/ui/button'
 import { useSnapshot } from 'valtio'
-import { sandboxState } from '@/stores/sandbox'
+import { sandboxStore } from '@/stores/sandbox'
 import { sandboxesQueryOptions } from '@/queries/sandboxes-query'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { sessionStore } from '@/stores/session'
@@ -18,24 +18,24 @@ import { Countdown } from '../countdown'
 export function DesktopTopBar() {
   const queryClient = useQueryClient()
   const session = useSnapshot(sessionStore)
-  const sbState = useSnapshot(sandboxState)
+  const sbState = useSnapshot(sandboxStore)
   const sandboxQuery = useQuery(sandboxQueryOptions(session.orgId, sbState.id))
 
   useEffect(() => {
     const { data, isPending } = sandboxQuery
     if (data) {
-      sandboxState.connectDetails = data.connectDetails
-      sandboxState.expiresAt = new Date(data.sandbox.expiredAt).getTime()
+      sandboxStore.connectDetails = data.connectDetails
+      sandboxStore.expiresAt = new Date(data.sandbox.expiredAt).getTime()
     } else if (!isPending) {
-      sandboxState.connectDetails = null
-      sandboxState.expiresAt = 0
+      sandboxStore.connectDetails = null
+      sandboxStore.expiresAt = 0
     }
   }, [sandboxQuery.data, sandboxQuery.isPending])
 
   const handleCountdownExpired = useEffectEvent(() => {
-    sandboxState.connectDetails = null
-    sandboxState.expiresAt = 0
-    sandboxState.id = ''
+    sandboxStore.connectDetails = null
+    sandboxStore.expiresAt = 0
+    sandboxStore.id = ''
     queryClient.invalidateQueries()
   })
 

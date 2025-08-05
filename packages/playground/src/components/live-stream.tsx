@@ -15,23 +15,15 @@ export function LiveStream({ connectDetails }: { connectDetails: SandboxConnectD
       videoFps: 12,
       videoBitrate: 1 * 1024 * 1024,
     })
-    const cleanup = asyncEffect(
-      async () => {
-        if (streamingClient.current) {
-          await streamingClient.current.destroy()
-          streamingClient.current = null
-        }
-        await sc.start(connectDetails)
-        streamingClient.current = sc
-      },
-      async () => {},
-      async () => {
-        await sc.destroy()
-        streamingClient.current = null
-      },
-    )
+    const timer = setTimeout(() => {
+      void sc.start(connectDetails)
+    }, 100)
 
-    return cleanup
+    return () => {
+      clearTimeout(timer)
+      void sc.destroy()
+      streamingClient.current = null
+    }
   }, [connectDetails])
 
   return <canvas className="w-full h-full outline-none" ref={canvas} tabIndex={0} />

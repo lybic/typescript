@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { useCreateSandbox } from '@/hooks/use-create-sandbox'
 import { sandboxesQueryOptions } from '@/queries/sandboxes-query'
 import { trailUserQueryOptions } from '@/queries/trail-user-query'
-import { sandboxState } from '@/stores/sandbox'
+import { sandboxStore } from '@/stores/sandbox'
 import { sessionStore } from '@/stores/session'
 import { IconPlus, IconReload } from '@tabler/icons-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -32,7 +32,7 @@ export function DesktopTopBarSelect() {
     if (value === 'create') {
       createSandbox.mutateAsync().then(
         (user) => {
-          sandboxState.id = user.allowedSandboxId
+          sandboxStore.id = user.allowedSandboxId
           queryClient.invalidateQueries(sandboxQueryOptions(session.orgId, user.allowedSandboxId))
         },
         () => {
@@ -40,7 +40,7 @@ export function DesktopTopBarSelect() {
         },
       )
     } else if (value) {
-      sandboxState.id = value
+      sandboxStore.id = value
       setSelectedSandboxId(value)
     }
   })

@@ -5,12 +5,12 @@ import { Badge } from './ui/badge'
 import { DesktopTopBar } from './desktop/top-bar'
 import { LiveStreamFrameHost } from './desktop/live-stream-frame-host'
 import { useSnapshot } from 'valtio'
-import { sandboxState } from '@/stores/sandbox'
+import { sandboxStore } from '@/stores/sandbox'
 import { Spinner } from './ui/spinner'
 import { LiveStream } from './live-stream'
 
 export function AgentDesktop() {
-  const sb = useSnapshot(sandboxState)
+  const sb = useSnapshot(sandboxStore)
 
   return (
     <div className="agent-desktop flex-1">

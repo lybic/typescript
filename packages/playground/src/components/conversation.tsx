@@ -13,25 +13,22 @@ import { sessionStore } from '@/stores/session'
 import { MessageParts } from './conversation/message-parts'
 import { InputArea } from './conversation/input-area'
 import { useEffect, useRef } from 'react'
+import { sandboxStore } from '@/stores/sandbox'
+import { ClientOnlyChatTransport } from '@/lib/client-only-chat-transport'
+import { useCoreClient } from '@/hooks/use-core-client'
 
 export function Conversation() {
   const session = useSnapshot(sessionStore)
+  const sb = useSnapshot(sandboxStore)
   const messagesRef = useRef<HTMLDivElement>(null)
+  const coreClient = useCoreClient()
   const chat = useChat({
     experimental_throttle: 300,
-    transport: new DefaultChatTransport({
-      api: '/bff/chat',
-      headers: () => ({
-        'X-Trial-Session-Token': session.trialSessionToken,
-      }),
-      prepareSendMessagesRequest: ({ id, messages, trigger, messageId }) => {
-        return {
-          body: {
-            messages,
-          },
-        }
-      },
-    }),
+    transport: new ClientOnlyChatTransport(
+      () => sessionStore.llmApiKey,
+      () => coreClient.current,
+      () => sandboxStore.id,
+    ),
   })
 
   useEffect(() => {
@@ -54,6 +51,8 @@ export function Conversation() {
             </MessageAssistant>
           ) : null,
         )}
+
+        {chat.error && <div className="text-red-500">{chat.error.message}</div>}
       </div>
       <InputArea chat={chat} />
     </div>

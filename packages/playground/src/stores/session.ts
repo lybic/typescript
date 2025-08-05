@@ -4,7 +4,6 @@ const initialState = {
   signedInViaDashboard: false,
   trialSessionToken: '',
   orgId: '',
-  llmBaseUrl: '',
   llmApiKey: '',
 }
 
@@ -13,10 +12,11 @@ export const sessionStore = proxy(initialState)
 function readFromLocalStorage() {
   const playgroundJson = localStorage.getItem('lybic-playground')
   if (playgroundJson) {
-    const { trialSessionToken, orgId, signedInViaDashboard } = JSON.parse(playgroundJson)
-    sessionStore.trialSessionToken = trialSessionToken
-    sessionStore.signedInViaDashboard = signedInViaDashboard
-    sessionStore.orgId = orgId
+    const { trialSessionToken, orgId, signedInViaDashboard, llmApiKey } = JSON.parse(playgroundJson)
+    sessionStore.trialSessionToken = trialSessionToken || ''
+    sessionStore.signedInViaDashboard = signedInViaDashboard ?? false
+    sessionStore.orgId = orgId || ''
+    sessionStore.llmApiKey = llmApiKey || ''
   }
 }
 
@@ -35,6 +35,7 @@ if (typeof localStorage !== 'undefined') {
           trialSessionToken: sessionStore.trialSessionToken,
           orgId: sessionStore.orgId,
           signedInViaDashboard: sessionStore.signedInViaDashboard,
+          llmApiKey: sessionStore.llmApiKey,
         }),
       )
       updateTimer = null

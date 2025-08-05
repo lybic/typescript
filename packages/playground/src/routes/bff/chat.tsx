@@ -1,4 +1,4 @@
-import { lybicModel } from '@/lib/server/lybic-provider'
+import { lybicModel } from '@/lib/lybic-provider'
 import { createServerFileRoute } from '@tanstack/react-start/server'
 import { convertToModelMessages, streamText, type UIMessage } from 'ai'
 import guiAgentUiTarsPrompt from '@/prompts/gui-agent-ui-tars.zh.txt?raw'

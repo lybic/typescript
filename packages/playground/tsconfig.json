@@ -8,7 +8,9 @@
     "lib": ["DOM", "ES2022"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@lybic/core": ["../core-sdk/src/index.ts"],
+      "@lybic/ui/streaming-client": ["../streaming-client-ts/src/index.ts"]
     }
   },
 

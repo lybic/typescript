@@ -2,7 +2,7 @@ import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { customProvider, defaultSettingsMiddleware, wrapLanguageModel } from 'ai'
 
 const openaiCompatible = createOpenAICompatible({
-  baseURL: process.env.LYBIC_LLM_BASE_URL!,
+  baseURL: import.meta.env.VITE_LYBIC_PLAYGROUND_LLM_BASE_URL!,
   name: 'lybic',
 })
 

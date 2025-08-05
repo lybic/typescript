@@ -13,6 +13,7 @@ export function useCreateTrialUser() {
         allowedSandboxId: string | null
         remainSandboxCount: number
         sessionToken: string
+        llmKey: string
       }>('/api/trial/user', {
         mobileNumber,
         verificationCode,
@@ -22,6 +23,7 @@ export function useCreateTrialUser() {
     },
     onSuccess: (data) => {
       sessionStore.trialSessionToken = data.sessionToken
+      sessionStore.llmApiKey = data.llmKey
       sessionStore.signedInViaDashboard = false
       sessionStore.orgId = data.organizationId
       queryClient.setQueryData(trailUserQueryOptions().queryKey, data)

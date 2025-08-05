@@ -14,12 +14,27 @@ export class LybicClient {
 
     this.client.use({
       onRequest({ request }) {
+        const headers = new Headers(request.headers)
+        let credentials: RequestCredentials = request.credentials ?? 'same-origin'
         if ('apiKey' in clientOptions) {
-          request.headers.set('X-Api-Key', clientOptions.apiKey)
+          headers.set('X-Api-Key', clientOptions.apiKey)
         } else if ('trialSessionToken' in clientOptions) {
-          request.headers.set('X-Trial-Session-Token', clientOptions.trialSessionToken)
+          headers.set('X-Trial-Session-Token', clientOptions.trialSessionToken)
+        } else {
+          credentials = 'include'
         }
-        return request
+
+        return new Request(request, { headers, credentials })
+      },
+      async onResponse({ response, request }) {
+        if (!response.ok) {
+          try {
+            const error = await response.json()
+            throw new Error(error.message ?? response.statusText)
+          } catch (e) {
+            throw new Error(`${request.method} ${response.url}: ${response.status} ${response.statusText}`)
+          }
+        }
       },
     })
 
