@@ -21,7 +21,7 @@ export function AgentDesktop() {
         <DesktopTopBar />
         <div className="aspect-[16/9] w-[min(100%,177cqh)] border-1 shadow-sm relative rounded-lg overflow-hidden">
           {sb.connectDetails ? (
-            <LiveStream connectDetails={sb.connectDetails} />
+            <LiveStream connectDetails={sb.connectDetails} sandboxId={sb.id} />
           ) : (
             <>
               <div className="w-full h-full absolute clip-rounded-lg">

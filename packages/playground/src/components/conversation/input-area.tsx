@@ -5,13 +5,14 @@ import { IconPlayerStop, IconSend, IconSettings } from '@tabler/icons-react'
 import { LLMBudget } from './llm-budget'
 import { useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
+import { LybicUIMessage } from '@/lib/ui-message-type'
 
-export function InputArea({ chat }: { chat: UseChatHelpers<UIMessage> }) {
-  const [input, setInput] = useState('')
+export function InputArea({ chat }: { chat: UseChatHelpers<LybicUIMessage> }) {
+  const [input, setInput] = useState('描述一下我的桌面')
 
   const handleSubmit = useEffectEvent(() => {
     chat.sendMessage({ text: input })
-    setInput('')
+    setInput('再看看呢')
   })
 
   const handleStop = useEffectEvent(() => {

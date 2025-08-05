@@ -14,21 +14,49 @@ import { MessageParts } from './conversation/message-parts'
 import { InputArea } from './conversation/input-area'
 import { useEffect, useRef } from 'react'
 import { sandboxStore } from '@/stores/sandbox'
-import { ClientOnlyChatTransport } from '@/lib/client-only-chat-transport'
+import { LybicChatTransport } from '@/lib/lybic-chat-transport'
 import { useCoreClient } from '@/hooks/use-core-client'
+import { LybicUIMessage } from '@/lib/ui-message-type'
+import createDebug from 'debug'
+import { produce } from 'immer'
+
+const debug = createDebug('lybic:playground:conversation')
 
 export function Conversation() {
   const session = useSnapshot(sessionStore)
   const sb = useSnapshot(sandboxStore)
   const messagesRef = useRef<HTMLDivElement>(null)
   const coreClient = useCoreClient()
-  const chat = useChat({
-    experimental_throttle: 300,
-    transport: new ClientOnlyChatTransport(
+  const chat = useChat<LybicUIMessage>({
+    experimental_throttle: 50,
+    transport: new LybicChatTransport(
       () => sessionStore.llmApiKey,
       () => coreClient.current,
       () => sandboxStore.id,
     ),
+    onFinish: (message) => {
+      debug('onFinish', message, chat.messages)
+    },
+    onData: (data) => {
+      debug('onData', data)
+      if (data.type === 'data-screenShot') {
+        chat.setMessages(
+          produce((messages) => {
+            const messageIndex = messages.findIndex((m) => m.id === data.data.messageId)
+            if (messageIndex === -1) {
+              return messages
+            }
+            const message = messages[messageIndex]
+            message?.parts.push({
+              type: 'file',
+              mediaType: 'image/webp',
+              url: data.data.url,
+            })
+            return messages
+          }),
+        )
+      }
+    },
   })
 
   useEffect(() => {
@@ -43,11 +71,11 @@ export function Conversation() {
         {chat.messages.map((message) =>
           message.role === 'user' ? (
             <MessageUser time="" key={message.id}>
-              <MessageParts parts={message.parts} />
+              <MessageParts parts={message.parts} className="w-fit" />
             </MessageUser>
           ) : message.role === 'assistant' ? (
             <MessageAssistant time="" key={message.id}>
-              <MessageParts parts={message.parts} />
+              <MessageParts parts={message.parts} className="w-full" />
             </MessageAssistant>
           ) : null,
         )}

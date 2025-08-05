@@ -3,7 +3,13 @@ import type { SandboxConnectDetails } from '@lybic/schema'
 import { StreamingClient } from '@lybic/ui/streaming-client'
 import { useEffect, useRef } from 'react'
 
-export function LiveStream({ connectDetails }: { connectDetails: SandboxConnectDetails }) {
+export function LiveStream({
+  connectDetails,
+  sandboxId,
+}: {
+  connectDetails: SandboxConnectDetails
+  sandboxId: string
+}) {
   const streamingClient = useRef<StreamingClient | null>(null)
   const canvas = useRef<HTMLCanvasElement | null>(null)
 
@@ -24,7 +30,7 @@ export function LiveStream({ connectDetails }: { connectDetails: SandboxConnectD
       void sc.destroy()
       streamingClient.current = null
     }
-  }, [connectDetails])
+  }, [sandboxId])
 
   return <canvas className="w-full h-full outline-none" ref={canvas} tabIndex={0} />
 }

@@ -9,23 +9,29 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Spinner } from '../ui/spinner'
 import { useEffectEvent } from 'use-effect-event'
 import { useCreateSandbox } from '@/hooks/use-create-sandbox'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { trailUserQueryOptions } from '@/queries/trail-user-query'
 import { DesktopTopBarSelect } from './top-bar-select'
 import { sandboxQueryOptions } from '@/queries/sandbox-query'
 import { Countdown } from '../countdown'
+import { toast, useSonner } from 'sonner'
 
 export function DesktopTopBar() {
   const queryClient = useQueryClient()
   const session = useSnapshot(sessionStore)
   const sbState = useSnapshot(sandboxStore)
   const sandboxQuery = useQuery(sandboxQueryOptions(session.orgId, sbState.id))
+  const sandboxExpiredToast = useRef<string | number | null>(null)
 
   useEffect(() => {
     const { data, isPending } = sandboxQuery
     if (data) {
       sandboxStore.connectDetails = data.connectDetails
       sandboxStore.expiresAt = new Date(data.sandbox.expiredAt).getTime()
+      if (sandboxExpiredToast.current != null) {
+        toast.dismiss(sandboxExpiredToast.current)
+        sandboxExpiredToast.current = null
+      }
     } else if (!isPending) {
       sandboxStore.connectDetails = null
       sandboxStore.expiresAt = 0
@@ -33,6 +39,11 @@ export function DesktopTopBar() {
   }, [sandboxQuery.data, sandboxQuery.isPending])
 
   const handleCountdownExpired = useEffectEvent(() => {
+    sandboxExpiredToast.current = toast.warning('Your sandbox has expired', {
+      description: 'Please create or select a new sandbox to continue.',
+      closeButton: true,
+      duration: 0,
+    })
     sandboxStore.connectDetails = null
     sandboxStore.expiresAt = 0
     sandboxStore.id = ''
