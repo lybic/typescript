@@ -21,8 +21,15 @@ export function Conversation() {
     experimental_throttle: 300,
     transport: new DefaultChatTransport({
       api: '/bff/chat',
-      headers: {
+      headers: () => ({
         'X-Trial-Session-Token': session.trialSessionToken,
+      }),
+      prepareSendMessagesRequest: ({ id, messages, trigger, messageId }) => {
+        return {
+          body: {
+            messages,
+          },
+        }
       },
     }),
   })

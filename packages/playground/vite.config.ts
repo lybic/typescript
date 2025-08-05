@@ -16,6 +16,10 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [tsConfigPaths(), tanstackStart({ customViteReactPlugin: true, spa: { enabled: true } }), viteReact()],
+    plugins: [
+      tsConfigPaths(),
+      tanstackStart({ customViteReactPlugin: true, spa: { enabled: true }, target: 'node-server' }),
+      viteReact(),
+    ],
   }
 })
