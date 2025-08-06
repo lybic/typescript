@@ -4,6 +4,7 @@ import { Button } from '../ui/button'
 import { Spinner } from '../ui/spinner'
 import { IconCaretRight } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
+import Markdown from 'react-markdown'
 
 export function MessageParts({ parts, className }: { parts: UIMessagePart<any, any>[]; className?: string }) {
   const onlyEmptyPart = parts.every((part) => part.type === 'text' && !part.text.trim())
@@ -15,7 +16,11 @@ export function MessageParts({ parts, className }: { parts: UIMessagePart<any, a
       ) : (
         parts.map((part, index) =>
           part.type === 'text' ? (
-            part.text && <div key={index}>{part.text}</div>
+            part.text && (
+              <div className="prose prose-sm" key={index}>
+                <Markdown>{part.text}</Markdown>
+              </div>
+            )
           ) : part.type === 'reasoning' ? (
             <Collapsible key={index} className="flex flex-col w-full gap-2 border-1 p-2 bg-accent rounded-lg">
               <CollapsibleTrigger asChild>
@@ -32,7 +37,9 @@ export function MessageParts({ parts, className }: { parts: UIMessagePart<any, a
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent className="text-xs text-muted-foreground whitespace-normal ui-slide-down">
-                <div className="px-2 pb-2">{part.text}</div>
+                <div className="px-2 pb-2 prose prose-sm">
+                  <Markdown>{part.text}</Markdown>
+                </div>
               </CollapsibleContent>
             </Collapsible>
           ) : part.type === 'file' ? (

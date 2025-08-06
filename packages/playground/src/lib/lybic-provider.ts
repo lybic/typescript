@@ -4,6 +4,7 @@ import { customProvider, defaultSettingsMiddleware, wrapLanguageModel } from 'ai
 const openaiCompatible = createOpenAICompatible({
   baseURL: import.meta.env.VITE_LYBIC_PLAYGROUND_LLM_BASE_URL!,
   name: 'lybic',
+  includeUsage: true,
 })
 
 const lybicProvider = customProvider({

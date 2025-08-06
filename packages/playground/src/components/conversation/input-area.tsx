@@ -8,11 +8,11 @@ import { useEffectEvent } from 'use-effect-event'
 import { LybicUIMessage } from '@/lib/ui-message-type'
 
 export function InputArea({ chat }: { chat: UseChatHelpers<LybicUIMessage> }) {
-  const [input, setInput] = useState('描述一下我的桌面')
+  const [input, setInput] = useState('打开浏览器')
 
   const handleSubmit = useEffectEvent(() => {
-    chat.sendMessage({ text: input })
-    setInput('再看看呢')
+    chat.sendMessage({ text: input, metadata: { createdAt: Date.now() } })
+    setInput('导航到百度首页')
   })
 
   const handleStop = useEffectEvent(() => {

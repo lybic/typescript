@@ -9,6 +9,7 @@ import {
 } from 'ai'
 import { lybicModel } from './lybic-provider'
 import guiAgentUiTarsPrompt from '@/prompts/gui-agent-ui-tars.zh.txt?raw'
+import guiAgentUiTarsLegacyPrompt from '@/prompts/gui-agent-ui-tars-legacy.en.txt?raw'
 import { type LybicClient } from '@lybic/core'
 import { LybicUIMessage } from './ui-message-type'
 import { encodeBase64 } from '@std/encoding/base64'
@@ -80,17 +81,55 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
 
         const result = streamText({
           model: lybicModel('doubao-seed-1-6-flash-250715'),
-          system: 'You are a helpful assistant.', // guiAgentUiTarsPrompt,
+          system: guiAgentUiTarsLegacyPrompt,
           messages: modelMessages,
           headers: {
             Authorization: `Bearer ${this.apiKey()}`,
           },
-          onFinish: (message) => {
+          onFinish: async (message) => {
             debug('onFinish', message)
+            const { data: parsedAction } = await coreClient.parseLlmOutput({
+              model: 'ui-tars',
+              textContent: message.text,
+            })
+            debug('parsedAction', parsedAction)
+            if (parsedAction?.actions) {
+              writer.write({
+                type: 'data-parsed',
+                data: {
+                  actions: parsedAction.actions,
+                },
+              })
+              for (const action of parsedAction?.actions) {
+                debug('executeComputerUseAction', action)
+                await coreClient.executeComputerUseAction(sandboxId, {
+                  action,
+                  includeScreenShot: false,
+                  includeCursorPosition: false,
+                })
+              }
+            }
           },
         })
 
-        writer.merge(result.toUIMessageStream())
+        writer.merge(
+          result.toUIMessageStream({
+            messageMetadata({ part }) {
+              if (part.type === 'start') {
+                return {
+                  createdAt: Date.now(),
+                }
+              } else if (part.type === 'finish') {
+                return {
+                  usage: {
+                    inputTokens: part.totalUsage?.inputTokens ?? 0,
+                    outputTokens: part.totalUsage?.outputTokens ?? 0,
+                  },
+                }
+              }
+            },
+          }),
+        )
       },
     })
 

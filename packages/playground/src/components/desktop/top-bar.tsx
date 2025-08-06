@@ -42,7 +42,7 @@ export function DesktopTopBar() {
     sandboxExpiredToast.current = toast.warning('Your sandbox has expired', {
       description: 'Please create or select a new sandbox to continue.',
       closeButton: true,
-      duration: 0,
+      duration: Infinity,
     })
     sandboxStore.connectDetails = null
     sandboxStore.expiresAt = 0
