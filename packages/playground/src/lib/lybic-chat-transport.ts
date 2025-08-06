@@ -85,6 +85,9 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           headers: {
             Authorization: `Bearer ${this.apiKey()}`,
           },
+          onFinish: (message) => {
+            debug('onFinish', message)
+          },
         })
 
         writer.merge(result.toUIMessageStream())

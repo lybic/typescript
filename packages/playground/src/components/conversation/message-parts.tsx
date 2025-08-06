@@ -24,7 +24,11 @@ export function MessageParts({ parts, className }: { parts: UIMessagePart<any, a
                     fill="currentColor"
                     className="in-[[data-state=open]]:rotate-90 transition-transform"
                   />
-                  <span className={cn(part.state === 'streaming' && 'after:animate-dots')}>Reasoning</span>
+                  {part.state === 'streaming' ? (
+                    <span className="after:animate-dots">Thinking</span>
+                  ) : (
+                    <span>Thoughts</span>
+                  )}
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent className="text-xs text-muted-foreground whitespace-normal ui-slide-down">
