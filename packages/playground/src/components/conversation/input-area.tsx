@@ -81,10 +81,10 @@ export function InputArea({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <IconDownload />
                 Download Current Chat
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem onClick={onNewChat}>
                 <IconPlus />
                 Start New Chat
