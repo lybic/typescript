@@ -8,12 +8,20 @@ import { useEffectEvent } from 'use-effect-event'
 import { LybicUIMessage } from '@/lib/ui-message-type'
 import { indicatorStore } from '@/stores/indicator'
 
-export function InputArea({ chat }: { chat: UseChatHelpers<LybicUIMessage> }) {
+export function InputArea({
+  chat,
+  onOpenSystemPromptDialog,
+  onSendText,
+}: {
+  chat: UseChatHelpers<LybicUIMessage>
+  onOpenSystemPromptDialog: () => void
+  onSendText: (text: string) => void
+}) {
   const [input, setInput] = useState('打开浏览器')
 
   const handleSubmit = useEffectEvent(() => {
     indicatorStore.status = 'running'
-    chat.sendMessage({ text: input, metadata: { createdAt: Date.now() } })
+    onSendText(input)
     setInput('导航到百度首页')
   })
 
@@ -32,11 +40,11 @@ export function InputArea({ chat }: { chat: UseChatHelpers<LybicUIMessage> }) {
       <div className="flex gap-2 mt-2 justify-between items-center">
         <div className="text-xs text-muted-foreground flex items-center">
           <div>LLM Credits:</div>
-          <div className="ml-1">$</div>
+          <div className="ml-1"></div>
           <LLMBudget />
         </div>
         <div>
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" onClick={onOpenSystemPromptDialog}>
             <IconSettings />
           </Button>
           {chat.status === 'streaming' ? (

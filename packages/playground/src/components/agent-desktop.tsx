@@ -8,7 +8,7 @@ import { useSnapshot } from 'valtio'
 import { sandboxStore } from '@/stores/sandbox'
 import { Spinner } from './ui/spinner'
 import { LiveStream } from './live-stream'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAgentIndicator } from '@/hooks/use-agent-indicator'
 import { cn } from '@/lib/utils'
 import { indicatorStore } from '@/stores/indicator'
@@ -19,6 +19,17 @@ export function AgentDesktop() {
   const containerRef = useRef<HTMLDivElement>(null)
   const indicatorDockRef = useRef<HTMLDivElement>(null)
   const { screenPos, type } = useAgentIndicator(containerRef, indicatorDockRef)
+
+  // prevent indicator animation on load
+  const [indicatorAnimation, setIndicatorAnimation] = useState(false)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIndicatorAnimation(true)
+    }, 1000)
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
 
   return (
     <div className="agent-desktop flex-1">
@@ -55,7 +66,8 @@ export function AgentDesktop() {
           <div className="flex gap-2 flex-1 items-center">
             <div
               className={cn(
-                'fixed top-0 left-0 size-6 overflow-hidden origin-center text-blue-400 transition-transform duration-300',
+                'fixed top-0 left-0 size-6 overflow-hidden origin-center text-blue-400',
+                indicatorAnimation ? 'transition-transform duration-300' : 'transition-none',
               )}
               style={{
                 transform: screenPos ? `translate(${screenPos.x}px, ${screenPos.y}px)` : undefined,

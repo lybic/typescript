@@ -12,7 +12,7 @@ import { useSnapshot } from 'valtio'
 import { sessionStore } from '@/stores/session'
 import { MessageParts } from './conversation/message-parts'
 import { InputArea } from './conversation/input-area'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { sandboxStore } from '@/stores/sandbox'
 import { LybicChatTransport } from '@/lib/lybic-chat-transport'
 import { useCoreClient } from '@/hooks/use-core-client'
@@ -22,6 +22,7 @@ import { produce } from 'immer'
 import { AgentActions } from './conversation/agent-actions'
 import { useEffectEvent } from 'use-effect-event'
 import { indicatorStore } from '@/stores/indicator'
+import { SystemPromptDialog } from './conversation/system-prompt-dialog'
 
 const debug = createDebug('lybic:playground:conversation')
 
@@ -34,14 +35,20 @@ export function Conversation() {
     () => (localStorage['lybic-playground-messages'] ? JSON.parse(localStorage['lybic-playground-messages']) : []),
     [],
   )
+
+  const [openSystemPromptDialog, setOpenSystemPromptDialog] = useState(false)
+  const [systemPrompt, setSystemPrompt] = useState(localStorage['lybic-playground-system-prompt'] ?? '')
+
+  useEffect(() => {
+    localStorage['lybic-playground-system-prompt'] = systemPrompt
+  }, [systemPrompt])
+
   const chat = useChat<LybicUIMessage>({
     messages: initialMessages,
     experimental_throttle: 50,
-    transport: new LybicChatTransport(
-      () => sessionStore.llmApiKey,
-      () => coreClient.current,
-      () => sandboxStore.id,
-    ),
+    transport: new LybicChatTransport({
+      apiKey: () => sessionStore.llmApiKey,
+    }),
     onFinish: useEffectEvent((message) => {
       debug('onFinish', { message }, chat.messages)
       indicatorStore.status = 'idle'
@@ -69,6 +76,20 @@ export function Conversation() {
     },
   })
 
+  const handleSendText = useEffectEvent((text: string) => {
+    chat.sendMessage(
+      { text, metadata: { createdAt: Date.now() } },
+      {
+        body: {
+          systemPrompt,
+          sandboxId: sandboxStore.id,
+          orgId: sessionStore.orgId,
+          trialSessionToken: sessionStore.trialSessionToken,
+        },
+      },
+    )
+  })
+
   useEffect(() => {
     if (messagesRef.current) {
       messagesRef.current.scrollTo({ top: messagesRef.current.scrollHeight, behavior: 'smooth' })
@@ -88,7 +109,17 @@ export function Conversation() {
 
         {chat.error && <div className="text-red-500">{chat.error.message}</div>}
       </div>
-      <InputArea chat={chat} />
+      <InputArea
+        chat={chat}
+        onOpenSystemPromptDialog={() => setOpenSystemPromptDialog(true)}
+        onSendText={handleSendText}
+      />
+      <SystemPromptDialog
+        open={openSystemPromptDialog}
+        onOpenChange={setOpenSystemPromptDialog}
+        onApply={setSystemPrompt}
+        initialSystemPrompt={systemPrompt}
+      />
     </div>
   )
 }

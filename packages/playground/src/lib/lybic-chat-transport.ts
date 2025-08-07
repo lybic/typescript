@@ -9,7 +9,7 @@ import {
 } from 'ai'
 import { lybicModel } from './lybic-provider'
 import guiAgentSeedPrompt from '@/prompts/gui-agent-seed.zh.txt?raw'
-import { type LybicClient } from '@lybic/core'
+import { LybicClient } from '@lybic/core'
 import { LybicUIMessage } from './ui-message-type'
 import { encodeBase64 } from '@std/encoding/base64'
 import createDebug from 'debug'
@@ -18,11 +18,35 @@ import { indicatorStore } from '@/stores/indicator'
 const debug = createDebug('lybic:playground:chat-transport')
 
 export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
+  private coreClient: LybicClient | null = null
+  private currentBaseUrl: string | null = null
+  private currentOrgId: string | null = null
+  private currentTrialSessionToken: string | null = null
+
   public constructor(
-    private readonly apiKey: () => string,
-    private readonly coreClient: () => LybicClient,
-    private readonly sandboxId: () => string,
+    private readonly options: {
+      apiKey: () => string
+    },
   ) {}
+
+  private getCoreClient(body: any) {
+    const { baseUrl, orgId, trialSessionToken } = body
+    if (
+      baseUrl !== this.currentBaseUrl ||
+      orgId !== this.currentOrgId ||
+      trialSessionToken !== this.currentTrialSessionToken
+    ) {
+      this.currentBaseUrl = baseUrl
+      this.currentOrgId = orgId
+      this.currentTrialSessionToken = trialSessionToken
+      this.coreClient = new LybicClient({
+        baseUrl,
+        orgId,
+        ...(trialSessionToken ? { trialSessionToken } : ({} as { apiKey: string })),
+      })
+    }
+    return this.coreClient!
+  }
 
   public async sendMessages(
     options: {
@@ -44,8 +68,9 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
 
         debug('lastMessage', lastMessage, lastMessageId)
 
-        const coreClient = this.coreClient()
-        const sandboxId = this.sandboxId()
+        const coreClient = this.getCoreClient(options.body)
+        const sandboxId = (options.body as any).sandboxId as string
+        const userSystemPrompt = (options.body as any).systemPrompt as string | null
         const preview = await coreClient.previewSandbox(sandboxId)
         if (!preview.data?.screenShot) {
           throw new Error('Preview failed, no screenshot found')
@@ -81,10 +106,10 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
 
         const result = streamText({
           model: lybicModel('doubao-seed-1-6-flash-250715'),
-          system: guiAgentSeedPrompt,
+          system: [guiAgentSeedPrompt, userSystemPrompt].filter(Boolean).join('\n'),
           messages: modelMessages,
           headers: {
-            Authorization: `Bearer ${this.apiKey()}`,
+            Authorization: `Bearer ${this.options.apiKey()}`,
           },
           onFinish: async (message) => {
             debug('onFinish', message)
