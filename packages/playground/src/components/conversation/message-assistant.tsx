@@ -1,36 +1,26 @@
-import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { Textarea } from '@/components/ui/textarea'
 import { ShortTime } from '@/components/short-time'
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-import {
-  IconBlockquote,
-  IconDots,
-  IconPointer,
-  IconScreenshot,
-  IconSend,
-  IconSettings,
-  IconSparkles,
-} from '@tabler/icons-react'
-import React from 'react'
+import { LybicUIMessage } from '@/lib/ui-message-type'
+import { useMemo } from 'react'
+import { MessageParts } from './message-parts'
+import { AgentActions } from './agent-actions'
 
-export function MessageAssistant({
-  children,
-  time,
-  action,
-}: {
-  children: React.ReactNode
-  time: number
-  action?: React.ReactNode
-}) {
+export function MessageAssistant({ message }: { message: LybicUIMessage }) {
+  const parsedActions = useMemo(() => message.parts.find((part) => part.type === 'data-parsed')?.data, [message])
+
   return (
     <div className="message-assistant mx-2 rounded-lg p-2">
-      <div className="p-2 break-words whitespace-pre-wrap">{children}</div>
+      <div className="p-2 break-words whitespace-pre-wrap">
+        <MessageParts parts={message.parts} className="w-full" overrideText={parsedActions?.text} />
+      </div>
       <div className="message-footer text-xs text-muted-foreground text-left ml-2 flex flex-wrap gap-2 items-center">
         <div>
-          <ShortTime time={time} />
+          <ShortTime time={message.metadata?.createdAt ?? 0} />
         </div>
-        {action && <div className="flex gap-1 items-center">{action}</div>}
+        {parsedActions?.actions && (
+          <div className="flex gap-1 items-center">
+            <AgentActions actions={parsedActions.actions} />
+          </div>
+        )}
       </div>
     </div>
   )

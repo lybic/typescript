@@ -16,6 +16,7 @@ export type LybicUIMessage = UIMessage<
     }
     parsed: {
       actions: IComputerUseAction[]
+      text?: string
     }
   }
 >

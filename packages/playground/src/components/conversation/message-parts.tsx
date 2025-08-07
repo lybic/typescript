@@ -5,8 +5,18 @@ import { Spinner } from '../ui/spinner'
 import { IconCaretRight } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import Markdown from 'react-markdown'
+import { IComputerUseAction } from '@lybic/schema'
+import { useMemo } from 'react'
 
-export function MessageParts({ parts, className }: { parts: UIMessagePart<any, any>[]; className?: string }) {
+export function MessageParts({
+  parts,
+  className,
+  overrideText,
+}: {
+  parts: UIMessagePart<any, any>[]
+  className?: string
+  overrideText?: string
+}) {
   const onlyEmptyPart = parts.every((part) => part.type === 'text' && !part.text.trim())
 
   return (
@@ -18,13 +28,17 @@ export function MessageParts({ parts, className }: { parts: UIMessagePart<any, a
           part.type === 'text' ? (
             part.text && (
               <div className="prose prose-sm" key={index}>
-                <Markdown>{part.text}</Markdown>
+                <Markdown>{overrideText ?? part.text}</Markdown>
               </div>
             )
           ) : part.type === 'reasoning' ? (
-            <Collapsible key={index} className="flex flex-col w-full gap-2 border-1 p-2 bg-accent rounded-lg">
+            <Collapsible key={index} className="flex flex-col w-full gap-2 border-1 px-2 py-1 bg-accent rounded-lg">
               <CollapsibleTrigger asChild>
-                <Button size="sm" className="w-full justify-start hover:no-underline no-padding-inline" variant="link">
+                <Button
+                  size="sm"
+                  className="w-full justify-start hover:no-underline no-padding-inline h-7"
+                  variant="link"
+                >
                   <IconCaretRight
                     fill="currentColor"
                     className="in-[[data-state=open]]:rotate-90 transition-transform"
@@ -37,7 +51,7 @@ export function MessageParts({ parts, className }: { parts: UIMessagePart<any, a
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent className="text-xs text-muted-foreground whitespace-normal ui-slide-down">
-                <div className="px-2 pb-2 prose prose-sm">
+                <div className="px-2 pb-2 prose prose-sm text-xs">
                   <Markdown>{part.text}</Markdown>
                 </div>
               </CollapsibleContent>

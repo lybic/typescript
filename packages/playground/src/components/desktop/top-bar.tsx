@@ -39,7 +39,7 @@ export function DesktopTopBar() {
   }, [sandboxQuery.data, sandboxQuery.isPending])
 
   const handleCountdownExpired = useEffectEvent(() => {
-    sandboxExpiredToast.current = toast.warning('Your sandbox has expired', {
+    sandboxExpiredToast.current = toast.warning('Your sandbox was expired.', {
       description: 'Please create or select a new sandbox to continue.',
       closeButton: true,
       duration: Infinity,

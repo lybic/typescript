@@ -772,7 +772,7 @@ export interface components {
              * @description The model to parse the input for
              * @enum {string}
              */
-            model: "ui-tars" | "oai-compute-use";
+            model: "ui-tars" | "seed" | "oai-compute-use";
             /** @description The text content to parse */
             textContent: string;
         };
@@ -1053,6 +1053,10 @@ export interface components {
                 /** @description Failure message */
                 message?: string;
             }))[];
+            /** @description Unknown text that is not thoughts nor actions, commonly due to the misformat of model output */
+            unknown?: string;
+            /** @description Thoughts that are not parsed */
+            thoughts?: string;
         };
         StatsResponseDto: {
             /** @description Number of MCP servers */

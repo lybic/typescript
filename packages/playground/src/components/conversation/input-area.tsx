@@ -6,11 +6,13 @@ import { LLMBudget } from './llm-budget'
 import { useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
 import { LybicUIMessage } from '@/lib/ui-message-type'
+import { indicatorStore } from '@/stores/indicator'
 
 export function InputArea({ chat }: { chat: UseChatHelpers<LybicUIMessage> }) {
   const [input, setInput] = useState('打开浏览器')
 
   const handleSubmit = useEffectEvent(() => {
+    indicatorStore.status = 'running'
     chat.sendMessage({ text: input, metadata: { createdAt: Date.now() } })
     setInput('导航到百度首页')
   })

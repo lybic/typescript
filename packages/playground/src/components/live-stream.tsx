@@ -1,4 +1,5 @@
 import { asyncEffect } from '@/lib/async-effect'
+import { indicatorStore } from '@/stores/indicator'
 import type { SandboxConnectDetails } from '@lybic/schema'
 import { StreamingClient } from '@lybic/ui/streaming-client'
 import { useEffect, useRef } from 'react'
@@ -21,12 +22,16 @@ export function LiveStream({
       videoFps: 12,
       videoBitrate: 1 * 1024 * 1024,
     })
+    const sub = sc.screenSize$.subscribe((size) => {
+      indicatorStore.screenSize = size
+    })
     const timer = setTimeout(() => {
       void sc.start(connectDetails)
     }, 100)
 
     return () => {
       clearTimeout(timer)
+      sub.unsubscribe()
       void sc.destroy()
       streamingClient.current = null
     }

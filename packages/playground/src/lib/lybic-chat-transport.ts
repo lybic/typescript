@@ -8,12 +8,12 @@ import {
   UIMessageChunk,
 } from 'ai'
 import { lybicModel } from './lybic-provider'
-import guiAgentUiTarsPrompt from '@/prompts/gui-agent-ui-tars.zh.txt?raw'
-import guiAgentUiTarsLegacyPrompt from '@/prompts/gui-agent-ui-tars-legacy.en.txt?raw'
+import guiAgentSeedPrompt from '@/prompts/gui-agent-seed.zh.txt?raw'
 import { type LybicClient } from '@lybic/core'
 import { LybicUIMessage } from './ui-message-type'
 import { encodeBase64 } from '@std/encoding/base64'
 import createDebug from 'debug'
+import { indicatorStore } from '@/stores/indicator'
 
 const debug = createDebug('lybic:playground:chat-transport')
 
@@ -81,7 +81,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
 
         const result = streamText({
           model: lybicModel('doubao-seed-1-6-flash-250715'),
-          system: guiAgentUiTarsLegacyPrompt,
+          system: guiAgentSeedPrompt,
           messages: modelMessages,
           headers: {
             Authorization: `Bearer ${this.apiKey()}`,
@@ -89,17 +89,19 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           onFinish: async (message) => {
             debug('onFinish', message)
             const { data: parsedAction } = await coreClient.parseLlmOutput({
-              model: 'ui-tars',
+              model: 'seed',
               textContent: message.text,
             })
             debug('parsedAction', parsedAction)
-            if (parsedAction?.actions) {
+            if (parsedAction?.actions && parsedAction.actions.length > 0) {
               writer.write({
                 type: 'data-parsed',
                 data: {
                   actions: parsedAction.actions,
+                  text: [parsedAction.thoughts, parsedAction.unknown].filter(Boolean).join('\n'),
                 },
               })
+              indicatorStore.lastAction = structuredClone(parsedAction.actions[0]!)
               for (const action of parsedAction?.actions) {
                 debug('executeComputerUseAction', action)
                 await coreClient.executeComputerUseAction(sandboxId, {

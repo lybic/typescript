@@ -21,6 +21,7 @@ import createDebug from 'debug'
 import { produce } from 'immer'
 import { AgentActions } from './conversation/agent-actions'
 import { useEffectEvent } from 'use-effect-event'
+import { indicatorStore } from '@/stores/indicator'
 
 const debug = createDebug('lybic:playground:conversation')
 
@@ -43,6 +44,7 @@ export function Conversation() {
     ),
     onFinish: useEffectEvent((message) => {
       debug('onFinish', { message }, chat.messages)
+      indicatorStore.status = 'idle'
       localStorage['lybic-playground-messages'] = JSON.stringify(chat.messages)
     }),
     onData: (data) => {
@@ -77,19 +79,10 @@ export function Conversation() {
     <div className="conversation w-96 py-4 text-sm flex flex-col">
       <div className="messages flex-1 overflow-y-auto" ref={messagesRef}>
         {chat.messages.map((message) => {
-          const parsedActions = message.parts.find((part) => part.type === 'data-parsed')?.data?.actions
           return message.role === 'user' ? (
-            <MessageUser time={message.metadata?.createdAt ?? 0} key={message.id}>
-              <MessageParts parts={message.parts} className="w-fit" />
-            </MessageUser>
+            <MessageUser message={message} key={message.id} />
           ) : message.role === 'assistant' ? (
-            <MessageAssistant
-              time={message.metadata?.createdAt ?? 0}
-              key={message.id}
-              action={<AgentActions actions={parsedActions ?? []} />}
-            >
-              <MessageParts parts={message.parts} className="w-full" />
-            </MessageAssistant>
+            <MessageAssistant message={message} key={message.id} />
           ) : null
         })}
 
