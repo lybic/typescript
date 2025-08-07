@@ -149,7 +149,7 @@ export function Conversation() {
       <div className="messages flex-1 overflow-y-auto" ref={messagesRef}>
         {chat.messages.map((message) => {
           return message.role === 'user' ? (
-            <MessageUser message={message} key={message.id} />
+            <MessageUser message={message} key={message.id} chat={chat} />
           ) : message.role === 'assistant' ? (
             <MessageAssistant message={message} key={message.id} chat={chat} />
           ) : null

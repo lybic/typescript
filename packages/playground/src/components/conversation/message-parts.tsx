@@ -24,7 +24,7 @@ export function MessageParts({
 
   return (
     <div className={cn('flex flex-col gap-2', className)}>
-      {onlyEmptyPart && chatStatus === 'streaming' ? (
+      {onlyEmptyPart && (chatStatus === 'streaming' || chatStatus === 'submitted') ? (
         <Spinner className="size-4 text-muted-foreground m-1" />
       ) : (
         parts.map((part, index) =>
