@@ -23,8 +23,37 @@ import { AgentActions } from './conversation/agent-actions'
 import { useEffectEvent } from 'use-effect-event'
 import { indicatorStore } from '@/stores/indicator'
 import { SystemPromptDialog } from './conversation/system-prompt-dialog'
+import { fa } from 'zod/v4/locales'
+import { toast } from 'sonner'
 
 const debug = createDebug('lybic:playground:conversation')
+
+function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; error?: string; success?: string } {
+  if (!lastMessage) {
+    return { autoSend: false }
+  }
+  if (lastMessage.role === 'user') {
+    return { autoSend: false }
+  }
+  debug('shouldContinue', lastMessage.parts)
+  const parsed = lastMessage.parts.find((part) => part.type === 'data-parsed')
+  if (!parsed) {
+    return { autoSend: false }
+  }
+  const stopActions = parsed.data.actions.filter((action) => action.type === 'failed' || action.type === 'finished')
+  if (stopActions.length > 0) {
+    const failedAction = stopActions.find((action) => action.type === 'failed')
+    if (failedAction) {
+      return { autoSend: false, error: failedAction.message ?? 'Unable to process' }
+    }
+    const successAction = stopActions.find((action) => action.type === 'finished')
+    if (successAction) {
+      return { autoSend: false, success: successAction.message ?? 'Task has been completed' }
+    }
+    return { autoSend: false }
+  }
+  return { autoSend: true }
+}
 
 export function Conversation() {
   const session = useSnapshot(sessionStore)
@@ -49,10 +78,21 @@ export function Conversation() {
     transport: new LybicChatTransport({
       apiKey: () => sessionStore.llmApiKey,
     }),
-    onFinish: useEffectEvent((message) => {
-      debug('onFinish', { message }, chat.messages)
+    onFinish: useEffectEvent(({ message }) => {
+      debug('onFinish', message, chat.messages)
       indicatorStore.status = 'idle'
       localStorage['lybic-playground-messages'] = JSON.stringify(chat.messages)
+
+      const { autoSend, error, success } = shouldAutoSend(message)
+      if (autoSend) {
+        handleSendText('')
+      }
+      if (error) {
+        toast.error('Action failed', { description: error })
+      }
+      if (success) {
+        toast.success('Action finished', { description: success })
+      }
     }),
     onData: (data) => {
       debug('onData', data)
@@ -77,6 +117,7 @@ export function Conversation() {
   })
 
   const handleSendText = useEffectEvent((text: string) => {
+    indicatorStore.status = 'running'
     chat.sendMessage(
       { text, metadata: { createdAt: Date.now() } },
       {
@@ -103,7 +144,7 @@ export function Conversation() {
           return message.role === 'user' ? (
             <MessageUser message={message} key={message.id} />
           ) : message.role === 'assistant' ? (
-            <MessageAssistant message={message} key={message.id} />
+            <MessageAssistant message={message} key={message.id} chat={chat} />
           ) : null
         })}
 

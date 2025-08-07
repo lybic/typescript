@@ -1,4 +1,4 @@
-import { UIMessagePart } from 'ai'
+import { ChatStatus, UIMessagePart } from 'ai'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible'
 import { Button } from '../ui/button'
 import { Spinner } from '../ui/spinner'
@@ -7,21 +7,24 @@ import { cn } from '@/lib/utils'
 import Markdown from 'react-markdown'
 import { IComputerUseAction } from '@lybic/schema'
 import { useMemo } from 'react'
+import { LybicUIMessage } from '@/lib/ui-message-type'
 
 export function MessageParts({
   parts,
   className,
   overrideText,
+  chatStatus,
 }: {
   parts: UIMessagePart<any, any>[]
   className?: string
   overrideText?: string
+  chatStatus?: ChatStatus
 }) {
   const onlyEmptyPart = parts.every((part) => part.type === 'text' && !part.text.trim())
 
   return (
     <div className={cn('flex flex-col gap-2', className)}>
-      {onlyEmptyPart ? (
+      {onlyEmptyPart && chatStatus === 'streaming' ? (
         <Spinner className="size-4 text-muted-foreground m-1" />
       ) : (
         parts.map((part, index) =>
@@ -50,7 +53,12 @@ export function MessageParts({
                   )}
                 </Button>
               </CollapsibleTrigger>
-              <CollapsibleContent className="text-xs text-muted-foreground whitespace-normal ui-slide-down">
+              <CollapsibleContent
+                className={cn(
+                  'text-xs text-muted-foreground whitespace-normal',
+                  part.state !== 'streaming' && 'ui-slide-down',
+                )}
+              >
                 <div className="px-2 pb-2 prose prose-sm text-xs">
                   <Markdown>{part.text}</Markdown>
                 </div>

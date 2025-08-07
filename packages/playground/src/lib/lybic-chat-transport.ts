@@ -10,7 +10,7 @@ import {
 import { lybicModel } from './lybic-provider'
 import guiAgentSeedPrompt from '@/prompts/gui-agent-seed.zh.txt?raw'
 import { LybicClient } from '@lybic/core'
-import { LybicUIMessage } from './ui-message-type'
+import { BodyExtras, LybicUIMessage } from './ui-message-type'
 import { encodeBase64 } from '@std/encoding/base64'
 import createDebug from 'debug'
 import { indicatorStore } from '@/stores/indicator'
@@ -19,9 +19,9 @@ const debug = createDebug('lybic:playground:chat-transport')
 
 export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
   private coreClient: LybicClient | null = null
-  private currentBaseUrl: string | null = null
-  private currentOrgId: string | null = null
-  private currentTrialSessionToken: string | null = null
+  private currentBaseUrl: string | null | undefined = null
+  private currentOrgId: string | null | undefined = null
+  private currentTrialSessionToken: string | null | undefined = null
 
   public constructor(
     private readonly options: {
@@ -29,7 +29,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
     },
   ) {}
 
-  private getCoreClient(body: any) {
+  private getCoreClient(body: BodyExtras) {
     const { baseUrl, orgId, trialSessionToken } = body
     if (
       baseUrl !== this.currentBaseUrl ||
@@ -40,8 +40,8 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
       this.currentOrgId = orgId
       this.currentTrialSessionToken = trialSessionToken
       this.coreClient = new LybicClient({
-        baseUrl,
-        orgId,
+        baseUrl: baseUrl ?? '/',
+        orgId: orgId ?? '',
         ...(trialSessionToken ? { trialSessionToken } : ({} as { apiKey: string })),
       })
     }
@@ -68,9 +68,10 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
 
         debug('lastMessage', lastMessage, lastMessageId)
 
-        const coreClient = this.getCoreClient(options.body)
-        const sandboxId = (options.body as any).sandboxId as string
-        const userSystemPrompt = (options.body as any).systemPrompt as string | null
+        const extras = options.body as BodyExtras
+        const coreClient = this.getCoreClient(extras)
+        const sandboxId = extras.sandboxId as string
+        const userSystemPrompt = extras.systemPrompt as string | null
         const preview = await coreClient.previewSandbox(sandboxId)
         if (!preview.data?.screenShot) {
           throw new Error('Preview failed, no screenshot found')
@@ -110,6 +111,16 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           messages: modelMessages,
           headers: {
             Authorization: `Bearer ${this.options.apiKey()}`,
+          },
+          providerOptions: {
+            lybic: {
+              extra_body: {
+                thinking: {
+                  type: 'disabled',
+                },
+              },
+              allowed_openai_params: ['extra_body'],
+            },
           },
           onFinish: async (message) => {
             debug('onFinish', message)

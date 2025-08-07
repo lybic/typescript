@@ -17,12 +17,11 @@ export function InputArea({
   onOpenSystemPromptDialog: () => void
   onSendText: (text: string) => void
 }) {
-  const [input, setInput] = useState('打开浏览器')
+  const [input, setInput] = useState('')
 
   const handleSubmit = useEffectEvent(() => {
-    indicatorStore.status = 'running'
     onSendText(input)
-    setInput('导航到百度首页')
+    setInput('')
   })
 
   const handleStop = useEffectEvent(() => {

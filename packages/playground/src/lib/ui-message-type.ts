@@ -20,3 +20,12 @@ export type LybicUIMessage = UIMessage<
     }
   }
 >
+
+export type BodyExtras = {
+  baseUrl?: string
+  systemPrompt?: string
+  sandboxId?: string
+  orgId?: string
+  trialSessionToken?: string
+  thinking?: 'auto' | 'enabled' | 'disabled' // 豆包系列模型思考
+}
