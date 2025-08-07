@@ -15,6 +15,7 @@ import { DesktopTopBarSelect } from './top-bar-select'
 import { sandboxQueryOptions } from '@/queries/sandbox-query'
 import { Countdown } from '../countdown'
 import { toast, useSonner } from 'sonner'
+import { useDeleteSandbox } from '@/hooks/use-delete-sandbox'
 
 export function DesktopTopBar() {
   const queryClient = useQueryClient()
@@ -50,6 +51,8 @@ export function DesktopTopBar() {
     queryClient.invalidateQueries()
   })
 
+  const deleteSandbox = useDeleteSandbox(session.orgId, sbState.id)
+
   return (
     <div className="desktop-top-bar flex w-full justify-between px-2 mb-2">
       {sbState.id && (
@@ -71,7 +74,13 @@ export function DesktopTopBar() {
                 )}
               </div>
             </div>
-            <Button size="sm" variant="outline" className="text-destructive hover:text-destructive">
+            <Button
+              size="sm"
+              variant="outline"
+              className="text-destructive hover:text-destructive"
+              isLoading={deleteSandbox.isPending}
+              onClick={() => deleteSandbox.mutate()}
+            >
               Terminate
             </Button>
           </>
