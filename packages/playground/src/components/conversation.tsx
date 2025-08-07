@@ -61,6 +61,16 @@ export function Conversation() {
     setChatId(nanoid())
   })
 
+  const autoSendTimer = useRef<NodeJS.Timeout | null>(null)
+  useEffect(() => {
+    return () => {
+      if (autoSendTimer.current) {
+        clearTimeout(autoSendTimer.current)
+      }
+    }
+  }, [])
+  const [waitingForAutoSend, setWaitingForAutoSend] = useState(false)
+
   const chat = useChat<LybicUIMessage>({
     id: chatId,
     messages: chatId === 'unassigned' ? initialMessages : [],
@@ -75,7 +85,11 @@ export function Conversation() {
 
       const { autoSend, error, success } = shouldAutoSend(message)
       if (autoSend) {
-        handleSendText('')
+        setWaitingForAutoSend(true)
+        autoSendTimer.current = setTimeout(() => {
+          handleSendText('')
+          setWaitingForAutoSend(false)
+        }, 1500)
       }
       if (error) {
         toast.error('Action failed', { description: error })
@@ -148,6 +162,7 @@ export function Conversation() {
         onOpenSystemPromptDialog={() => setOpenSystemPromptDialog(true)}
         onSendText={handleSendText}
         onNewChat={handleNewChat}
+        isLoading={chat.status === 'submitted' || waitingForAutoSend}
       />
       <SystemPromptDialog
         open={openSystemPromptDialog}

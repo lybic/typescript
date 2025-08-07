@@ -38,11 +38,13 @@ import { conversationConfigState } from '@/stores/conversation-config'
 
 export function InputArea({
   chat,
+  isLoading,
   onOpenSystemPromptDialog,
   onSendText,
   onNewChat,
 }: {
   chat: UseChatHelpers<LybicUIMessage>
+  isLoading: boolean
   onOpenSystemPromptDialog: () => void
   onSendText: (text: string) => void
   onNewChat: () => void
@@ -172,7 +174,12 @@ export function InputArea({
               <IconPlayerStop />
             </Button>
           ) : (
-            <Button size="icon" className="ml-2" isLoading={chat.status === 'submitted'} onClick={handleSubmit}>
+            <Button
+              size="icon"
+              className="ml-2"
+              isLoading={chat.status === 'submitted' || isLoading}
+              onClick={handleSubmit}
+            >
               <IconSend />
             </Button>
           )}
