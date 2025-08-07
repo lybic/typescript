@@ -24,6 +24,9 @@ export type LybicUIMessage = UIMessage<
 export type BodyExtras = {
   baseUrl?: string
   systemPrompt?: string
+  model: string
+  screenshotsInContext?: number | 'all'
+  language?: 'zh' | 'en'
   sandboxId?: string
   orgId?: string
   trialSessionToken?: string

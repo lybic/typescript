@@ -1,30 +1,20 @@
-import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { Textarea } from '@/components/ui/textarea'
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
-import { IconBlockquote, IconDots, IconPointer, IconScreenshot, IconSend, IconSettings } from '@tabler/icons-react'
-import { LLMBudget } from './conversation/llm-budget'
-import { MessageUser } from './conversation/message-user'
-import { MessageAssistant } from './conversation/message-assistant'
-import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
-import { useSnapshot } from 'valtio'
-import { sessionStore } from '@/stores/session'
-import { MessageParts } from './conversation/message-parts'
-import { InputArea } from './conversation/input-area'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { sandboxStore } from '@/stores/sandbox'
 import { LybicChatTransport } from '@/lib/lybic-chat-transport'
-import { useCoreClient } from '@/hooks/use-core-client'
-import { LybicUIMessage } from '@/lib/ui-message-type'
+import { BodyExtras, LybicUIMessage } from '@/lib/ui-message-type'
+import { conversationConfigState } from '@/stores/conversation-config'
+import { indicatorStore } from '@/stores/indicator'
+import { sandboxStore } from '@/stores/sandbox'
+import { sessionStore } from '@/stores/session'
+import { useChat } from '@ai-sdk/react'
 import createDebug from 'debug'
 import { produce } from 'immer'
-import { AgentActions } from './conversation/agent-actions'
-import { useEffectEvent } from 'use-effect-event'
-import { indicatorStore } from '@/stores/indicator'
-import { SystemPromptDialog } from './conversation/system-prompt-dialog'
-import { fa } from 'zod/v4/locales'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
+import { useEffectEvent } from 'use-effect-event'
+import { useSnapshot } from 'valtio'
+import { InputArea } from './conversation/input-area'
+import { MessageAssistant } from './conversation/message-assistant'
+import { MessageUser } from './conversation/message-user'
+import { SystemPromptDialog } from './conversation/system-prompt-dialog'
 
 const debug = createDebug('lybic:playground:conversation')
 
@@ -56,21 +46,14 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; erro
 }
 
 export function Conversation() {
-  const session = useSnapshot(sessionStore)
-  const sb = useSnapshot(sandboxStore)
+  const { systemPrompt, model, screenshotsInContext, language } = useSnapshot(conversationConfigState)
   const messagesRef = useRef<HTMLDivElement>(null)
-  const coreClient = useCoreClient()
   const initialMessages = useMemo(
     () => (localStorage['lybic-playground-messages'] ? JSON.parse(localStorage['lybic-playground-messages']) : []),
     [],
   )
 
   const [openSystemPromptDialog, setOpenSystemPromptDialog] = useState(false)
-  const [systemPrompt, setSystemPrompt] = useState(localStorage['lybic-playground-system-prompt'] ?? '')
-
-  useEffect(() => {
-    localStorage['lybic-playground-system-prompt'] = systemPrompt
-  }, [systemPrompt])
 
   const chat = useChat<LybicUIMessage>({
     messages: initialMessages,
@@ -126,7 +109,10 @@ export function Conversation() {
           sandboxId: sandboxStore.id,
           orgId: sessionStore.orgId,
           trialSessionToken: sessionStore.trialSessionToken,
-        },
+          model,
+          screenshotsInContext,
+          language,
+        } as BodyExtras,
       },
     )
   })
@@ -158,7 +144,9 @@ export function Conversation() {
       <SystemPromptDialog
         open={openSystemPromptDialog}
         onOpenChange={setOpenSystemPromptDialog}
-        onApply={setSystemPrompt}
+        onApply={(systemPrompt) => {
+          conversationConfigState.systemPrompt = systemPrompt
+        }}
         initialSystemPrompt={systemPrompt}
       />
     </div>

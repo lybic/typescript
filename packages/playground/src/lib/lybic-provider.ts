@@ -13,8 +13,8 @@ const lybicProvider = customProvider({
       model: openaiCompatible('doubao-1-5-ui-tars-250328'),
       middleware: [],
     }),
-    'doubao-1.5-ui-tars-250428': wrapLanguageModel({
-      model: openaiCompatible('doubao-1.5-ui-tars-250428'),
+    'doubao-1-5-ui-tars-250428': wrapLanguageModel({
+      model: openaiCompatible('doubao-1-5-ui-tars-250428'),
       middleware: [],
     }),
     'doubao-1-5-thinking-vision-pro-250428': wrapLanguageModel({
