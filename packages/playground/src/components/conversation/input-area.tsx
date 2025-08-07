@@ -40,10 +40,12 @@ export function InputArea({
   chat,
   onOpenSystemPromptDialog,
   onSendText,
+  onNewChat,
 }: {
   chat: UseChatHelpers<LybicUIMessage>
   onOpenSystemPromptDialog: () => void
   onSendText: (text: string) => void
+  onNewChat: () => void
 }) {
   const { model, screenshotsInContext, language } = useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
@@ -83,7 +85,7 @@ export function InputArea({
                 <IconDownload />
                 Download Current Chat
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={onNewChat}>
                 <IconPlus />
                 Start New Chat
               </DropdownMenuItem>

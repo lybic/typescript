@@ -12,7 +12,7 @@ Please use English in Action_Summary and use function calls in Action.
 
 ## Action Format
 ### click(start_box='<bbox>left_x top_y right_x bottom_y</bbox>')
-### left_double_click(start_box='<bbox>left_x top_y right_x bottom_y</bbox>')
+### left_double(start_box='<bbox>left_x top_y right_x bottom_y</bbox>')
 ### right_click(start_box='<bbox>left_x top_y right_x bottom_y</bbox>')
 ### drag(start_box='<bbox>left_x top_y right_x bottom_y</bbox>', end_box='<bbox>left_x top_y right_x bottom_y</bbox>')
 ### type(content='content') // If you want to submit your input, next action use hotkey(key='enter')

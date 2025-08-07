@@ -15,6 +15,7 @@ import { InputArea } from './conversation/input-area'
 import { MessageAssistant } from './conversation/message-assistant'
 import { MessageUser } from './conversation/message-user'
 import { SystemPromptDialog } from './conversation/system-prompt-dialog'
+import { nanoid } from 'nanoid'
 
 const debug = createDebug('lybic:playground:conversation')
 
@@ -48,6 +49,7 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; erro
 export function Conversation() {
   const { systemPrompt, model, screenshotsInContext, language } = useSnapshot(conversationConfigState)
   const messagesRef = useRef<HTMLDivElement>(null)
+  const [chatId, setChatId] = useState('unassigned')
   const initialMessages = useMemo(
     () => (localStorage['lybic-playground-messages'] ? JSON.parse(localStorage['lybic-playground-messages']) : []),
     [],
@@ -55,8 +57,13 @@ export function Conversation() {
 
   const [openSystemPromptDialog, setOpenSystemPromptDialog] = useState(false)
 
+  const handleNewChat = useEffectEvent(() => {
+    setChatId(nanoid())
+  })
+
   const chat = useChat<LybicUIMessage>({
-    messages: initialMessages,
+    id: chatId,
+    messages: chatId === 'unassigned' ? initialMessages : [],
     experimental_throttle: 50,
     transport: new LybicChatTransport({
       apiKey: () => sessionStore.llmApiKey,
@@ -140,6 +147,7 @@ export function Conversation() {
         chat={chat}
         onOpenSystemPromptDialog={() => setOpenSystemPromptDialog(true)}
         onSendText={handleSendText}
+        onNewChat={handleNewChat}
       />
       <SystemPromptDialog
         open={openSystemPromptDialog}
