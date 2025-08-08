@@ -3,14 +3,20 @@ import { Textarea } from '@/components/ui/textarea'
 import { UIMessage, UseChatHelpers } from '@ai-sdk/react'
 import {
   IconBlocks,
+  IconBulb,
   IconCommand,
   IconDownload,
   IconFile,
   IconFileTime,
   IconLanguage,
+  IconMessage2Star,
+  IconMessageChatbot,
+  IconPhotoScan,
+  IconPhotoSpark,
   IconPlayerStop,
   IconPlus,
   IconPrompt,
+  IconRuler,
   IconSend,
   IconSettings,
   IconSlideshow,
@@ -35,26 +41,35 @@ import {
 } from '../ui/dropdown-menu'
 import { useSnapshot } from 'valtio'
 import { conversationConfigState } from '@/stores/conversation-config'
+import { sandboxStore } from '@/stores/sandbox'
+import { UI_MODELS } from './models'
 
 export function InputArea({
   chat,
-  isLoading,
+  waitingForAutoSend,
   onOpenSystemPromptDialog,
   onSendText,
   onNewChat,
+  onStop,
 }: {
   chat: UseChatHelpers<LybicUIMessage>
-  isLoading: boolean
+  waitingForAutoSend: boolean
   onOpenSystemPromptDialog: () => void
   onSendText: (text: string) => void
   onNewChat: () => void
+  onStop: () => void
 }) {
-  const { model, screenshotsInContext, language } = useSnapshot(conversationConfigState)
+  const { id: sandboxId } = useSnapshot(sandboxStore)
+  const { model, screenshotsInContext, language, systemPrompt, thinking } = useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
 
   const handleSubmit = useEffectEvent(() => {
-    onSendText(input)
-    setInput('')
+    if (chat.status === 'streaming' || chat.status === 'submitted') {
+      onStop()
+    } else {
+      onSendText(input)
+      setInput('')
+    }
   })
 
   const handleStop = useEffectEvent(() => {
@@ -64,10 +79,11 @@ export function InputArea({
   return (
     <div className="message-input p-2">
       <Textarea
-        placeholder="Use the computer to ..."
+        placeholder={sandboxId ? 'Use the computer to ...' : 'Select or create a sandbox to start'}
         className="resize-none"
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        disabled={!sandboxId}
       />
       <div className="flex gap-2 mt-2 justify-between items-center">
         <div className="text-xs text-muted-foreground flex items-center">
@@ -89,45 +105,89 @@ export function InputArea({
               </DropdownMenuItem> */}
               <DropdownMenuItem onClick={onNewChat}>
                 <IconPlus />
-                Start New Chat
+                <div className="flex flex-col mr-2">
+                  <div>New Chat</div>
+                  <div className="text-muted-foreground">Start a empty new chat</div>
+                </div>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={onOpenSystemPromptDialog}>
-                <IconCommand />
-                System Prompt
+                <IconMessage2Star />
+                <div className="flex flex-col mr-2">
+                  <div>System Prompt</div>
+                  <div className="text-muted-foreground whitespace-nowrap overflow-hidden text-ellipsis max-w-48">
+                    {systemPrompt || '(Empty)'}
+                  </div>
+                </div>
               </DropdownMenuItem>
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
-                  <IconBlocks className="shrink-0 size-4 text-muted-foreground" />
-                  <span className="mx-2">Model</span>
+                  <IconMessageChatbot className="shrink-0 size-4 text-muted-foreground" />
+                  <div className="mx-2 flex flex-col">
+                    <div>Model</div>
+                    <div className="text-muted-foreground">{UI_MODELS[model]?.displayName ?? model}</div>
+                  </div>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
-                  <DropdownMenuSubContent collisionPadding={20}>
+                  <DropdownMenuSubContent collisionPadding={20} className="w-64">
                     <DropdownMenuRadioGroup
                       value={model}
                       onValueChange={(value) => {
                         conversationConfigState.model = value
                       }}
                     >
-                      <DropdownMenuRadioItem value="doubao-seed-1-6-flash-250715">
-                        Doubao Seed 1.6 Flash
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="doubao-1-5-ui-tars-250328">
-                        Doubao 1.5 UI-TARS 250328
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="doubao-1-5-ui-tars-250428">
-                        Doubao 1.5 UI-TARS 250428
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="doubao-1-5-thinking-vision-pro-250428">
-                        Doubao 1.5 Thinking Vision Pro 250428
-                      </DropdownMenuRadioItem>
+                      {Object.entries(UI_MODELS).map(([key, value]) => (
+                        <DropdownMenuRadioItem key={key} value={key}>
+                          {value.displayName}
+                        </DropdownMenuRadioItem>
+                      ))}
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger disabled={!UI_MODELS[model]?.thinking} className="data-[disabled]:opacity-75">
+                  <IconBulb className="shrink-0 size-4 text-muted-foreground" />
+                  <div className="mx-2 flex flex-col">
+                    <div>Thinking</div>
+                    <div className="text-muted-foreground">
+                      {UI_MODELS[model]?.thinking ? (
+                        thinking === 'enabled' ? (
+                          'Enabled'
+                        ) : thinking === 'auto' ? (
+                          'Auto'
+                        ) : (
+                          'Disabled'
+                        )
+                      ) : (
+                        <div className="text-muted-foreground">Not supported</div>
+                      )}
+                    </div>
+                  </div>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent collisionPadding={20}>
+                    <DropdownMenuRadioGroup
+                      value={`${thinking}`}
+                      onValueChange={(value) => {
+                        conversationConfigState.thinking = value as 'disabled' | 'enabled' | 'auto'
+                      }}
+                    >
+                      <DropdownMenuRadioItem value="disabled">Disabled</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="enabled">Enabled</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="auto">Auto</DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>
               </DropdownMenuSub>
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
-                  <IconFileTime className="shrink-0 size-4 text-muted-foreground" />
-                  <span className="mx-2">Screenshots in Context</span>
+                  <IconPhotoSpark className="shrink-0 size-4 text-muted-foreground" />
+                  <div className="mx-2 flex flex-col">
+                    <div>Screenshots in Context</div>
+                    <div className="text-muted-foreground">
+                      {screenshotsInContext === 'all' ? 'All' : screenshotsInContext}
+                    </div>
+                  </div>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent collisionPadding={20}>
@@ -151,7 +211,10 @@ export function InputArea({
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
                   <IconLanguage className="shrink-0 size-4 text-muted-foreground" />
-                  <span className="mx-2">Prompt Language</span>
+                  <div className="mx-2 flex flex-col">
+                    <div>Prompt Language</div>
+                    <div className="text-muted-foreground">{language === 'zh' ? '中文' : 'English'}</div>
+                  </div>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent collisionPadding={20}>
@@ -169,17 +232,12 @@ export function InputArea({
               </DropdownMenuSub>
             </DropdownMenuContent>
           </DropdownMenu>
-          {chat.status === 'streaming' ? (
-            <Button size="icon" className="ml-2" onClick={handleStop}>
+          {chat.status === 'streaming' || chat.status === 'submitted' || waitingForAutoSend ? (
+            <Button size="icon" className="ml-2" variant="outline" onClick={handleStop}>
               <IconPlayerStop />
             </Button>
           ) : (
-            <Button
-              size="icon"
-              className="ml-2"
-              isLoading={chat.status === 'submitted' || isLoading}
-              onClick={handleSubmit}
-            >
+            <Button size="icon" className="ml-2" disabled={!sandboxId} onClick={handleSubmit}>
               <IconSend />
             </Button>
           )}

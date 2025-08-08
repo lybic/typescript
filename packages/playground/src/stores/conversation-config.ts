@@ -2,9 +2,10 @@ import { proxy, subscribe } from 'valtio'
 
 export const conversationConfigState = proxy({
   systemPrompt: '',
-  model: 'doubao-seed-1-6-flash-250715',
+  model: 'doubao-1-5-ui-tars-250328',
   screenshotsInContext: 2 as number | 'all',
   language: 'zh',
+  thinking: 'disabled' as 'disabled' | 'enabled' | 'auto',
 })
 
 if (localStorage['lybic-playground-conversation-config']) {

@@ -1,4 +1,4 @@
-import createClient, { Client, ClientOptions } from 'openapi-fetch'
+import createClient, { Client, ClientOptions, MaybeOptionalInit } from 'openapi-fetch'
 import { paths } from './schema'
 
 export class LybicClient {
@@ -43,6 +43,7 @@ export class LybicClient {
 
   public createMcpServer(
     data: paths['/api/orgs/{orgId}/mcp-servers']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/mcp-servers'], 'post'>, 'body' | 'params'>,
   ) {
     return this.client.POST('/api/orgs/{orgId}/mcp-servers', {
       params: {
@@ -51,10 +52,14 @@ export class LybicClient {
         },
       },
       body: data,
+      ...initParam,
     })
   }
 
-  public deleteMcpServer(mcpServerId: string) {
+  public deleteMcpServer(
+    mcpServerId: string,
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/mcp-servers/{mcpServerId}'], 'delete'>, 'params'>,
+  ) {
     return this.client.DELETE('/api/orgs/{orgId}/mcp-servers/{mcpServerId}', {
       params: {
         path: {
@@ -62,22 +67,28 @@ export class LybicClient {
           mcpServerId,
         },
       },
+      ...initParam,
     })
   }
 
-  public listMcpServers() {
+  public listMcpServers(initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/mcp-servers'], 'get'>, 'params'>) {
     return this.client.GET('/api/orgs/{orgId}/mcp-servers', {
       params: {
         path: {
           orgId: this.orgId,
         },
       },
+      ...initParam,
     })
   }
 
   public setMcpServerToSandbox(
     mcpServerId: string,
     data: paths['/api/orgs/{orgId}/mcp-servers/{mcpServerId}/sandbox']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/mcp-servers/{mcpServerId}/sandbox'], 'post'>,
+      'body' | 'params'
+    >,
   ) {
     return this.client.POST('/api/orgs/{orgId}/mcp-servers/{mcpServerId}/sandbox', {
       body: data,
@@ -87,6 +98,7 @@ export class LybicClient {
           mcpServerId,
         },
       },
+      ...initParam,
     })
   }
 
@@ -102,6 +114,7 @@ export class LybicClient {
 
   public createProject(
     data: paths['/api/orgs/{orgId}/projects']['post']['requestBody']['content']['application/json'],
+    initParam?: MaybeOptionalInit<paths['/api/orgs/{orgId}/projects'], 'post'>,
   ) {
     return this.client.POST('/api/orgs/{orgId}/projects', {
       params: {
@@ -110,6 +123,7 @@ export class LybicClient {
         },
       },
       body: data,
+      ...initParam,
     })
   }
 
@@ -136,6 +150,7 @@ export class LybicClient {
 
   public createSandbox(
     data: paths['/api/orgs/{orgId}/sandboxes']['post']['requestBody']['content']['application/json'],
+    initParam?: MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes'], 'post'>,
   ) {
     return this.client.POST('/api/orgs/{orgId}/sandboxes', {
       params: {
@@ -144,6 +159,7 @@ export class LybicClient {
         },
       },
       body: data,
+      ...initParam,
     })
   }
 
@@ -179,7 +195,10 @@ export class LybicClient {
     })
   }
 
-  public previewSandbox(sandboxId: string) {
+  public previewSandbox(
+    sandboxId: string,
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/preview'], 'post'>, 'params'>,
+  ) {
     return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/preview', {
       params: {
         path: {
@@ -187,12 +206,17 @@ export class LybicClient {
           sandboxId,
         },
       },
+      ...initParam,
     })
   }
 
   public executeComputerUseAction(
     sandboxId: string,
     data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/computer-use']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/computer-use'], 'post'>,
+      'body' | 'params'
+    >,
   ) {
     return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/computer-use', {
       params: {
@@ -202,22 +226,28 @@ export class LybicClient {
         },
       },
       body: data,
+      ...initParam,
     })
   }
 
-  public getStats() {
+  public getStats(initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/stats'], 'get'>, 'params'>) {
     return this.client.GET('/api/orgs/{orgId}/stats', {
       params: {
         path: {
           orgId: this.orgId,
         },
       },
+      ...initParam,
     })
   }
 
-  public parseLlmOutput(data: paths['/api/computer-use/parse']['post']['requestBody']['content']['application/json']) {
+  public parseLlmOutput(
+    data: paths['/api/computer-use/parse']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<MaybeOptionalInit<paths['/api/computer-use/parse'], 'post'>, 'body'>,
+  ) {
     return this.client.POST('/api/computer-use/parse', {
       body: data,
+      ...initParam,
     })
   }
 }

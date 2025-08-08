@@ -46,7 +46,7 @@ export function MessageParts({
                     fill="currentColor"
                     className="in-[[data-state=open]]:rotate-90 transition-transform"
                   />
-                  {part.state === 'streaming' ? (
+                  {part.state === 'streaming' && chatStatus === 'streaming' ? (
                     <span className="after:animate-dots">Thinking</span>
                   ) : (
                     <span>Thoughts</span>

@@ -110,12 +110,20 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
         const coreClient = this.getCoreClient(extras)
         const sandboxId = extras.sandboxId as string
         const userSystemPrompt = extras.systemPrompt as string | null
-        const { data: preview } = await coreClient.previewSandbox(sandboxId)
+        if (options.abortSignal?.aborted) {
+          throw new Error('User aborted')
+        }
+        const { data: preview } = await coreClient.previewSandbox(sandboxId, { signal: options.abortSignal })
         if (!preview?.screenShot) {
           throw new Error('Preview failed, no screenshot found')
         }
 
-        const previewImageBase64 = encodeBase64(await (await fetch(preview.screenShot)).arrayBuffer())
+        if (options.abortSignal?.aborted) {
+          throw new Error('User aborted')
+        }
+        const previewImageBase64 = encodeBase64(
+          await (await fetch(preview.screenShot, { signal: options.abortSignal })).arrayBuffer(),
+        )
         const previewImageDataUrl = 'data:image/webp;base64,' + previewImageBase64
 
         if (typeof lastMessage.content === 'string') {
@@ -169,6 +177,9 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           .replaceAll('{screen_width}', `${preview.cursorPosition?.screenWidth ?? 1280}`)
           .replaceAll('{screen_height}', `${preview.cursorPosition?.screenHeight ?? 720}`)
 
+        if (options.abortSignal?.aborted) {
+          throw new Error('User aborted')
+        }
         const result = streamText({
           model: modelConfig.model,
           system: [systemPrompt, userSystemPrompt].filter(Boolean).join('\n'),
@@ -176,22 +187,25 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           headers: {
             Authorization: `Bearer ${this.options.apiKey()}`,
           },
+          abortSignal: options.abortSignal,
           providerOptions: {
             lybic: {
-              extra_body: {
-                thinking: {
-                  type: 'disabled',
-                },
-              },
+              extra_body: extras.thinking ? { thinking: { type: extras.thinking } } : null,
               allowed_openai_params: ['extra_body'],
             },
           },
           onFinish: async (message) => {
             debug('onFinish', message)
-            const { data: parsedAction } = await coreClient.parseLlmOutput({
-              model: modelConfig.parser,
-              textContent: message.text,
-            })
+            if (options.abortSignal?.aborted) {
+              throw new Error('User aborted')
+            }
+            const { data: parsedAction } = await coreClient.parseLlmOutput(
+              {
+                model: modelConfig.parser,
+                textContent: message.text,
+              },
+              { signal: options.abortSignal },
+            )
             debug('parsedAction', parsedAction)
             if (parsedAction?.actions && parsedAction.actions.length > 0) {
               writer.write({
@@ -204,11 +218,19 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
               indicatorStore.lastAction = structuredClone(parsedAction.actions[0]!)
               for (const action of parsedAction?.actions) {
                 debug('executeComputerUseAction', action)
-                await coreClient.executeComputerUseAction(sandboxId, {
-                  action,
-                  includeScreenShot: false,
-                  includeCursorPosition: false,
-                })
+
+                if (options.abortSignal?.aborted) {
+                  throw new Error('User aborted')
+                }
+                await coreClient.executeComputerUseAction(
+                  sandboxId,
+                  {
+                    action,
+                    includeScreenShot: false,
+                    includeCursorPosition: false,
+                  },
+                  { signal: options.abortSignal },
+                )
               }
             }
           },

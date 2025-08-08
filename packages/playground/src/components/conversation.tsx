@@ -18,7 +18,7 @@ import { SystemPromptDialog } from './conversation/system-prompt-dialog'
 import { nanoid } from 'nanoid'
 import { useQueryClient } from '@tanstack/react-query'
 import { llmBudgetQuery } from '@/queries/llm-budget-query'
-
+import { UI_MODELS } from './conversation/models'
 const debug = createDebug('lybic:playground:conversation')
 
 function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; error?: string; success?: string } {
@@ -50,7 +50,7 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; erro
 
 export function Conversation() {
   const queryClient = useQueryClient()
-  const { systemPrompt, model, screenshotsInContext, language } = useSnapshot(conversationConfigState)
+  const { systemPrompt, model, screenshotsInContext, language, thinking } = useSnapshot(conversationConfigState)
   const messagesRef = useRef<HTMLDivElement>(null)
   const [chatId, setChatId] = useState('unassigned')
   const initialMessages = useMemo(
@@ -62,14 +62,21 @@ export function Conversation() {
 
   const handleNewChat = useEffectEvent(() => {
     setChatId(nanoid())
+    localStorage['lybic-playground-messages'] = '[]'
   })
 
   const autoSendTimer = useRef<NodeJS.Timeout | null>(null)
+  const clearAutoSendTimer = useEffectEvent(() => {
+    if (autoSendTimer.current) {
+      clearTimeout(autoSendTimer.current)
+      autoSendTimer.current = null
+    }
+    setWaitingForAutoSend(false)
+    indicatorStore.status = 'idle'
+  })
   useEffect(() => {
     return () => {
-      if (autoSendTimer.current) {
-        clearTimeout(autoSendTimer.current)
-      }
+      clearAutoSendTimer()
     }
   }, [])
   const [waitingForAutoSend, setWaitingForAutoSend] = useState(false)
@@ -102,6 +109,10 @@ export function Conversation() {
         toast.success('Action finished', { description: success })
       }
     }),
+    onError: (error) => {
+      debug('onError', error)
+      clearAutoSendTimer()
+    },
     onData: (data) => {
       debug('onData', data)
       if (data.type === 'data-screenShot') {
@@ -124,6 +135,11 @@ export function Conversation() {
     },
   })
 
+  const handleStop = useEffectEvent(() => {
+    chat.stop()
+    clearAutoSendTimer()
+  })
+
   const handleSendText = useEffectEvent((text: string) => {
     indicatorStore.status = 'running'
     chat.sendMessage(
@@ -135,6 +151,7 @@ export function Conversation() {
           sandboxId: sandboxStore.id,
           orgId: sessionStore.orgId,
           trialSessionToken: sessionStore.trialSessionToken,
+          thinking: UI_MODELS[model]?.thinking ? thinking : undefined,
           model,
           screenshotsInContext,
           language,
@@ -167,7 +184,8 @@ export function Conversation() {
         onOpenSystemPromptDialog={() => setOpenSystemPromptDialog(true)}
         onSendText={handleSendText}
         onNewChat={handleNewChat}
-        isLoading={chat.status === 'submitted' || waitingForAutoSend}
+        waitingForAutoSend={chat.status === 'submitted' || waitingForAutoSend}
+        onStop={handleStop}
       />
       <SystemPromptDialog
         open={openSystemPromptDialog}

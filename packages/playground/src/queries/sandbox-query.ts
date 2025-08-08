@@ -16,4 +16,5 @@ export const sandboxQueryOptions = (orgId: string, sandboxId: string) =>
         )
       ).data
     },
+    retry: false,
   })
