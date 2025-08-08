@@ -43,7 +43,7 @@ export function SiteNavigation() {
             </a>
           </NavigationMenuLink>
         </NavigationMenuList>
-        <NavigationMenuList>
+        <NavigationMenuList className="hidden">
           <NavigationMenuLink asChild>
             <DropdownMenu>
               <DropdownMenuTrigger>

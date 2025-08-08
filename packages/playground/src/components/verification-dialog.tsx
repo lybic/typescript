@@ -14,7 +14,7 @@ export function VerificationDialog() {
           <DialogTitle>Verification required</DialogTitle>
           <DialogDescription asChild>
             <Tabs defaultValue="trail" className="mt-2">
-              <TabsList className="mb-4">
+              <TabsList className="mb-4 hidden">
                 <TabsTrigger value="trail">
                   <IconPhone />
                   Phone Number
