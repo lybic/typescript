@@ -130,6 +130,7 @@ export function Conversation() {
       { text, metadata: { createdAt: Date.now() } },
       {
         body: {
+          baseUrl: import.meta.env.VITE_LYBIC_BASE_URL ?? '/',
           systemPrompt,
           sandboxId: sandboxStore.id,
           orgId: sessionStore.orgId,
