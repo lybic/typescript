@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build"
+    "build": "vite build",
+    "build-dev": "VITE_LYBIC_BASE_URL=https://dashboard.lybic.cn VITE_LYBIC_PLAYGROUND_LLM_BASE_URL=https://llm.lybic.cn/v1 yarn build",
+    "publish-dev": "yarn build-dev && rclone sync -P ./.output/public/ lybic-playground:lybic-playground-dev/"
   },
   "devDependencies": {
     "@swc/cli": "^0.7.8",
