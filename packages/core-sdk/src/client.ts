@@ -10,7 +10,7 @@ export class LybicClient {
     orgId,
     ...clientOptions
   }: { baseUrl: string; orgId: string } & ({ apiKey: string } | { trialSessionToken: string }) & ClientOptions) {
-    this.client = createClient<paths>(clientOptions)
+    this.client = createClient<paths>({ baseUrl, ...clientOptions })
 
     this.client.use({
       onRequest({ request }) {
