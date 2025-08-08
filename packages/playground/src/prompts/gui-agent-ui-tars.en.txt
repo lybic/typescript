@@ -21,5 +21,4 @@ Please use English in Action_Summary and use function calls in Action.
 ### wait()
 ### finished()
 ### call_user() // Submit the task and call the user when the task is unsolvable, or when you need the user's help.
-### save_memory(content='content') // When the user explicitly states "Remember..." or a similar expression, automatically call `save_memory` to save the memory 。next action use finished
 ### output(content='content') // It is only used when the user specifies to use output, and after output is executed, it cannot be executed again.

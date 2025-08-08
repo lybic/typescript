@@ -16,6 +16,8 @@ import { MessageAssistant } from './conversation/message-assistant'
 import { MessageUser } from './conversation/message-user'
 import { SystemPromptDialog } from './conversation/system-prompt-dialog'
 import { nanoid } from 'nanoid'
+import { useQueryClient } from '@tanstack/react-query'
+import { llmBudgetQuery } from '@/queries/llm-budget-query'
 
 const debug = createDebug('lybic:playground:conversation')
 
@@ -47,6 +49,7 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; erro
 }
 
 export function Conversation() {
+  const queryClient = useQueryClient()
   const { systemPrompt, model, screenshotsInContext, language } = useSnapshot(conversationConfigState)
   const messagesRef = useRef<HTMLDivElement>(null)
   const [chatId, setChatId] = useState('unassigned')
@@ -80,6 +83,7 @@ export function Conversation() {
     }),
     onFinish: useEffectEvent(({ message }) => {
       debug('onFinish', message, chat.messages)
+      queryClient.invalidateQueries(llmBudgetQuery)
       indicatorStore.status = 'idle'
       localStorage['lybic-playground-messages'] = JSON.stringify(chat.messages)
 

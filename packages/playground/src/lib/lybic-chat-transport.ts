@@ -110,12 +110,12 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
         const coreClient = this.getCoreClient(extras)
         const sandboxId = extras.sandboxId as string
         const userSystemPrompt = extras.systemPrompt as string | null
-        const preview = await coreClient.previewSandbox(sandboxId)
-        if (!preview.data?.screenShot) {
+        const { data: preview } = await coreClient.previewSandbox(sandboxId)
+        if (!preview?.screenShot) {
           throw new Error('Preview failed, no screenshot found')
         }
 
-        const previewImageBase64 = encodeBase64(await (await fetch(preview.data.screenShot)).arrayBuffer())
+        const previewImageBase64 = encodeBase64(await (await fetch(preview.screenShot)).arrayBuffer())
         const previewImageDataUrl = 'data:image/webp;base64,' + previewImageBase64
 
         if (typeof lastMessage.content === 'string') {
@@ -165,7 +165,9 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           transient: true,
         })
 
-        const systemPrompt = extras.language === 'zh' ? modelConfig.zh : modelConfig.en
+        const systemPrompt = (extras.language === 'zh' ? modelConfig.zh : modelConfig.en)
+          .replaceAll('{screen_width}', `${preview.cursorPosition?.screenWidth ?? 1280}`)
+          .replaceAll('{screen_height}', `${preview.cursorPosition?.screenHeight ?? 720}`)
 
         const result = streamText({
           model: modelConfig.model,

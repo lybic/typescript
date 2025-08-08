@@ -22,7 +22,6 @@ Action: ...
 ### wait()
 ### finished()
 ### call_user() # Submit the task and call the user when the task is unsolvable, or when you need the user's help.
-### save_memory(content='content') // 当用户明确表示“记住……”或类似表述时，自动调用`save_memory`保存记忆。next action use finished
 ### output(content='content') // It is only used when the user specifies to use output, and after output is executed, it cannot be executed again.
 
-在输出坐标时请务必精确。给定的截图尺寸为 1280x720
+在输出坐标时请务必精确。给定的截图尺寸为 {screen_width}x{screen_height}。
