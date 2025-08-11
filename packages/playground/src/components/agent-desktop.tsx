@@ -39,7 +39,7 @@ export function AgentDesktop() {
       >
         <DesktopTopBar />
         <div
-          className="aspect-[16/9] w-[min(100%,177cqh)] border-1 shadow-sm relative rounded-lg overflow-hidden"
+          className="aspect-[16/9] w-[min(100%,calc(177cqh-12rem))] flex-[none] border-1 shadow-sm relative rounded-lg overflow-hidden"
           ref={containerRef}
         >
           {sb.connectDetails ? (
