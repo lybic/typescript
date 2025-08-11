@@ -190,7 +190,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           abortSignal: options.abortSignal,
           providerOptions: {
             lybic: {
-              extra_body: extras.thinking ? { thinking: { type: extras.thinking } } : null,
+              extra_body: extras.thinking ? { thinking: { type: extras.thinking } } : {},
               allowed_openai_params: ['extra_body'],
             },
           },
