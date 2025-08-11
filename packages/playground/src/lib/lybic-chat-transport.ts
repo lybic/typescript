@@ -182,7 +182,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           type: 'data-screenShot',
           data: {
             messageId: lastMessageId,
-            url: preview.screenShot.replace(/\?.*$/, ''),
+            url: preview.screenShot,
           },
           transient: true,
         })
