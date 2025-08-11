@@ -92,7 +92,11 @@ export function Conversation() {
       debug('onFinish', message, chat.messages)
       queryClient.invalidateQueries(llmBudgetQuery)
       indicatorStore.status = 'idle'
-      localStorage['lybic-playground-messages'] = JSON.stringify(chat.messages)
+      try {
+        localStorage['lybic-playground-messages'] = JSON.stringify(chat.messages)
+      } catch (e) {
+        console.warn('Failed to save messages to localStorage', e)
+      }
 
       const { autoSend, error, success } = shouldAutoSend(message)
       if (autoSend) {
