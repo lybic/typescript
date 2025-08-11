@@ -121,10 +121,6 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
         if (options.abortSignal?.aborted) {
           throw new Error('User aborted')
         }
-        const previewImageBase64 = encodeBase64(
-          await (await fetch(preview.screenShot, { signal: options.abortSignal })).arrayBuffer(),
-        )
-        const previewImageDataUrl = 'data:image/webp;base64,' + previewImageBase64
 
         if (typeof lastMessage.content === 'string') {
           lastMessage.content = [
@@ -137,7 +133,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
         lastMessage.content.push({
           type: 'file',
           mediaType: 'image/webp',
-          data: new URL(previewImageDataUrl),
+          data: new URL(preview.screenShot),
         })
 
         if (extras.screenshotsInContext !== 'all') {
@@ -162,13 +158,31 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           }
         }
 
+        // download all images
+        const promises = [] as Promise<void>[]
+        for (const message of modelMessages) {
+          for (const part of message.content) {
+            if (typeof part !== 'string' && part.type === 'file' && part.mediaType === 'image/webp') {
+              promises.push(
+                (async () => {
+                  const response = await fetch(part.data.toString())
+                  const arrayBuffer = await response.arrayBuffer()
+                  const base64 = encodeBase64(arrayBuffer)
+                  part.data = new URL(`data:image/webp;base64,${base64}`)
+                })(),
+              )
+            }
+          }
+        }
+        await Promise.all(promises)
+
         debug('modelMessages', modelMessages)
 
         writer.write({
           type: 'data-screenShot',
           data: {
             messageId: lastMessageId,
-            url: previewImageDataUrl,
+            url: preview.screenShot.replace(/\?.*$/, ''),
           },
           transient: true,
         })
