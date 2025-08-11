@@ -43,6 +43,8 @@ import { useSnapshot } from 'valtio'
 import { conversationConfigState } from '@/stores/conversation-config'
 import { sandboxStore } from '@/stores/sandbox'
 import { UI_MODELS } from './models'
+import { exportChatHistory } from '@/lib/save-chat-history'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 
 export function InputArea({
   chat,
@@ -76,6 +78,10 @@ export function InputArea({
     chat.stop()
   })
 
+  const handleExportChat = useEffectEvent(async () => {
+    await exportChatHistory(chat)
+  })
+
   return (
     <div className="message-input p-2">
       <Textarea
@@ -91,18 +97,38 @@ export function InputArea({
           <div className="ml-1"></div>
           <LLMBudget />
         </div>
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon">
-                <IconSettings />
+        <div className="flex items-center gap-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="outline" size="icon" onClick={onNewChat} aria-label="New Chat">
+                <IconPlus />
               </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Start a new chat</p>
+            </TooltipContent>
+          </Tooltip>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon" aria-label="Chat Settings">
+                    <IconSettings />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Chat Settings</p>
+                </TooltipContent>
+              </Tooltip>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {/* <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleExportChat}>
                 <IconDownload />
-                Download Current Chat
-              </DropdownMenuItem> */}
+                <div className="flex flex-col mr-2">
+                  <div>Export Chat</div>
+                  <div className="text-muted-foreground">Download current chat</div>
+                </div>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={onNewChat}>
                 <IconPlus />
                 <div className="flex flex-col mr-2">
@@ -233,13 +259,33 @@ export function InputArea({
             </DropdownMenuContent>
           </DropdownMenu>
           {chat.status === 'streaming' || chat.status === 'submitted' || waitingForAutoSend ? (
-            <Button size="icon" className="ml-2" variant="outline" onClick={handleStop}>
-              <IconPlayerStop />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="outline" onClick={handleStop} aria-label="Abort">
+                  <IconPlayerStop />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Abort</p>
+              </TooltipContent>
+            </Tooltip>
           ) : (
-            <Button size="icon" className="ml-2" disabled={!sandboxId} onClick={handleSubmit}>
-              <IconSend />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  disabled={!sandboxId}
+                  onClick={handleSubmit}
+                  className="disabled:pointer-events-auto disabled:hover:bg-primary"
+                  aria-label="Send"
+                >
+                  <IconSend />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent collisionPadding={12}>
+                <p>{!sandboxId ? 'Select or create a sandbox first' : 'Send'}</p>
+              </TooltipContent>
+            </Tooltip>
           )}
         </div>
       </div>
