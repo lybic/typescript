@@ -54,7 +54,7 @@ export function DesktopTopBar() {
   const deleteSandbox = useDeleteSandbox(session.orgId, sbState.id)
 
   return (
-    <div className="desktop-top-bar flex w-full justify-between px-2 mb-2">
+    <div className="desktop-top-bar flex w-[min(100%,calc(177cqh-12rem))] justify-between px-2 mb-2">
       {sbState.id && (
         <div className="flex gap-2 items-center">
           <IconCast className="size-4" />

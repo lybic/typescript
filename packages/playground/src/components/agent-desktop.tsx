@@ -62,7 +62,7 @@ export function AgentDesktop() {
             </>
           )}
         </div>
-        <div className="agent-dock top-4 w-full px-2 py-4 flex justify-between">
+        <div className="agent-dock top-4 w-[min(100%,calc(177cqh-12rem))] px-2 py-4 flex justify-between">
           <div className="flex gap-2 flex-1 items-center">
             <div
               className={cn(
