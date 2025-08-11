@@ -1,8 +1,14 @@
 import createClient, { Client, ClientOptions, MaybeOptionalInit } from 'openapi-fetch'
-import { paths } from './schema'
+import { type paths } from './schema'
 
 export class LybicClient {
+  /**
+   * The inner `openapi-fetch` client
+   */
   public readonly client: Client<paths>
+  /**
+   * The organization ID
+   */
   public orgId: string
 
   public constructor({
@@ -102,19 +108,22 @@ export class LybicClient {
     })
   }
 
-  public getDefaultMcpServer() {
+  public getDefaultMcpServer(
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/mcp-servers/default'], 'get'>, 'params'>,
+  ) {
     return this.client.GET('/api/orgs/{orgId}/mcp-servers/default', {
       params: {
         path: {
           orgId: this.orgId,
         },
       },
+      ...initParam,
     })
   }
 
   public createProject(
     data: paths['/api/orgs/{orgId}/projects']['post']['requestBody']['content']['application/json'],
-    initParam?: MaybeOptionalInit<paths['/api/orgs/{orgId}/projects'], 'post'>,
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/projects'], 'post'>, 'body'>,
   ) {
     return this.client.POST('/api/orgs/{orgId}/projects', {
       params: {
@@ -127,7 +136,10 @@ export class LybicClient {
     })
   }
 
-  public deleteProject(projectId: string) {
+  public deleteProject(
+    projectId: string,
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/projects/{projectId}'], 'delete'>, 'params'>,
+  ) {
     return this.client.DELETE('/api/orgs/{orgId}/projects/{projectId}', {
       params: {
         path: {
@@ -135,22 +147,24 @@ export class LybicClient {
           projectId,
         },
       },
+      ...initParam,
     })
   }
 
-  public listProjects() {
+  public listProjects(initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/projects'], 'get'>, 'params'>) {
     return this.client.GET('/api/orgs/{orgId}/projects', {
       params: {
         path: {
           orgId: this.orgId,
         },
       },
+      ...initParam,
     })
   }
 
   public createSandbox(
     data: paths['/api/orgs/{orgId}/sandboxes']['post']['requestBody']['content']['application/json'],
-    initParam?: MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes'], 'post'>,
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes'], 'post'>, 'body'>,
   ) {
     return this.client.POST('/api/orgs/{orgId}/sandboxes', {
       params: {
@@ -163,7 +177,10 @@ export class LybicClient {
     })
   }
 
-  public deleteSandbox(sandboxId: string) {
+  public deleteSandbox(
+    sandboxId: string,
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}'], 'delete'>, 'params'>,
+  ) {
     return this.client.DELETE('/api/orgs/{orgId}/sandboxes/{sandboxId}', {
       params: {
         path: {
@@ -171,20 +188,25 @@ export class LybicClient {
           sandboxId,
         },
       },
+      ...initParam,
     })
   }
 
-  public listSandboxes() {
+  public listSandboxes(initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes'], 'get'>, 'params'>) {
     return this.client.GET('/api/orgs/{orgId}/sandboxes', {
       params: {
         path: {
           orgId: this.orgId,
         },
       },
+      ...initParam,
     })
   }
 
-  public getSandboxDetails(sandboxId: string) {
+  public getSandboxDetails(
+    sandboxId: string,
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}'], 'get'>, 'params'>,
+  ) {
     return this.client.GET('/api/orgs/{orgId}/sandboxes/{sandboxId}', {
       params: {
         path: {
@@ -192,6 +214,7 @@ export class LybicClient {
           sandboxId,
         },
       },
+      ...initParam,
     })
   }
 
