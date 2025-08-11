@@ -173,3 +173,19 @@ export const connectMcpServerToSandboxSchema = z.object({
 })
 
 export type ConnectMcpServerToSandbox = z.infer<typeof connectMcpServerToSandboxSchema>
+
+export const extendSandboxSchema = z.object({
+  maxLifeSeconds: attachMeta(
+    z.coerce
+      .number()
+      .min(1)
+      .max(60 * 60 * 24 * 365)
+      .default(60 * 60)
+      .describe('The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year.'),
+    {
+      title: 'Max Life Time',
+    },
+  ),
+})
+
+export type ExtendSandbox = z.infer<typeof extendSandboxSchema>
