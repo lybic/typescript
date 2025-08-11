@@ -8,6 +8,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient } from '@tanstack/react-query'
 import { Toaster } from '@/components/ui/sonner'
+import sw from '../../sw.ts?worker&url'
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -55,4 +56,13 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       </body>
     </html>
   )
+}
+
+if ('serviceWorker' in navigator) {
+  const { Workbox } = await import('workbox-window')
+  const workBox = new Workbox(sw, { type: 'module' })
+  workBox.addEventListener('waiting', (e) => {
+    workBox.messageSkipWaiting()
+  })
+  workBox.register()
 }
