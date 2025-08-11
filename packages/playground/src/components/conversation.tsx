@@ -21,7 +21,12 @@ import { llmBudgetQuery } from '@/queries/llm-budget-query'
 import { UI_MODELS } from './conversation/models'
 const debug = createDebug('lybic:playground:conversation')
 
-function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; error?: string; success?: string } {
+function shouldAutoSend(lastMessage?: LybicUIMessage): {
+  autoSend: boolean
+  error?: string
+  success?: string
+  userTakeover?: boolean
+} {
   if (!lastMessage) {
     return { autoSend: false }
   }
@@ -33,7 +38,9 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; erro
   if (!parsed) {
     return { autoSend: false }
   }
-  const stopActions = parsed.data.actions.filter((action) => action.type === 'failed' || action.type === 'finished')
+  const stopActions = parsed.data.actions.filter(
+    (action) => action.type === 'failed' || action.type === 'finished' || action.type === 'client:user-takeover',
+  )
   if (stopActions.length > 0) {
     const failedAction = stopActions.find((action) => action.type === 'failed')
     if (failedAction) {
@@ -42,6 +49,10 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): { autoSend: boolean; erro
     const successAction = stopActions.find((action) => action.type === 'finished')
     if (successAction) {
       return { autoSend: false, success: successAction.message ?? 'Task has been completed' }
+    }
+    const userTakeoverAction = stopActions.find((action) => action.type === 'client:user-takeover')
+    if (userTakeoverAction) {
+      return { autoSend: false, userTakeover: true }
     }
     return { autoSend: false }
   }
@@ -98,7 +109,7 @@ export function Conversation() {
         console.warn('Failed to save messages to localStorage', e)
       }
 
-      const { autoSend, error, success } = shouldAutoSend(message)
+      const { autoSend, error, success, userTakeover } = shouldAutoSend(message)
       if (autoSend) {
         setWaitingForAutoSend(true)
         autoSendTimer.current = setTimeout(() => {
@@ -111,6 +122,11 @@ export function Conversation() {
       }
       if (success) {
         toast.success('Action finished', { description: success })
+      }
+      if (userTakeover) {
+        toast.info('Agent is requesting your help', {
+          description: 'Please take over the control and finish the request.',
+        })
       }
     }),
     onError: (error) => {
