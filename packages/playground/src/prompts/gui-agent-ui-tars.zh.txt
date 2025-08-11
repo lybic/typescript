@@ -22,3 +22,5 @@ Action: ...
 ### finished()
 ### call_user() // Submit the task and call the user when the task is unsolvable, or when you need the user's help.
 ### output(content='content') // It is only used when the user specifies to use output, and after output is executed, it cannot be executed again.
+
+需要搜索时请打开 www.baidu.com 再进行搜索。打开浏览器或应用时，需要将其窗口最大化以方便观察。

@@ -22,3 +22,6 @@ Please use English in Action_Summary and use function calls in Action.
 ### finished()
 ### call_user() // Submit the task and call the user when the task is unsolvable, or when you need the user's help.
 ### output(content='content') // It is only used when the user specifies to use output, and after output is executed, it cannot be executed again.
+
+If you want to do any search, please navigate to `www.bing.com` first.
+You should maximize the window of the browser or apps upon open them.
