@@ -148,6 +148,12 @@ export const computerUseActionFailedSchema = z
   })
   .describe('Indicates the action has failed')
 
+export const computerUseActionUserTakeoverSchema = z
+  .object({
+    type: z.literal('client:user-takeover'),
+  })
+  .describe('Indicates the human user should take over the control')
+
 export const computerUseActionSchema = z
   .union([
     computerUseActionMouseClickSchema,
@@ -161,6 +167,7 @@ export const computerUseActionSchema = z
     computerUseActionWaitSchema,
     computerUseActionFinishedSchema,
     computerUseActionFailedSchema,
+    computerUseActionUserTakeoverSchema,
   ])
   .and(
     z.object({
@@ -199,5 +206,6 @@ export type IComputerUseActionScreenshot = z.infer<typeof computerUseActionScree
 export type IComputerUseActionWait = z.infer<typeof computerUseActionWaitSchema>
 export type IComputerUseActionFinished = z.infer<typeof computerUseActionFinishedSchema>
 export type IComputerUseActionFailed = z.infer<typeof computerUseActionFailedSchema>
+export type IComputerUseActionUserTakeover = z.infer<typeof computerUseActionUserTakeoverSchema>
 
 export type IExecuteComputerUseAction = z.infer<typeof executeComputerUseActionSchema>
