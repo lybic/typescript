@@ -12,6 +12,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useAgentIndicator } from '@/hooks/use-agent-indicator'
 import { cn } from '@/lib/utils'
 import { indicatorStore } from '@/stores/indicator'
+import { conversationConfigState } from '@/stores/conversation-config'
+import { UI_MODELS } from './conversation/models'
 
 export function AgentDesktop() {
   const sb = useSnapshot(sandboxStore)
@@ -19,6 +21,7 @@ export function AgentDesktop() {
   const containerRef = useRef<HTMLDivElement>(null)
   const indicatorDockRef = useRef<HTMLDivElement>(null)
   const { screenPos, type } = useAgentIndicator(containerRef, indicatorDockRef)
+  const { model } = useSnapshot(conversationConfigState)
 
   // prevent indicator animation on load
   const [indicatorAnimation, setIndicatorAnimation] = useState(false)
@@ -94,22 +97,22 @@ export function AgentDesktop() {
             </div>
           </div>
 
-          {/* <div className="flex gap-2 items-center text-sm text-muted-foreground ml-4 overflow-hidden">
-            <div className="whitespace-nowrap overflow-hidden flex gap-2 items-center">
+          <div className="flex gap-2 items-center text-sm text-muted-foreground ml-4 overflow-hidden">
+            {/* <div className="whitespace-nowrap overflow-hidden flex gap-2 items-center">
               <Badge variant="secondary">Planning</Badge>
               <div className="whitespace-nowrap text-ellipsis flex-1 overflow-hidden" title="doubao-seed-1.6-flash">
                 doubao-seed-1.6-flash
               </div>
-            </div>
+            </div> */}
             <div className="whitespace-nowrap overflow-hidden flex gap-2 items-center">
               <Badge variant="secondary" className="ml-2">
-                Grounding
+                Model
               </Badge>
-              <div className="whitespace-nowrap text-ellipsis flex-1 overflow-hidden" title="doubao-1.5-ui-tars-250328">
-                doubao-1.5-ui-tars-250328
+              <div className="whitespace-nowrap text-ellipsis flex-1 overflow-hidden" title={model}>
+                {UI_MODELS[model]?.displayName ?? model}
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

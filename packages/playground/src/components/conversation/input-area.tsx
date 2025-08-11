@@ -129,13 +129,6 @@ export function InputArea({
                   <div className="text-muted-foreground">Download current chat</div>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onNewChat}>
-                <IconPlus />
-                <div className="flex flex-col mr-2">
-                  <div>New Chat</div>
-                  <div className="text-muted-foreground">Start a empty new chat</div>
-                </div>
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={onOpenSystemPromptDialog}>
                 <IconMessage2Star />
                 <div className="flex flex-col mr-2">
