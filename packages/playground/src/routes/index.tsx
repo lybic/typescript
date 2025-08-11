@@ -1,10 +1,13 @@
 import { AgentDesktop } from '@/components/agent-desktop'
+import { CheckUnsupportedFeatures } from '@/components/check-unsupported-features'
 import { Conversation } from '@/components/conversation'
 import { SiteNavigation } from '@/components/site-navigation'
 import { Spinner } from '@/components/ui/spinner'
 import { VerificationDialog } from '@/components/verification-dialog'
+import { checkBrowserFeatures, REQUIRED_FEATURES_LEVEL } from '@/lib/check-browser-features'
 import { sessionStore } from '@/stores/session'
 import { createFileRoute } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 import { useSnapshot } from 'valtio'
 
 export const Route = createFileRoute('/')({
@@ -13,7 +16,6 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   const session = useSnapshot(sessionStore)
-
   return (
     <div className="homepage bg-background flex flex-col w-full h-full">
       <SiteNavigation />
@@ -28,6 +30,7 @@ function Home() {
         </div>
       )}
       {!session.orgId && <iframe src="/verify" className="w-full h-full absolute top-0 left-0" />}
+      <CheckUnsupportedFeatures />
     </div>
   )
 }
