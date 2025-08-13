@@ -1,6 +1,7 @@
 {
   "name": "@lybic/core",
   "type": "module",
+  "version": "0.1.0",
   "exports": {
     ".": {
       "import": "./dist/index.js",
