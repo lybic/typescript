@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod/v3'
 
 export const statsSchema = z.object({
   mcpServers: z.number().describe('Number of MCP servers'),

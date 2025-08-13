@@ -1,4 +1,4 @@
-import { ZodType } from 'zod'
+import { ZodType } from 'zod/v3'
 
 function attach(type: ZodType, key: string | symbol, value: any) {
   ;(type._def as any)[key] = value

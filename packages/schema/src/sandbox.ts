@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod/v3'
 import { attachMeta } from './utils.js'
 
 export const createSandboxSchema = z.object({
