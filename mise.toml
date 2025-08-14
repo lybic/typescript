@@ -1,3 +1,11 @@
 [tools]
 rust = "1.87.0"
 "cargo:https://github.com/josh-project/josh.git" = { version = "rev:1523457c3e0fb7c7c59632fbd3c9812091096445", crate = "josh-filter" }
+
+[tasks.merge-upstream]
+description = "Merge from upstream internal git repo"
+run = [
+  "git fetch private master",
+  "josh-filter ':[::packages/schema,::packages/core-sdk,::packages/playground,::packages/tsconfig]' private/master",
+  "git merge --allow-unrelated FILTERED_HEAD -m 'Sync with internal development branch'"
+]
