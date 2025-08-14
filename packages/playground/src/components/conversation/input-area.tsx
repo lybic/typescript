@@ -172,8 +172,6 @@ export function InputArea({
                       {UI_MODELS[model]?.thinking ? (
                         thinking === 'enabled' ? (
                           'Enabled'
-                        ) : thinking === 'auto' ? (
-                          'Auto'
                         ) : (
                           'Disabled'
                         )
@@ -188,12 +186,11 @@ export function InputArea({
                     <DropdownMenuRadioGroup
                       value={`${thinking}`}
                       onValueChange={(value) => {
-                        conversationConfigState.thinking = value as 'disabled' | 'enabled' | 'auto'
+                        conversationConfigState.thinking = value as 'disabled' | 'enabled'
                       }}
                     >
                       <DropdownMenuRadioItem value="disabled">Disabled</DropdownMenuRadioItem>
                       <DropdownMenuRadioItem value="enabled">Enabled</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="auto">Auto</DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>
