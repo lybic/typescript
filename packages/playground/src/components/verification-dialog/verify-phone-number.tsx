@@ -62,6 +62,7 @@ export function VerifyPhoneNumber() {
             </FormItem>
           )}
         />
+        {createTrialUser.isError && <div className="text-destructive">{createTrialUser.error.message}</div>}
         <div className="flex justify-end">
           <Button type="submit" isLoading={createTrialUser.isPending}>
             Verify
