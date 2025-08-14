@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig/tsconfig.json",
+
+  "compilerOptions": {
+    "outDir": "dist",
+    "jsx": "preserve",
+    "noUncheckedIndexedAccess": true,
+    "lib": ["DOM"]
+  },
+
+  "include": ["src"]
+}

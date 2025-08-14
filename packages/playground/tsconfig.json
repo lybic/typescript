@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig/tsconfig.json",
+
+  "compilerOptions": {
+    "outDir": "dist",
+    "jsx": "preserve",
+    "noUncheckedIndexedAccess": true,
+    "lib": ["DOM", "ES2022"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@lybic/core": ["../core-sdk/src/index.ts"],
+      "@lybic/ui/streaming-client": ["../streaming-client-ts/src/index.ts"]
+    }
+  },
+
+  "include": ["src"],
+  "ts-node": {
+    "swc": true
+  }
+}

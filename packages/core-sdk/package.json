@@ -1,0 +1,29 @@
+{
+  "name": "@lybic/core",
+  "type": "module",
+  "version": "0.1.0",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./src/index.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "generate": "openapi-typescript ../nest-server/openapi.json -o src/schema.d.ts",
+    "build": "swc src --source-maps -d dist --strip-leading-paths",
+    "watch": "swc -w src  --source-maps -d dist --strip-leading-paths"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.7.8",
+    "@swc/core": "^1.13.3",
+    "openapi-typescript": "^7.8.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.14.0"
+  }
+}

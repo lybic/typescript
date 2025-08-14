@@ -1,0 +1,24 @@
+{
+  "name": "@lybic/schema",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "watch": "tsc -w --incremental",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zod": "^3.25.0 || ^4.0.0"
+  }
+}
