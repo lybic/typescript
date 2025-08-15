@@ -109,17 +109,19 @@ export function InputArea({
             </TooltipContent>
           </Tooltip>
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" aria-label="Chat Settings">
-                    <IconSettings />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Chat Settings</p>
-                </TooltipContent>
-              </Tooltip>
+            <DropdownMenuTrigger asChild>
+              <div>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" aria-label="Chat Settings">
+                      <IconSettings />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Chat Settings</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={handleExportChat}>
