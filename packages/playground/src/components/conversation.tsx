@@ -19,6 +19,8 @@ import { nanoid } from 'nanoid'
 import { useQueryClient } from '@tanstack/react-query'
 import { llmBudgetQuery } from '@/queries/llm-budget-query'
 import { UI_MODELS } from './conversation/models'
+import { ExampleTasks } from './conversation/example-tasks'
+
 const debug = createDebug('lybic:playground:conversation')
 
 function shouldAutoSend(lastMessage?: LybicUIMessage): {
@@ -189,6 +191,7 @@ export function Conversation() {
   return (
     <div className="conversation w-96 py-4 text-sm flex flex-col">
       <div className="messages flex-1 overflow-y-auto" ref={messagesRef}>
+        {chat.messages.length === 0 && <ExampleTasks onSendText={handleSendText} />}
         {chat.messages.map((message) => {
           return message.role === 'user' ? (
             <MessageUser message={message} key={message.id} chat={chat} />
