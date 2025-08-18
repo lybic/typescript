@@ -40,15 +40,15 @@ export function CheckWebTransport() {
         <DialogHeader>
           <DialogTitle>WebTransport is not available</DialogTitle>
           <DialogDescription className="pt-4">
-            Your browser is blocking WebTransport. This usually means that you are using a proxy or VPN server, or your
-            network is blocking UDP. Please resolve it before continue.
+            We cannot connect to our WebTransport server. This usually means you are using a proxy, VPN, or your network
+            is blocking UDP. Please resolve this issue before continuing.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <div className="flex flex-col gap-2">
             <div className="text-sm text-amber-600">
-              You may dismiss this message and proceed, however, please be aware that you may not be able to see the
-              live stream.
+              You may dismiss this message and proceed, however, please note that you might not be able to view the live
+              stream.
             </div>
             <DialogClose asChild>
               <Button variant="outline" className="text-red-600 hover:text-red-600">
