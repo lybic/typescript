@@ -41,8 +41,8 @@ export type CreateSandbox = z.infer<typeof createSandboxSchema>
 export const sandboxSchema = z.object({
   id: z.string(),
   name: z.string(),
-  expiredAt: z.date(),
-  createdAt: z.date(),
+  expiredAt: z.string().datetime(),
+  createdAt: z.string().datetime(),
   projectId: z.string(),
 })
 
