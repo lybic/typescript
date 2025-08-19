@@ -28,7 +28,7 @@ export function DesktopTopBar() {
     const { data, isPending } = sandboxQuery
     if (data) {
       sandboxStore.connectDetails = data.connectDetails
-      sandboxStore.expiresAt = new Date(data.sandbox.expiredAt).getTime()
+      sandboxStore.expiresAt = new Date(data.sandbox.expiresAt).getTime()
       if (sandboxExpiredToast.current != null) {
         toast.dismiss(sandboxExpiredToast.current)
         sandboxExpiredToast.current = null

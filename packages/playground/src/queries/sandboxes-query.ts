@@ -27,7 +27,7 @@ export const sandboxesQueryOptions = (orgId: string) =>
         }
       } else if (sessionStore.signedInViaDashboard) {
         return (await myAxios.get<Sandbox[]>(`/api/orgs/${orgId}/sandboxes`)).data.filter(
-          (sandbox) => new Date(sandbox.expiredAt) > new Date(),
+          (sandbox) => new Date(sandbox.expiresAt) > new Date(),
         )
       } else {
         throw new Error('No credentials')
