@@ -178,12 +178,14 @@ export const extendSandboxSchema = z.object({
   maxLifeSeconds: attachMeta(
     z.coerce
       .number()
-      .min(1)
-      .max(60 * 60 * 24 * 365)
+      .min(30)
+      .max(60 * 60 * 24)
       .default(60 * 60)
-      .describe('The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year.'),
+      .describe(
+        'The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days.',
+      ),
     {
-      title: 'Max Life Time',
+      title: 'New Max Life Time',
     },
   ),
 })
