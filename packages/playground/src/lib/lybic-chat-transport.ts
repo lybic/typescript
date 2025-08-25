@@ -22,6 +22,12 @@ import { indicatorStore } from '@/stores/indicator'
 const debug = createDebug('lybic:playground:chat-transport')
 
 const MODEL_CONFIG = {
+  'doubao-seed-1-6-vision-250815': {
+    model: lybicModel('doubao-seed-1-6-vision-250815'),
+    zh: guiAgentSeedPromptZh,
+    en: guiAgentSeedPromptEn,
+    parser: 'seed',
+  },
   'doubao-seed-1-6-flash-250715': {
     model: lybicModel('doubao-seed-1-6-flash-250715'),
     zh: guiAgentSeedPromptZh,
