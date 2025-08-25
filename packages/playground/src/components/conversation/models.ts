@@ -7,4 +7,8 @@ export const UI_MODELS = {
     displayName: 'Doubao 1.5 Vision Pro',
     thinking: true,
   },
+  'doubao-seed-1-6-vision-250815': {
+    displayName: 'Doubao Seed 1.6 Vision',
+    thinking: false,
+  },
 } as Record<string, { displayName: string; thinking: boolean }>
