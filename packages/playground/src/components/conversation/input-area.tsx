@@ -75,7 +75,7 @@ export function InputArea({
   })
 
   const handleStop = useEffectEvent(() => {
-    chat.stop()
+    onStop()
   })
 
   const handleExportChat = useEffectEvent(async () => {
