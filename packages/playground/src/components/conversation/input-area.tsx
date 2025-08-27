@@ -66,6 +66,12 @@ export function InputArea({
   const [input, setInput] = useState('')
 
   const handleSubmit = useEffectEvent(() => {
+    if (input === 'showHiddenModels') {
+      localStorage.setItem('lybicPlaygroundShowHiddenModels', 'true')
+      location.reload()
+      return
+    }
+
     if (chat.status === 'streaming' || chat.status === 'submitted') {
       onStop()
     } else {
