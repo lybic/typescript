@@ -19,6 +19,24 @@ export const lengthSchema = z
   .union([lengthPxSchema, lengthFractionSchema])
   .describe('Length, either in pixels or as a fraction')
 
+export const computerUseActionKeyDownSchema = z
+  .object({
+    type: z.literal('key:down'),
+    key: z.string().describe('Key to press'),
+  })
+  .describe(
+    'Press ONE key down, in xdotool key syntax. Only use this action if hotkey or type cannot satisfy your needs.',
+  )
+
+export const computerUseActionKeyUpSchema = z
+  .object({
+    type: z.literal('key:up'),
+    key: z.string().describe('Key to release'),
+  })
+  .describe(
+    'Release ONE key, in xdotool key syntax. Only use this action if keydown cannot satisfy your needs and only after a key down.',
+  )
+
 export const computerUseActionMouseClickSchema = z
   .object({
     type: z.literal('mouse:click'),
@@ -168,6 +186,8 @@ export const computerUseActionSchema = z
     computerUseActionFinishedSchema,
     computerUseActionFailedSchema,
     computerUseActionUserTakeoverSchema,
+    computerUseActionKeyDownSchema,
+    computerUseActionKeyUpSchema,
   ])
   .and(
     z.object({
@@ -207,5 +227,7 @@ export type IComputerUseActionWait = z.infer<typeof computerUseActionWaitSchema>
 export type IComputerUseActionFinished = z.infer<typeof computerUseActionFinishedSchema>
 export type IComputerUseActionFailed = z.infer<typeof computerUseActionFailedSchema>
 export type IComputerUseActionUserTakeover = z.infer<typeof computerUseActionUserTakeoverSchema>
+export type IComputerUseActionKeyDown = z.infer<typeof computerUseActionKeyDownSchema>
+export type IComputerUseActionKeyUp = z.infer<typeof computerUseActionKeyUpSchema>
 
 export type IExecuteComputerUseAction = z.infer<typeof executeComputerUseActionSchema>
