@@ -22,7 +22,7 @@ import {
   IconSlideshow,
 } from '@tabler/icons-react'
 import { LLMBudget } from './llm-budget'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
 import { LybicUIMessage } from '@/lib/ui-message-type'
 import { indicatorStore } from '@/stores/indicator'
@@ -81,6 +81,8 @@ export function InputArea({
   const handleExportChat = useEffectEvent(async () => {
     await exportChatHistory(chat)
   })
+
+  const showHidden = useMemo(() => localStorage.getItem('lybicPlaygroundShowHiddenModels') === 'true', [])
 
   return (
     <div className="message-input p-2">
@@ -156,11 +158,13 @@ export function InputArea({
                         conversationConfigState.model = value
                       }}
                     >
-                      {Object.entries(UI_MODELS).map(([key, value]) => (
-                        <DropdownMenuRadioItem key={key} value={key}>
-                          {value.displayName}
-                        </DropdownMenuRadioItem>
-                      ))}
+                      {Object.entries(UI_MODELS)
+                        .filter(([_, value]) => showHidden || !value.hidden)
+                        .map(([key, value]) => (
+                          <DropdownMenuRadioItem key={key} value={key}>
+                            {value.displayName}
+                          </DropdownMenuRadioItem>
+                        ))}
                     </DropdownMenuRadioGroup>
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>
