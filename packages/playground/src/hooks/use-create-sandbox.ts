@@ -16,7 +16,14 @@ export function useCreateSandbox() {
       toast.success('Sandbox created')
     },
     onError: (error) => {
-      toast.error(error.message)
+      if ('code' in error && error.code === 'nomos.partner.NO_ROOMS_AVAILABLE') {
+        toast.error('No sandbox capacity available now', {
+          description:
+            'We’re experiencing high traffic right now. Sorry for the inconvenience, please try again later.',
+        })
+      } else {
+        toast.error(error.message)
+      }
     },
   })
 }

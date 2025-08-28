@@ -24,6 +24,7 @@ myAxios.interceptors.response.use(
     const data: any = error.response?.data
     if (data.message) {
       error.message = data.message
+      error.code = data.code
     }
 
     throw error
