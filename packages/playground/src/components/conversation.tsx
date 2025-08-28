@@ -203,7 +203,7 @@ export function Conversation() {
           ) : null
         })}
 
-        {chat.error && <div className="text-red-500">{chat.error.message}</div>}
+        {chat.error && <div className="text-red-500">{formatError(chat.error)}</div>}
       </div>
       <InputArea
         chat={chat}
@@ -223,4 +223,11 @@ export function Conversation() {
       />
     </div>
   )
+}
+
+function formatError(error: Error) {
+  if (error.name === 'AbortError' || error.message.includes('signal is aborted without reason')) {
+    return 'You have aborted the conversation. Create a new one before continuing.'
+  }
+  return error.message
 }
