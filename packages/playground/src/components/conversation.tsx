@@ -20,6 +20,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { llmBudgetQuery } from '@/queries/llm-budget-query'
 import { UI_MODELS } from './conversation/models'
 import { ExampleTasks } from './conversation/example-tasks'
+import { useOnNewChat } from '@/hooks/use-new-chat'
 
 const debug = createDebug('lybic:playground:conversation')
 
@@ -77,6 +78,8 @@ export function Conversation() {
     setChatId(nanoid())
     localStorage['lybic-playground-messages'] = '[]'
   })
+
+  useOnNewChat(handleNewChat)
 
   const autoSendTimer = useRef<NodeJS.Timeout | null>(null)
   const clearAutoSendTimer = useEffectEvent(() => {

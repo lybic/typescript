@@ -12,6 +12,7 @@ import { useSnapshot } from 'valtio'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Spinner } from '../ui/spinner'
 import { sandboxQueryOptions } from '@/queries/sandbox-query'
+import { useNewChat } from '@/hooks/use-new-chat'
 
 export function DesktopTopBarSelect() {
   const queryClient = useQueryClient()
@@ -27,8 +28,11 @@ export function DesktopTopBarSelect() {
 
   const createSandbox = useCreateSandbox()
 
+  const newChat = useNewChat()
+
   const handleSelectSandboxChange = useEffectEvent((value: string) => {
     setSelectedSandboxId(value)
+    newChat()
     if (value === 'create') {
       createSandbox.mutateAsync().then(
         (user) => {
@@ -41,7 +45,6 @@ export function DesktopTopBarSelect() {
       )
     } else if (value) {
       sandboxStore.id = value
-      setSelectedSandboxId(value)
     }
   })
 
