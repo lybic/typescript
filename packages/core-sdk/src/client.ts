@@ -1,5 +1,6 @@
 import createClient, { Client, ClientOptions, MaybeOptionalInit } from 'openapi-fetch'
-import { type paths } from './schema'
+import { operations, type paths } from './schema'
+import { ResponseError } from './response-error'
 
 export class LybicClient {
   /**
@@ -36,9 +37,12 @@ export class LybicClient {
         if (!response.ok) {
           try {
             const error = await response.json()
-            throw new Error(error.message ?? response.statusText)
+            throw new ResponseError(error.message ?? response.statusText, response, error)
           } catch (e) {
-            throw new Error(`${request.method} ${response.url}: ${response.status} ${response.statusText}`)
+            throw new ResponseError(
+              `${request.method} ${response.url}: ${response.status} ${response.statusText}`,
+              response,
+            )
           }
         }
       },
@@ -269,6 +273,22 @@ export class LybicClient {
     initParam?: Omit<MaybeOptionalInit<paths['/api/computer-use/parse'], 'post'>, 'body'>,
   ) {
     return this.client.POST('/api/computer-use/parse', {
+      body: data,
+      ...initParam,
+    })
+  }
+
+  public parseLlmOutputText(
+    type: operations['parseModelTextOutput']['parameters']['path']['type'],
+    data: paths['/api/computer-use/parse/{type}']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<MaybeOptionalInit<paths['/api/computer-use/parse/{type}'], 'post'>, 'body' | 'params'>,
+  ) {
+    return this.client.POST('/api/computer-use/parse/{type}', {
+      params: {
+        path: {
+          type,
+        },
+      },
       body: data,
       ...initParam,
     })

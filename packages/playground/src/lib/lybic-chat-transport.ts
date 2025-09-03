@@ -18,6 +18,10 @@ import { BodyExtras, LybicUIMessage } from './ui-message-type'
 import { encodeBase64 } from '@std/encoding/base64'
 import createDebug from 'debug'
 import { indicatorStore } from '@/stores/indicator'
+import { previewSandbox } from './api/preview-sandbox'
+import { apiRetry } from './api/api-retry'
+import { parseLlmText } from './api/parse-llm-text'
+import { executeComputerUseAction } from './api/execute-computer-use-action'
 
 const debug = createDebug('lybic:playground:chat-transport')
 
@@ -119,15 +123,13 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
         if (options.abortSignal?.aborted) {
           throw new Error('User aborted')
         }
-        const { data: preview } = await coreClient
-          .previewSandbox(sandboxId, { signal: options.abortSignal })
-          .catch((err) => {
-            console.error(err)
-            if (options.abortSignal?.aborted) {
-              throw new Error('User aborted')
-            }
-            throw new Error('Failed to preview sandbox, please try again later: ' + err.message)
-          })
+        const preview = await previewSandbox(coreClient, sandboxId, options.abortSignal).catch((err) => {
+          console.error(err)
+          if (options.abortSignal?.aborted) {
+            throw new Error('User aborted')
+          }
+          throw new Error('Failed to preview sandbox, please try again later: ' + err.message)
+        })
         if (!preview?.screenShot) {
           throw new Error('Preview failed, no screenshot found')
         }
@@ -179,7 +181,9 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             if (typeof part !== 'string' && part.type === 'file' && part.mediaType === 'image/webp') {
               promises.push(
                 (async () => {
-                  const response = await fetch(part.data.toString(), { signal: options.abortSignal }).catch((err) => {
+                  const response = await apiRetry(options.abortSignal, (signal) =>
+                    fetch(part.data.toString(), { signal }),
+                  ).catch((err) => {
                     console.error(err)
                     if (options.abortSignal?.aborted) {
                       throw new Error('User aborted')
@@ -238,21 +242,18 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             if (options.abortSignal?.aborted) {
               throw new Error('User aborted')
             }
-            const { data: parsedAction } = await coreClient
-              .parseLlmOutput(
-                {
-                  model: modelConfig.parser,
-                  textContent: message.text,
-                },
-                { signal: options.abortSignal },
-              )
-              .catch((err) => {
-                console.error(err)
-                if (options.abortSignal?.aborted) {
-                  throw new Error('User aborted')
-                }
-                throw new Error('Failed to parse LLM output, please try again later: ' + err.message)
-              })
+            const parsedAction = await parseLlmText(
+              coreClient,
+              message.text,
+              modelConfig.parser,
+              options.abortSignal,
+            ).catch((err) => {
+              console.error(err)
+              if (options.abortSignal?.aborted) {
+                throw new Error('User aborted')
+              }
+              throw new Error('Failed to parse LLM output, please try again later: ' + err.message)
+            })
             debug('parsedAction', parsedAction)
             if (parsedAction?.actions && parsedAction.actions.length > 0) {
               writer.write({
@@ -269,23 +270,22 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
                 if (options.abortSignal?.aborted) {
                   throw new Error('User aborted')
                 }
-                await coreClient
-                  .executeComputerUseAction(
-                    sandboxId,
-                    {
-                      action,
-                      includeScreenShot: false,
-                      includeCursorPosition: false,
-                    },
-                    { signal: options.abortSignal },
-                  )
-                  .catch((err) => {
-                    console.error(err)
-                    if (options.abortSignal?.aborted) {
-                      throw new Error('User aborted')
-                    }
-                    throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
-                  })
+                await executeComputerUseAction(
+                  coreClient,
+                  sandboxId,
+                  {
+                    action,
+                    includeScreenShot: false,
+                    includeCursorPosition: false,
+                  },
+                  options.abortSignal,
+                ).catch((err) => {
+                  console.error(err)
+                  if (options.abortSignal?.aborted) {
+                    throw new Error('User aborted')
+                  }
+                  throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
+                })
               }
             }
           },

@@ -250,10 +250,46 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Parse LLM Output
-         * @description Parses the output text of computer use model and returns the parsed actions.
+         * Parse LLM Output (Deprecated)
+         * @description Deprecated, use parseModelTextOutput instead
          */
         post: operations["parseModelOutput"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/computer-use/parse/{type}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Parse LLM Text Output
+         * @description Parses the output text of computer use model and returns the parsed actions.
+         */
+        post: operations["parseModelTextOutput"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/healthz": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["HealthCheckController_healthCheck"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -419,8 +455,13 @@ export interface components {
         SandboxListResponseDto: {
             id: string;
             name: string;
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @description Deprecated, use `expiresAt` instead.
+             */
             expiredAt: string;
+            /** Format: date-time */
+            expiresAt: string;
             /** Format: date-time */
             createdAt: string;
             projectId: string;
@@ -447,8 +488,13 @@ export interface components {
             sandbox: {
                 id: string;
                 name: string;
-                /** Format: date-time */
+                /**
+                 * Format: date-time
+                 * @description Deprecated, use `expiresAt` instead.
+                 */
                 expiredAt: string;
+                /** Format: date-time */
+                expiresAt: string;
                 /** Format: date-time */
                 createdAt: string;
                 projectId: string;
@@ -469,18 +515,19 @@ export interface components {
         };
         ExtendSandboxDto: {
             /**
-             * @description The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year.
+             * @description The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days.
              * @default 3600
              */
             maxLifeSeconds: number;
         };
         ComputerUseActionDto: {
-            /** @description All possible computer use actions */
+            /** @description All possible computer use actions, with optional callId */
             action: {
-                /** @enum {string} */
-                type: "mouse:click";
                 /** @description Optional call identifier */
                 callId?: string;
+            } & ({
+                /** @enum {string} */
+                type: "mouse:click";
                 /** @description X coordinate */
                 x: {
                     /**
@@ -488,15 +535,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -509,15 +552,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -530,8 +569,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "mouse:doubleClick";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description X coordinate */
                 x: {
                     /**
@@ -539,15 +576,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -560,15 +593,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -581,8 +610,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "mouse:move";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description X coordinate */
                 x: {
                     /**
@@ -590,15 +617,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -611,15 +634,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -630,8 +649,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "mouse:scroll";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description X coordinate */
                 x: {
                     /**
@@ -639,15 +656,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -660,15 +673,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -683,8 +692,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "mouse:drag";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Start X coordinate */
                 startX: {
                     /**
@@ -692,15 +699,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -713,15 +716,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -734,15 +733,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -755,15 +750,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -774,8 +765,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "keyboard:type";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Text content to type */
                 content: string;
                 /**
@@ -786,8 +775,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "keyboard:hotkey";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
                 keys: string;
                 /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
@@ -795,35 +782,35 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "screenshot";
-                /** @description Optional call identifier */
-                callId?: string;
             } | {
                 /** @enum {string} */
                 type: "wait";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Duration in milliseconds */
                 duration: number;
             } | {
                 /** @enum {string} */
                 type: "finished";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Completion message */
                 message?: string;
             } | {
                 /** @enum {string} */
                 type: "failed";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Failure message */
                 message?: string;
             } | {
                 /** @enum {string} */
                 type: "client:user-takeover";
-                /** @description Optional call identifier */
-                callId?: string;
-            };
+            } | {
+                /** @enum {string} */
+                type: "key:down";
+                /** @description Key to press */
+                key: string;
+            } | {
+                /** @enum {string} */
+                type: "key:up";
+                /** @description Key to release */
+                key: string;
+            });
             /**
              * @description Whether to include the screenshot url after action in the response
              * @default true
@@ -881,10 +868,11 @@ export interface components {
         };
         ComputerUseActionResponseDto: {
             actions: ({
-                /** @enum {string} */
-                type: "mouse:click";
                 /** @description Optional call identifier */
                 callId?: string;
+            } & ({
+                /** @enum {string} */
+                type: "mouse:click";
                 /** @description X coordinate */
                 x: {
                     /**
@@ -892,15 +880,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -913,15 +897,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -934,8 +914,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "mouse:doubleClick";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description X coordinate */
                 x: {
                     /**
@@ -943,15 +921,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -964,15 +938,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -985,8 +955,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "mouse:move";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description X coordinate */
                 x: {
                     /**
@@ -994,15 +962,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -1015,15 +979,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -1034,8 +994,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "mouse:scroll";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description X coordinate */
                 x: {
                     /**
@@ -1043,15 +1001,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -1064,15 +1018,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -1087,8 +1037,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "mouse:drag";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Start X coordinate */
                 startX: {
                     /**
@@ -1096,15 +1044,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -1117,15 +1061,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -1138,15 +1078,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -1159,15 +1095,11 @@ export interface components {
                      * @enum {string}
                      */
                     type: "px";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Length in pixels */
                     value: number;
                 } | {
                     /** @enum {string} */
                     type: "/";
-                    /** @description Optional call identifier */
-                    callId?: string;
                     /** @description Numerator of the fraction */
                     numerator: number;
                     /** @description Denominator of the fraction */
@@ -1178,8 +1110,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "keyboard:type";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Text content to type */
                 content: string;
                 /**
@@ -1190,8 +1120,6 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "keyboard:hotkey";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
                 keys: string;
                 /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
@@ -1199,39 +1127,45 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "screenshot";
-                /** @description Optional call identifier */
-                callId?: string;
             } | {
                 /** @enum {string} */
                 type: "wait";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Duration in milliseconds */
                 duration: number;
             } | {
                 /** @enum {string} */
                 type: "finished";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Completion message */
                 message?: string;
             } | {
                 /** @enum {string} */
                 type: "failed";
-                /** @description Optional call identifier */
-                callId?: string;
                 /** @description Failure message */
                 message?: string;
             } | {
                 /** @enum {string} */
                 type: "client:user-takeover";
-                /** @description Optional call identifier */
-                callId?: string;
-            })[];
+            } | {
+                /** @enum {string} */
+                type: "key:down";
+                /** @description Key to press */
+                key: string;
+            } | {
+                /** @enum {string} */
+                type: "key:up";
+                /** @description Key to release */
+                key: string;
+            }))[];
             /** @description Unknown text that is not thoughts nor actions, commonly due to the misformat of model output */
             unknown?: string;
+            /** @description Memory that is not parsed */
+            memory?: string;
             /** @description Thoughts that are not parsed */
             thoughts?: string;
+        };
+        ComputerUseParseTextRequestDto: {
+            /** @description The text content to parse */
+            textContent: string;
         };
         StatsResponseDto: {
             /** @description Number of MCP servers */
@@ -1622,6 +1556,49 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ComputerUseActionResponseDto"];
                 };
+            };
+        };
+    };
+    parseModelTextOutput: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The type of the prompt to parse the input for */
+                type: "ui-tars" | "seed" | "glm-4.1v" | "glm-4.5v" | "qwen-2.5-vl";
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ComputerUseParseTextRequestDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComputerUseActionResponseDto"];
+                };
+            };
+        };
+    };
+    HealthCheckController_healthCheck: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
