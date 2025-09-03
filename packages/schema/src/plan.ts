@@ -11,3 +11,11 @@ export const planSchema = z.object({
 })
 
 export type Plan = z.infer<typeof planSchema>
+
+export const assignPlanToOrganizationSchema = z.object({
+  organizationId: z.string(),
+  planName: z.string(),
+  expiredAt: z.coerce.date(),
+})
+
+export type AssignPlanToOrganization = z.infer<typeof assignPlanToOrganizationSchema>
