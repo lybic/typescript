@@ -23,17 +23,9 @@ export const createSandboxSchema = z.object({
       fieldComponent: 'project',
     },
   ),
-  specId: attachMeta(z.string().optional().describe('The spec of the sandbox. Use default if not provided.'), {
-    title: 'Spec',
-    fieldComponent: 'hidden',
+  shape: attachMeta(z.string().describe('The shape of the sandbox.'), {
+    title: 'Shape',
   }),
-  datacenterId: attachMeta(
-    z.string().optional().describe('The datacenter id to use for the sandbox. Use default if not provided.'),
-    {
-      title: 'Datacenter',
-      fieldComponent: 'hidden',
-    },
-  ),
 })
 
 export type CreateSandbox = z.infer<typeof createSandboxSchema>
