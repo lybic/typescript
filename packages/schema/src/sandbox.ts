@@ -23,8 +23,9 @@ export const createSandboxSchema = z.object({
       fieldComponent: 'project',
     },
   ),
-  shape: attachMeta(z.string().describe('The shape of the sandbox.'), {
+  shape: attachMeta(z.string().describe('Specs and datacenter of the sandbox.'), {
     title: 'Shape',
+    fieldComponent: 'shape',
   }),
 })
 
