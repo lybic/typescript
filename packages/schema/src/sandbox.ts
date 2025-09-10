@@ -1,5 +1,6 @@
 import { z } from 'zod/v3'
 import { attachMeta } from './utils.js'
+import { shapeSchema } from './shape.js'
 
 export const createSandboxSchema = z.object({
   name: attachMeta(z.string().optional().default('sandbox').describe('The name of the sandbox.'), {
@@ -38,6 +39,7 @@ export const sandboxSchema = z.object({
   expiresAt: z.string().datetime(),
   createdAt: z.string().datetime(),
   projectId: z.string(),
+  shapeName: z.string(),
 })
 
 export type Sandbox = z.infer<typeof sandboxSchema>
@@ -141,7 +143,12 @@ export const createBringYourOwnSandboxSchema = z.object({
 export type CreateBringYourOwnSandbox = z.infer<typeof createBringYourOwnSandboxSchema>
 
 export const getSandboxResponseSchema = z.object({
-  sandbox: sandboxSchema,
+  sandbox: z.intersection(
+    sandboxSchema,
+    z.object({
+      shape: shapeSchema,
+    }),
+  ),
   connectDetails: sandboxConnectDetailsSchema,
 })
 
