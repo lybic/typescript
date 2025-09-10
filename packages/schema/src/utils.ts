@@ -10,7 +10,7 @@ function get(type: ZodType, key: string | symbol) {
 
 export interface LybicZodMeta {
   title: string
-  fieldComponent?: 'project' | 'string' | 'hidden' | 'select' | 'switch' | 'shape'
+  fieldComponent?: 'project' | 'string' | 'hidden' | 'select' | 'switch' | 'shape' | 'date'
   fieldProps?: any
 }
 
