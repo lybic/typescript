@@ -4,15 +4,21 @@ import {
   convertToModelMessages,
   createUIMessageStream,
   LanguageModel,
+  ModelMessage,
   streamText,
   UIMessage,
   UIMessageChunk,
+  UserModelMessage,
 } from 'ai'
 import { lybicModel } from './lybic-provider'
 import guiAgentSeedPromptZh from '@/prompts/gui-agent-seed.zh.txt?raw'
 import guiAgentUiTarsPromptZh from '@/prompts/gui-agent-ui-tars.zh.txt?raw'
 import guiAgentSeedPromptEn from '@/prompts/gui-agent-seed.en.txt?raw'
 import guiAgentUiTarsPromptEn from '@/prompts/gui-agent-ui-tars.en.txt?raw'
+import groundingAgentQwenPromptAllLang from '@/prompts/ground-agent-qwen.txt?raw'
+import groundingAgentOpenCuaPromptAllLang from '@/prompts/ground-agent-opencua.txt?raw'
+import groundingAgentUiTarsPromptAllLang from '@/prompts/ground-agent-uitars.txt?raw'
+import plannerAgentPromptAllLang from '@/prompts/planner-agent.txt?raw'
 import { LybicClient } from '@lybic/core'
 import { BodyExtras, LybicUIMessage } from './ui-message-type'
 import { encodeBase64 } from '@std/encoding/base64'
@@ -22,6 +28,7 @@ import { previewSandbox } from './api/preview-sandbox'
 import { apiRetry } from './api/api-retry'
 import { parseLlmText } from './api/parse-llm-text'
 import { executeComputerUseAction } from './api/execute-computer-use-action'
+import { FilePart } from '@ai-sdk/provider-utils'
 
 const debug = createDebug('lybic:playground:chat-transport')
 
@@ -30,33 +37,74 @@ const MODEL_CONFIG = {
     model: lybicModel('doubao-seed-1-6-vision-250815'),
     zh: guiAgentSeedPromptZh,
     en: guiAgentSeedPromptEn,
+    groundingPrompt: null,
     parser: 'seed',
+    type: ['planner'],
   },
   'doubao-seed-1-6-flash-250715': {
     model: lybicModel('doubao-seed-1-6-flash-250715'),
     zh: guiAgentSeedPromptZh,
     en: guiAgentSeedPromptEn,
+    groundingPrompt: null,
     parser: 'seed',
+    type: ['planner'],
   },
   'doubao-1-5-ui-tars-250328': {
     model: lybicModel('doubao-1-5-ui-tars-250328'),
     zh: guiAgentUiTarsPromptZh,
     en: guiAgentUiTarsPromptEn,
+    groundingPrompt: groundingAgentUiTarsPromptAllLang,
     parser: 'ui-tars',
+    type: ['planner', 'grounding'],
   },
   'doubao-1-5-ui-tars-250428': {
     model: lybicModel('doubao-1-5-ui-tars-250428'),
     zh: guiAgentUiTarsPromptZh,
     en: guiAgentUiTarsPromptEn,
+    groundingPrompt: groundingAgentUiTarsPromptAllLang,
     parser: 'ui-tars',
+    type: ['planner', 'grounding'],
   },
   'doubao-1-5-thinking-vision-pro-250428': {
     model: lybicModel('doubao-1-5-thinking-vision-pro-250428'),
     zh: guiAgentUiTarsPromptZh,
     en: guiAgentUiTarsPromptEn,
+    groundingPrompt: groundingAgentUiTarsPromptAllLang,
     parser: 'ui-tars',
+    type: ['planner', 'grounding'],
   },
-} as Record<string, { model: LanguageModel; zh: string; en: string; parser: 'seed' | 'ui-tars' }>
+  'OpenCUA': {
+    model: lybicModel('OpenCUA-7B'),
+    zh: groundingAgentOpenCuaPromptAllLang,
+    en: groundingAgentOpenCuaPromptAllLang,
+    groundingPrompt: groundingAgentOpenCuaPromptAllLang,
+    // OpenCUA 的输出是类似 pyautogui调用 的 python 代码 如
+    // ## code
+    // ```python
+    // pyautogui.click(x=100, y=200)
+    // ```
+    parser: 'pyautogui',
+    type: ['grounding'],
+  },
+  'Qwen2.5-VL': {
+    model: lybicModel('Qwen2.5-VL-7B'),
+    zh: groundingAgentQwenPromptAllLang,
+    en: groundingAgentQwenPromptAllLang,
+    groundingPrompt: groundingAgentQwenPromptAllLang,
+    parser: 'qwen',
+    type: ['grounding'],
+  },
+} as Record<
+  string,
+  {
+    model: LanguageModel
+    zh: string
+    en: string
+    parser: string
+    type: ('planner' | 'grounding')[]
+    groundingPrompt: string | null
+  }
+>
 
 export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
   private coreClient: LybicClient | null = null
@@ -114,8 +162,8 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           throw new Error(`Model ${extras.model} not supported`)
         }
 
-        const modelConfig = MODEL_CONFIG[extras.model]!
-        debug('modelConfig', modelConfig)
+        const plannerModelConfig = MODEL_CONFIG[extras.model]!
+        debug('plannerModelConfig', plannerModelConfig)
 
         const coreClient = this.getCoreClient(extras)
         const sandboxId = extras.sandboxId as string
@@ -146,11 +194,13 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             },
           ]
         }
-        lastMessage.content.push({
+
+        const image_message: FilePart = {
           type: 'file',
           mediaType: 'image/webp',
           data: new URL(preview.screenShot),
-        })
+        }
+        lastMessage.content.push(image_message)
 
         if (extras.screenshotsInContext !== 'all') {
           let screenshotsInContext = extras.screenshotsInContext ?? 1
@@ -216,99 +266,253 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           transient: true,
         })
 
-        const systemPrompt = (extras.language === 'zh' ? modelConfig.zh : modelConfig.en)
-          .replaceAll('{screen_width}', `${preview.cursorPosition?.screenWidth ?? 1280}`)
-          .replaceAll('{screen_height}', `${preview.cursorPosition?.screenHeight ?? 720}`)
+        const isDualModel = extras.model !== extras.ground && !!extras.ground
 
-        if (options.abortSignal?.aborted) {
-          throw new Error('User aborted')
-        }
-        const result = streamText({
-          model: modelConfig.model,
-          system: [systemPrompt, userSystemPrompt].filter(Boolean).join('\n'),
-          messages: modelMessages,
-          headers: {
-            Authorization: `Bearer ${this.options.apiKey()}`,
-          },
-          abortSignal: options.abortSignal,
-          providerOptions: {
-            lybic: {
-              extra_body: extras.thinking ? { thinking: { type: extras.thinking } } : {},
-              allowed_openai_params: ['extra_body'],
+        if (isDualModel) {
+          // Dual-model workflow
+          const groundingModelId = extras.ground
+          if (!groundingModelId || !(groundingModelId in MODEL_CONFIG)) {
+            throw new Error(`Grounding model '${groundingModelId}' not selected or not supported`)
+          }
+          const groundingModelConfig = MODEL_CONFIG[groundingModelId]!
+          if (!groundingModelConfig.type.includes('grounding')) {
+            throw new Error(`Model ${groundingModelId} is not a grounding model`)
+          }
+          debug('groundingModelConfig', groundingModelConfig)
+
+          // Planner call
+          const plannerSystemPrompt = plannerAgentPromptAllLang
+          let planText = ''
+          const plannerResult = streamText({
+            model: plannerModelConfig.model,
+            system: [plannerSystemPrompt, userSystemPrompt].filter(Boolean).join('\n'),
+            messages: modelMessages,
+            headers: {
+              Authorization: `Bearer ${this.options.apiKey()}`,
             },
-          },
-          onFinish: async (message) => {
-            debug('onFinish', message)
-            if (options.abortSignal?.aborted) {
-              throw new Error('User aborted')
-            }
-            const parsedAction = await parseLlmText(
-              coreClient,
-              message.text,
-              modelConfig.parser,
-              options.abortSignal,
-            ).catch((err) => {
-              console.error(err)
+            abortSignal: options.abortSignal,
+            providerOptions: {
+              lybic: {
+                extra_body: extras.thinking ? { thinking: { type: extras.thinking } } : {},
+                allowed_openai_params: ['extra_body'],
+              },
+            },
+          })
+
+          for await (const _ of plannerResult.fullStream); // drain the stream，failure to do so will cause the following await to hang
+          planText = await plannerResult.text
+          debug('planText from planner model：', planText)
+
+          if (options.abortSignal?.aborted) {
+            throw new Error('User aborted')
+          }
+
+          const actionSummaryMatch = planText.match(/^Action_Summary:(.*)$/m)
+          const actionMatch = planText.match(/^Action:(.*)$/m)
+
+          const actionSummary = actionSummaryMatch?.[1]?.trim() ?? null
+          const actionForGrounding = actionMatch?.[1]?.trim() ?? planText
+
+          // Grounding call
+          const groundingModelMessages: ModelMessage[] = [
+            {
+              role: 'user',
+              content: [
+                { type: 'text', text: actionForGrounding },
+                {
+                  ...image_message,
+                  data: image_message.data.toString(),
+                },
+              ],
+            },
+          ]
+          debug('groundingModelUserMessages', groundingModelMessages)
+
+          let groundingSystemPrompt = ''
+          if (groundingModelConfig.groundingPrompt) {
+            // Use custom grounding prompt if defined even the model is not PURE grounding model
+            groundingSystemPrompt = groundingModelConfig.groundingPrompt
+              .replaceAll('{screen_width}', `${preview.cursorPosition?.screenWidth ?? 1280}`)
+              .replaceAll('{screen_height}', `${preview.cursorPosition?.screenHeight ?? 720}`)
+          } else {
+            throw new Error('No grounding prompt defined for grounding model ' + groundingModelId)
+          }
+
+          const result = streamText({
+            model: groundingModelConfig.model,
+            system: [groundingSystemPrompt, userSystemPrompt].filter(Boolean).join('\n'),
+            messages: groundingModelMessages,
+            headers: {
+              Authorization: `Bearer ${this.options.apiKey()}`,
+            },
+            abortSignal: options.abortSignal,
+            onFinish: async (message) => {
+              debug('onFinish (grounding)', message)
               if (options.abortSignal?.aborted) {
                 throw new Error('User aborted')
               }
-              throw new Error('Failed to parse LLM output, please try again later: ' + err.message)
-            })
-            debug('parsedAction', parsedAction)
-            if (parsedAction?.actions && parsedAction.actions.length > 0) {
-              writer.write({
-                type: 'data-parsed',
-                data: {
-                  actions: parsedAction.actions,
-                  text: [parsedAction.thoughts, parsedAction.unknown].filter(Boolean).join('\n'),
-                },
-              })
-              indicatorStore.lastAction = structuredClone(parsedAction.actions[0]!)
-              for (const action of parsedAction?.actions) {
-                debug('executeComputerUseAction', action)
-
+              const parsedAction = await parseLlmText(
+                coreClient,
+                message.text,
+                groundingModelConfig.parser,
+                options.abortSignal,
+              ).catch((err) => {
                 if (options.abortSignal?.aborted) {
                   throw new Error('User aborted')
                 }
-                await executeComputerUseAction(
-                  coreClient,
-                  sandboxId,
-                  {
-                    action,
-                    includeScreenShot: false,
-                    includeCursorPosition: false,
+                throw new Error('Failed to parse LLM output, please try again later: ' + err.message)
+              })
+              debug('parsedAction (grounding)', parsedAction)
+              if (parsedAction?.actions && parsedAction.actions.length > 0) {
+                writer.write({
+                  type: 'data-parsed',
+                  data: {
+                    actions: parsedAction.actions,
+                    text: [actionSummary, parsedAction.thoughts, parsedAction.unknown].filter(Boolean).join('\n'),
                   },
-                  options.abortSignal,
-                ).catch((err) => {
-                  console.error(err)
+                })
+                indicatorStore.lastAction = structuredClone(parsedAction.actions[0]!)
+                for (const action of parsedAction?.actions) {
+                  debug('executeComputerUseAction (grounding)', action)
+
                   if (options.abortSignal?.aborted) {
                     throw new Error('User aborted')
                   }
-                  throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
-                })
-              }
-            }
-          },
-        })
-
-        writer.merge(
-          result.toUIMessageStream({
-            messageMetadata({ part }) {
-              if (part.type === 'start') {
-                return {
-                  createdAt: Date.now(),
-                }
-              } else if (part.type === 'finish') {
-                return {
-                  usage: {
-                    inputTokens: part.totalUsage?.inputTokens ?? 0,
-                    outputTokens: part.totalUsage?.outputTokens ?? 0,
-                  },
+                  await executeComputerUseAction(
+                    coreClient,
+                    sandboxId,
+                    {
+                      action,
+                      includeScreenShot: false,
+                      includeCursorPosition: false,
+                    },
+                    options.abortSignal,
+                  ).catch((err) => {
+                    console.error(err)
+                    if (options.abortSignal?.aborted) {
+                      throw new Error('User aborted')
+                    }
+                    throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
+                  })
                 }
               }
             },
-          }),
-        )
+          })
+          writer.merge(
+            result.toUIMessageStream({
+              messageMetadata({ part }) {
+                if (part.type === 'start') {
+                  return {
+                    createdAt: Date.now(),
+                  }
+                } else if (part.type === 'finish') {
+                  return {
+                    usage: {
+                      inputTokens: part.totalUsage?.inputTokens ?? 0,
+                      outputTokens: part.totalUsage?.outputTokens ?? 0,
+                    },
+                  }
+                }
+              },
+            }),
+          )
+        } else {
+          // Single-model workflow
+          const systemPrompt = (extras.language === 'zh' ? plannerModelConfig.zh : plannerModelConfig.en)
+            .replaceAll('{screen_width}', `${preview.cursorPosition?.screenWidth ?? 1280}`)
+            .replaceAll('{screen_height}', `${preview.cursorPosition?.screenHeight ?? 720}`)
+
+          if (options.abortSignal?.aborted) {
+            throw new Error('User aborted')
+          }
+
+          const result = streamText({
+            model: plannerModelConfig.model,
+            system: [systemPrompt, userSystemPrompt].filter(Boolean).join('\n'),
+            messages: modelMessages,
+            headers: {
+              Authorization: `Bearer ${this.options.apiKey()}`,
+            },
+            abortSignal: options.abortSignal,
+            providerOptions: {
+              lybic: {
+                extra_body: extras.thinking ? { thinking: { type: extras.thinking } } : {},
+                allowed_openai_params: ['extra_body'],
+              },
+            },
+            onFinish: async (message) => {
+              debug('onFinish', message)
+              if (options.abortSignal?.aborted) {
+                throw new Error('User aborted')
+              }
+              const parsedAction = await parseLlmText(
+                coreClient,
+                message.text,
+                plannerModelConfig.parser,
+                options.abortSignal,
+              ).catch((err) => {
+                console.error(err)
+                if (options.abortSignal?.aborted) {
+                  throw new Error('User aborted')
+                }
+                throw new Error('Failed to parse LLM output, please try again later: ' + err.message)
+              })
+              debug('parsedAction', parsedAction)
+              if (parsedAction?.actions && parsedAction.actions.length > 0) {
+                writer.write({
+                  type: 'data-parsed',
+                  data: {
+                    actions: parsedAction.actions,
+                    text: [parsedAction.thoughts, parsedAction.unknown].filter(Boolean).join('\n'),
+                  },
+                })
+                indicatorStore.lastAction = structuredClone(parsedAction.actions[0]!)
+                for (const action of parsedAction?.actions) {
+                  debug('executeComputerUseAction', action)
+
+                  if (options.abortSignal?.aborted) {
+                    throw new Error('User aborted')
+                  }
+                  await executeComputerUseAction(
+                    coreClient,
+                    sandboxId,
+                    {
+                      action,
+                      includeScreenShot: false,
+                      includeCursorPosition: false,
+                    },
+                    options.abortSignal,
+                  ).catch((err) => {
+                    console.error(err)
+                    if (options.abortSignal?.aborted) {
+                      throw new Error('User aborted')
+                    }
+                    throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
+                  })
+                }
+              }
+            },
+          })
+
+          writer.merge(
+            result.toUIMessageStream({
+              messageMetadata({ part }) {
+                if (part.type === 'start') {
+                  return {
+                    createdAt: Date.now(),
+                  }
+                } else if (part.type === 'finish') {
+                  return {
+                    usage: {
+                      inputTokens: part.totalUsage?.inputTokens ?? 0,
+                      outputTokens: part.totalUsage?.outputTokens ?? 0,
+                    },
+                  }
+                }
+              },
+            }),
+          )
+        }
       },
     })
 
