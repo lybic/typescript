@@ -282,6 +282,8 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
 
           // Planner call
           const plannerSystemPrompt = plannerAgentPromptAllLang
+            .replaceAll('{LANGUAGE}', extras.language === 'zh' ? '中文' : 'English')
+
           let planText = ''
           const plannerResult = streamText({
             model: plannerModelConfig.model,
@@ -334,6 +336,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             groundingSystemPrompt = groundingModelConfig.groundingPrompt
               .replaceAll('{screen_width}', `${preview.cursorPosition?.screenWidth ?? 1280}`)
               .replaceAll('{screen_height}', `${preview.cursorPosition?.screenHeight ?? 720}`)
+              .replaceAll('{LANGUAGE}', extras.language === 'zh' ? '中文' : 'English')
           } else {
             throw new Error('No grounding prompt defined for grounding model ' + groundingModelId)
           }

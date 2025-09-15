@@ -10,7 +10,7 @@ Action: ...
 ```
 
 ## Action Summary
-- Use English in `Action_Summary` part.
+- Use {LANGUAGE} in `Action_Summary` part.
 - Write a small plan and finally summarize your next action (with its target element) in one sentence in `Action_Summary` part.
 
 ## Action Space
