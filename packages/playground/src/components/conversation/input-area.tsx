@@ -15,7 +15,7 @@ import {
   IconSettings,
 } from '@tabler/icons-react'
 import { LLMBudget } from './llm-budget'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
 import { LybicUIMessage } from '@/lib/ui-message-type'
 import {
@@ -56,6 +56,19 @@ export function InputArea({
   const { model, ground, screenshotsInContext, language, systemPrompt, thinking } =
     useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
+
+  useEffect(() => {
+    const showHidden = localStorage.getItem('lybicPlaygroundShowHiddenModels') === 'true'
+    const groundingModel = ground ? UI_MODELS[ground] : undefined
+
+    if (!groundingModel || !groundingModel.type.includes('grounding') || (groundingModel.hidden && !showHidden)) {
+      const newGroundingModel = Object.keys(UI_MODELS).find((key) => {
+        const model = UI_MODELS[key]!
+        return model.type.includes('grounding') && (showHidden || !model.hidden)
+      })
+      conversationConfigState.ground = newGroundingModel ?? null
+    }
+  }, [ground])
 
   const selectedPlanner = UI_MODELS[model]
   const canSend = !!sandboxId && !!ground
