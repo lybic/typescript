@@ -2,42 +2,33 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { UIMessage, UseChatHelpers } from '@ai-sdk/react'
 import {
-  IconBlocks,
   IconBulb,
-  IconCommand,
   IconDownload,
-  IconFile,
-  IconFileTime,
   IconLanguage,
   IconMessage2Star,
   IconMessageChatbot,
-  IconPhotoScan,
   IconPhotoSpark,
   IconPlayerStop,
   IconPlus,
-  IconPrompt,
   IconRuler,
   IconSend,
   IconSettings,
-  IconSlideshow,
 } from '@tabler/icons-react'
 import { LLMBudget } from './llm-budget'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
 import { LybicUIMessage } from '@/lib/ui-message-type'
-import { indicatorStore } from '@/stores/indicator'
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuPortal,
+  DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  DropdownMenuRadioGroup,
 } from '../ui/dropdown-menu'
 import { useSnapshot } from 'valtio'
 import { conversationConfigState } from '@/stores/conversation-config'
@@ -62,8 +53,12 @@ export function InputArea({
   onStop: () => void
 }) {
   const { id: sandboxId } = useSnapshot(sandboxStore)
-  const { model, screenshotsInContext, language, systemPrompt, thinking } = useSnapshot(conversationConfigState)
+  const { model, ground, screenshotsInContext, language, systemPrompt, thinking } =
+    useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
+
+  const selectedPlanner = UI_MODELS[model]
+  const canSend = !!sandboxId && !!ground
 
   const handleSubmit = useEffectEvent(() => {
     if (input === 'showHiddenModels') {
@@ -88,7 +83,7 @@ export function InputArea({
     await exportChatHistory(chat)
   })
 
-  const showHidden = useMemo(() => localStorage.getItem('lybicPlaygroundShowHiddenModels') === 'true', [])
+  const showHidden = localStorage.getItem('lybicPlaygroundShowHiddenModels') === 'true'
 
   return (
     <div className="message-input p-2">
@@ -152,7 +147,7 @@ export function InputArea({
                 <DropdownMenuSubTrigger>
                   <IconMessageChatbot className="shrink-0 size-4 text-muted-foreground" />
                   <div className="mx-2 flex flex-col">
-                    <div>Model</div>
+                    <div>Planner Model</div>
                     <div className="text-muted-foreground">{UI_MODELS[model]?.displayName ?? model}</div>
                   </div>
                 </DropdownMenuSubTrigger>
@@ -162,10 +157,58 @@ export function InputArea({
                       value={model}
                       onValueChange={(value) => {
                         conversationConfigState.model = value
+                        const newPlanner = UI_MODELS[value]
+                        if (newPlanner && newPlanner.type.includes('grounding')) {
+                          conversationConfigState.ground = value
+                        } else {
+                          const currentGroundingModel = UI_MODELS[conversationConfigState.ground ?? '']
+                          if (!currentGroundingModel || !currentGroundingModel.type.includes('grounding')) {
+                            const firstGroundingModel = Object.keys(UI_MODELS).find((key) =>
+                              UI_MODELS[key]!.type.includes('grounding'),
+                            )
+                            if (firstGroundingModel) {
+                              conversationConfigState.ground = firstGroundingModel
+                            }
+                          }
+                        }
                       }}
                     >
                       {Object.entries(UI_MODELS)
-                        .filter(([_, value]) => showHidden || !value.hidden)
+                        .filter(([_, value]) => value.type.includes('planner') && (showHidden || !value.hidden))
+                        .map(([key, value]) => (
+                          <DropdownMenuRadioItem key={key} value={key}>
+                            {value.displayName}
+                          </DropdownMenuRadioItem>
+                        ))}
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <IconRuler className="shrink-0 size-4 text-muted-foreground" />
+                  <div className="mx-2 flex flex-col">
+                    <div>Grounding Model</div>
+                    <div className="text-muted-foreground">
+                      {ground ? UI_MODELS[ground]?.displayName ?? ground : 'Select...'}
+                    </div>
+                    {model === ground && ground && (
+                      <div className="text-xs text-muted-foreground mt-1">
+                        The model you choose will support self-grounding
+                      </div>
+                    )}
+                  </div>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent collisionPadding={20} className="w-64">
+                    <DropdownMenuRadioGroup
+                      value={ground ?? undefined}
+                      onValueChange={(value) => {
+                        conversationConfigState.ground = value
+                      }}
+                    >
+                      {Object.entries(UI_MODELS)
+                        .filter(([_, value]) => value.type.includes('grounding') && (showHidden || !value.hidden))
                         .map(([key, value]) => (
                           <DropdownMenuRadioItem key={key} value={key}>
                             {value.displayName}
@@ -276,7 +319,7 @@ export function InputArea({
               <TooltipTrigger asChild>
                 <Button
                   size="icon"
-                  disabled={!sandboxId}
+                  disabled={!canSend}
                   onClick={handleSubmit}
                   className="disabled:pointer-events-auto disabled:hover:bg-primary"
                   aria-label="Send"
@@ -285,7 +328,7 @@ export function InputArea({
                 </Button>
               </TooltipTrigger>
               <TooltipContent collisionPadding={12}>
-                <p>{!sandboxId ? 'Select or create a sandbox first' : 'Send'}</p>
+                <p>{!sandboxId ? 'Select or create a sandbox first' : !canSend ? 'Please select a grounding model' : 'Send'}</p>
               </TooltipContent>
             </Tooltip>
           )}

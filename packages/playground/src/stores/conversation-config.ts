@@ -2,7 +2,10 @@ import { proxy, subscribe } from 'valtio'
 
 export const conversationConfigState = proxy({
   systemPrompt: '',
+  // planner model
   model: 'doubao-1-5-thinking-vision-pro-250428',
+  // grounding model
+  ground: 'Qwen2.5-VL' as string | null,
   screenshotsInContext: 3 as number | 'all',
   language: 'zh',
   thinking: 'enabled' as 'disabled' | 'enabled' | 'auto',

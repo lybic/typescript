@@ -29,6 +29,14 @@ const lybicProvider = customProvider({
       model: openaiCompatible('doubao-seed-1-6-vision-250815'),
       middleware: [],
     }),
+    'OpenCUA-7B': wrapLanguageModel({
+      model: openaiCompatible('OpenCUA-7B'),
+      middleware: [],
+    }),
+    'Qwen2.5-VL-7B': wrapLanguageModel({
+      model: openaiCompatible('Qwen2.5-VL-7B'),
+      middleware: [],
+    }),
   },
 })
 

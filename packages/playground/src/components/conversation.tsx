@@ -64,7 +64,7 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): {
 
 export function Conversation() {
   const queryClient = useQueryClient()
-  const { systemPrompt, model, screenshotsInContext, language, thinking } = useSnapshot(conversationConfigState)
+  const { systemPrompt, model, ground, screenshotsInContext, language, thinking } = useSnapshot(conversationConfigState)
   const messagesRef = useRef<HTMLDivElement>(null)
   const [chatId, setChatId] = useState('unassigned')
   const initialMessages = useMemo(
@@ -178,6 +178,7 @@ export function Conversation() {
           trialSessionToken: sessionStore.trialSessionToken,
           thinking: UI_MODELS[model]?.thinking ? thinking : undefined,
           model,
+          ground,
           screenshotsInContext,
           language,
         } as BodyExtras,
