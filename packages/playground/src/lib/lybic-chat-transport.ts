@@ -19,6 +19,7 @@ import groundingAgentQwenPromptAllLang from '@/prompts/ground-agent-qwen.txt?raw
 import groundingAgentOpenCuaPromptAllLang from '@/prompts/ground-agent-opencua.txt?raw'
 import groundingAgentUiTarsPromptAllLang from '@/prompts/ground-agent-uitars.txt?raw'
 import plannerAgentPromptAllLang from '@/prompts/planner-agent.txt?raw'
+import reflectionPromptAllLang from '@/prompts/reflection.txt?raw'
 import { LybicClient } from '@lybic/core'
 import { BodyExtras, LybicUIMessage } from './ui-message-type'
 import { encodeBase64 } from '@std/encoding/base64'
@@ -111,6 +112,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
   private currentBaseUrl: string | null | undefined = null
   private currentOrgId: string | null | undefined = null
   private currentTrialSessionToken: string | null | undefined = null
+  private reflectionScreenshot: { sandboxId: string; url: string; cursorPosition: any } | null = null
 
   public constructor(
     private readonly options: {
@@ -131,7 +133,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
       this.coreClient = new LybicClient({
         baseUrl: baseUrl ?? '/',
         orgId: orgId ?? '',
-        ...(trialSessionToken ? { trialSessionToken } : ({} as { apiKey: string })),
+        ...(trialSessionToken ? { trialSessionToken } : ({} as { apiKey: string }))
       })
     }
     return this.coreClient!
@@ -171,13 +173,27 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
         if (options.abortSignal?.aborted) {
           throw new Error('User aborted')
         }
-        const preview = await previewSandbox(coreClient, sandboxId, options.abortSignal).catch((err) => {
-          console.error(err)
-          if (options.abortSignal?.aborted) {
-            throw new Error('User aborted')
+
+        let preview: { screenShot: string; cursorPosition: any }
+        if (this.reflectionScreenshot && this.reflectionScreenshot.sandboxId === sandboxId) {
+          // Use cached screenshot from reflection step
+          preview = {
+            screenShot: this.reflectionScreenshot.url,
+            cursorPosition: this.reflectionScreenshot.cursorPosition,
           }
-          throw new Error('Failed to preview sandbox, please try again later: ' + err.message)
-        })
+          this.reflectionScreenshot = null // Consume the screenshot
+        } else {
+          // Get new screenshot (the first time or the sandbox has changed)
+          const result = await previewSandbox(coreClient, sandboxId, options.abortSignal).catch((err) => {
+            console.error(err)
+            if (options.abortSignal?.aborted) {
+              throw new Error('User aborted')
+            }
+            throw new Error('Failed to preview sandbox, please try again later: ' + err.message)
+          })
+          preview = result as { screenShot: string; cursorPosition: any }
+        }
+
         if (!preview?.screenShot) {
           throw new Error('Preview failed, no screenshot found')
         }
@@ -358,9 +374,10 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
               if (options.abortSignal?.aborted) {
                 throw new Error('User aborted')
               }
+              const groundingText = message.text
               const parsedAction = await parseLlmText(
                 coreClient,
-                message.text,
+                groundingText,
                 groundingModelConfig.parser,
                 options.abortSignal,
               ).catch((err) => {
@@ -401,6 +418,79 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
                     }
                     throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
                   })
+                }
+
+                // Reflection step
+                try {
+                  if (options.abortSignal?.aborted) {
+                    throw new Error('User aborted')
+                  }
+
+                  const reflectionPreview = await previewSandbox(coreClient, sandboxId, options.abortSignal).catch(
+                    (err) => {
+                      console.error(err)
+                      if (options.abortSignal?.aborted) {
+                        throw new Error('User aborted')
+                      }
+                      throw new Error('Failed to get screenshot for reflection: ' + err.message)
+                    },
+                  )
+                  if (!reflectionPreview?.screenShot) {
+                    throw new Error('Reflection preview failed, no screenshot found')
+                  }
+
+                  // Cache the screenshot for the next turn
+                  this.reflectionScreenshot = {
+                    sandboxId,
+                    url: reflectionPreview.screenShot,
+                    cursorPosition: reflectionPreview.cursorPosition,
+                  }
+
+                  const reflectionUserMessageContent = `Planner Output: ${planText}\nGrounding Output: ${groundingText}`
+                  const reflectionImagePart: FilePart = {
+                    type: 'file',
+                    mediaType: 'image/webp',
+                    data: new URL(reflectionPreview.screenShot),
+                  }
+
+                  // We need to fetch and encode the image for the reflection call
+                  const response = await apiRetry(options.abortSignal, (signal) =>
+                    fetch(reflectionImagePart.data.toString(), { signal }),
+                  )
+                  const arrayBuffer = await response.arrayBuffer()
+                  const base64 = encodeBase64(arrayBuffer)
+                  reflectionImagePart.data = new URL(`data:image/webp;base64,${base64}`)
+
+                  const reflectionResult = streamText({
+                    model: plannerModelConfig.model, // Use planner model for reflection
+                    system: reflectionPromptAllLang,
+                    messages: [
+                      {
+                        role: 'user',
+                        content: [{ type: 'text', text: reflectionUserMessageContent }, reflectionImagePart],
+                      },
+                    ],
+                    headers: {
+                      Authorization: `Bearer ${this.options.apiKey()}`,
+                    },
+                    abortSignal: options.abortSignal,
+                  })
+                  for await (const _ of reflectionResult.fullStream); // drain the stream，failure to do so will cause the following await to hang
+                  const reflectionText = await reflectionResult.text
+                  debug('reflectionText', reflectionText)
+
+                  writer.write({
+                    type: 'data-reflection',
+                    data: {
+                      reflectionText,
+                    },
+                  })
+                } catch (err) {
+                  if (err instanceof Error && err.name === 'AbortError') {
+                    throw err
+                  }
+                  console.error('Reflection step failed:', err)
+                  throw new Error('Reflection step failed, please try again later: ' + (err as Error).message)
                 }
               }
             },

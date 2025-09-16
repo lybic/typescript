@@ -18,6 +18,9 @@ export type LybicUIMessage = UIMessage<
       actions: IComputerUseAction[]
       text?: string
     }
+    reflection: {
+      reflectionText: string
+    }
   }
 >
 
