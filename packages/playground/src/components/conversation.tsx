@@ -118,11 +118,10 @@ export function Conversation() {
       const { autoSend, error, success, userTakeover } = shouldAutoSend(message)
       if (autoSend) {
         setWaitingForAutoSend(true)
-        const delay = reflection === 'enabled' ? 0 : DELAY_TIME_MS
         autoSendTimer.current = setTimeout(() => {
           handleSendText('')
           setWaitingForAutoSend(false)
-        }, delay)
+        }, reflection === 'enabled' ? 0 : DELAY_TIME_MS)
       }
       if (error) {
         toast.error('Action failed', { description: error })
