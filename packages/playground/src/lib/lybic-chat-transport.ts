@@ -8,7 +8,6 @@ import {
   streamText,
   UIMessage,
   UIMessageChunk,
-  UserModelMessage,
 } from 'ai'
 import { lybicModel } from './lybic-provider'
 import guiAgentSeedPromptZh from '@/prompts/gui-agent-seed.zh.txt?raw'
@@ -19,7 +18,7 @@ import groundingAgentQwenPromptAllLang from '@/prompts/ground-agent-qwen.txt?raw
 import groundingAgentOpenCuaPromptAllLang from '@/prompts/ground-agent-opencua.txt?raw'
 import groundingAgentUiTarsPromptAllLang from '@/prompts/ground-agent-uitars.txt?raw'
 import plannerAgentPromptAllLang from '@/prompts/planner-agent.txt?raw'
-import reflectionPromptAllLang from '@/prompts/reflection.txt?raw'
+import reflectionPromptAllLang from '@/prompts/reflection-agent.txt?raw'
 import { LybicClient } from '@lybic/core'
 import { BodyExtras, LybicUIMessage } from './ui-message-type'
 import { encodeBase64 } from '@std/encoding/base64'
@@ -30,6 +29,7 @@ import { apiRetry } from './api/api-retry'
 import { parseLlmText } from './api/parse-llm-text'
 import { executeComputerUseAction } from './api/execute-computer-use-action'
 import { FilePart } from '@ai-sdk/provider-utils'
+import { DELAY_TIME_MS } from '@/components/conversation/delay'
 
 const debug = createDebug('lybic:playground:chat-transport')
 
@@ -336,7 +336,6 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             onFinish: async (plannerMessage) => {
               const planText = plannerMessage.text
               debug('planText from planner model：', planText)
-
               if (options.abortSignal?.aborted) {
                 throw new Error('User aborted')
               }
@@ -430,6 +429,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
 
                     // Reflection step (optional)
                     if (extras.reflection === 'enabled') {
+                      await new Promise((resolve) => setTimeout(resolve, DELAY_TIME_MS))
                       try {
                         if (options.abortSignal?.aborted) {
                           throw new Error('User aborted')
@@ -609,6 +609,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
 
                 // Reflection step for single-model workflow
                 if (extras.reflection === 'enabled') {
+                  await new Promise((resolve) => setTimeout(resolve, DELAY_TIME_MS))
                   try {
                     if (options.abortSignal?.aborted) {
                       throw new Error('User aborted')

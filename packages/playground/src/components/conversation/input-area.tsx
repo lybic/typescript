@@ -284,7 +284,6 @@ export function InputArea({
                     <DropdownMenuRadioGroup
                       value={reflection ?? 'disabled'}
                       onValueChange={(value) => {
-                        // @ts-ignore
                         conversationConfigState.reflection = value as 'disabled' | 'enabled'
                       }}
                     >

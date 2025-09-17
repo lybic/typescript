@@ -21,6 +21,7 @@ import { llmBudgetQuery } from '@/queries/llm-budget-query'
 import { UI_MODELS } from './conversation/models'
 import { ExampleTasks } from './conversation/example-tasks'
 import { useOnNewChat } from '@/hooks/use-new-chat'
+import { DELAY_TIME_MS } from './conversation/delay'
 
 const debug = createDebug('lybic:playground:conversation')
 
@@ -64,7 +65,7 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): {
 
 export function Conversation() {
   const queryClient = useQueryClient()
-  const { systemPrompt, model, ground, screenshotsInContext, language, thinking } = useSnapshot(conversationConfigState)
+  const { systemPrompt, model, ground, screenshotsInContext, language, thinking, reflection } = useSnapshot(conversationConfigState)
   const messagesRef = useRef<HTMLDivElement>(null)
   const [chatId, setChatId] = useState('unassigned')
   const initialMessages = useMemo(
@@ -117,10 +118,11 @@ export function Conversation() {
       const { autoSend, error, success, userTakeover } = shouldAutoSend(message)
       if (autoSend) {
         setWaitingForAutoSend(true)
+        const delay = reflection === 'enabled' ? 0 : DELAY_TIME_MS
         autoSendTimer.current = setTimeout(() => {
           handleSendText('')
           setWaitingForAutoSend(false)
-        }, 1500)
+        }, delay)
       }
       if (error) {
         toast.error('Action failed', { description: error })
