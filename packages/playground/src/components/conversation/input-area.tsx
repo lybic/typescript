@@ -55,7 +55,8 @@ export function InputArea({
 }) {
   const { id: sandboxId } = useSnapshot(sandboxStore)
   const { signedInViaDashboard } = useSnapshot(sessionStore)
-  const { model, ground, screenshotsInContext, language, systemPrompt, thinking } = useSnapshot(conversationConfigState)
+  const { model, ground, screenshotsInContext, language, systemPrompt, thinking, reflection } =
+    useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
 
   useEffect(() => {
@@ -260,6 +261,56 @@ export function InputArea({
                       value={`${thinking}`}
                       onValueChange={(value) => {
                         conversationConfigState.thinking = value as 'disabled' | 'enabled'
+                      }}
+                    >
+                      <DropdownMenuRadioItem value="disabled">Disabled</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="enabled">Enabled</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <IconBulb className="shrink-0 size-4 text-muted-foreground" />
+                  <div className="mx-2 flex flex-col">
+                    <div>Reflection</div>
+                    <div className="text-muted-foreground">
+                      {(reflection ?? 'disabled') === 'enabled' ? 'Enabled' : 'Disabled'}
+                    </div>
+                  </div>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent collisionPadding={20}>
+                    <DropdownMenuRadioGroup
+                      value={reflection ?? 'disabled'}
+                      onValueChange={(value) => {
+                        // @ts-ignore
+                        conversationConfigState.reflection = value as 'disabled' | 'enabled'
+                      }}
+                    >
+                      <DropdownMenuRadioItem value="disabled">Disabled</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="enabled">Enabled</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <IconBulb className="shrink-0 size-4 text-muted-foreground" />
+                  <div className="mx-2 flex flex-col">
+                    <div>Reflection</div>
+                    <div className="text-muted-foreground">
+                      {(reflection ?? 'disabled') === 'enabled' ? 'Enabled' : 'Disabled'}
+                    </div>
+                  </div>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent collisionPadding={20}>
+                    <DropdownMenuRadioGroup
+                      value={reflection ?? 'disabled'}
+                      onValueChange={(value) => {
+                        // @ts-ignore
+                        conversationConfigState.reflection = value as 'disabled' | 'enabled'
                       }}
                     >
                       <DropdownMenuRadioItem value="disabled">Disabled</DropdownMenuRadioItem>

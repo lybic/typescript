@@ -35,4 +35,5 @@ export type BodyExtras = {
   orgId?: string
   trialSessionToken?: string
   thinking?: 'auto' | 'enabled' | 'disabled' // 豆包系列模型思考
+  reflection?: 'enabled' | 'disabled'
 }

@@ -9,6 +9,7 @@ export const conversationConfigState = proxy({
   screenshotsInContext: 3 as number | 'all',
   language: 'zh',
   thinking: 'enabled' as 'disabled' | 'enabled' | 'auto',
+  reflection: 'disabled' as 'disabled' | 'enabled' ,
 })
 
 if (localStorage['lybic-playground-conversation-config']) {

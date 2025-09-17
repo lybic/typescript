@@ -112,7 +112,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
   private currentBaseUrl: string | null | undefined = null
   private currentOrgId: string | null | undefined = null
   private currentTrialSessionToken: string | null | undefined = null
-  private reflectionScreenshot: { sandboxId: string; url: string; cursorPosition: any } | null = null
+  private reflectionScreenshot: { sandboxId: string; url: string; text: string; cursorPosition: any } | null = null
 
   public constructor(
     private readonly options: {
@@ -133,7 +133,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
       this.coreClient = new LybicClient({
         baseUrl: baseUrl ?? '/',
         orgId: orgId ?? '',
-        ...(trialSessionToken ? { trialSessionToken } : ({} as { apiKey: string }))
+        ...(trialSessionToken ? { trialSessionToken } : ({} as { apiKey: string })),
       })
     }
     return this.coreClient!
@@ -175,14 +175,18 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
         }
 
         let preview: { screenShot: string; cursorPosition: any }
-        if (this.reflectionScreenshot && this.reflectionScreenshot.sandboxId === sandboxId) {
+
+        const usedReflectionCache = this.reflectionScreenshot && this.reflectionScreenshot.sandboxId === sandboxId
+        if (usedReflectionCache) {
           // Use cached screenshot from reflection step
           preview = {
-            screenShot: this.reflectionScreenshot.url,
-            cursorPosition: this.reflectionScreenshot.cursorPosition,
+            screenShot: this.reflectionScreenshot!.url,
+            cursorPosition: this.reflectionScreenshot!.cursorPosition,
           }
-          this.reflectionScreenshot = null // Consume the screenshot
         } else {
+          if (!this.reflectionScreenshot) {
+            this.reflectionScreenshot = { sandboxId: '', text: '', url: '', cursorPosition: null }
+          }
           // Get new screenshot (the first time or the sandbox has changed)
           const result = await previewSandbox(coreClient, sandboxId, options.abortSignal).catch((err) => {
             console.error(err)
@@ -301,8 +305,19 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             '{LANGUAGE}',
             extras.language === 'zh' ? '中文' : 'English',
           )
+          debug('plannerSystemPrompt', plannerSystemPrompt)
 
-          let planText = ''
+          if (usedReflectionCache) {
+            if (this.reflectionScreenshot && this.reflectionScreenshot.text) {
+              modelMessages.push({
+                role: 'assistant',
+                // @ts-ignore
+                content: this.reflectionScreenshot.text,
+              })
+            }
+            this.reflectionScreenshot = null // Consume the screenshot now that we've used it
+          }
+
           const plannerResult = streamText({
             model: plannerModelConfig.model,
             system: [plannerSystemPrompt, userSystemPrompt].filter(Boolean).join('\n'),
@@ -318,185 +333,188 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
                 allowed_openai_params: ['extra_body'],
               },
             },
-          })
+            onFinish: async (plannerMessage) => {
+              const planText = plannerMessage.text
+              debug('planText from planner model：', planText)
 
-          for await (const _ of plannerResult.fullStream); // drain the stream，failure to do so will cause the following await to hang
-          planText = await plannerResult.text
-          debug('planText from planner model：', planText)
-
-          if (options.abortSignal?.aborted) {
-            throw new Error('User aborted')
-          }
-
-          const actionSummaryMatch = planText.match(/^Action_Summary:(.*)$/m)
-          const actionMatch = planText.match(/^Action:(.*)$/m)
-
-          const actionSummary = actionSummaryMatch?.[1]?.trim() ?? null
-          const actionForGrounding = actionMatch?.[1]?.trim() ?? planText
-
-          // Grounding call
-          const groundingModelMessages: ModelMessage[] = [
-            {
-              role: 'user',
-              content: [
-                { type: 'text', text: actionForGrounding },
-                {
-                  ...image_message,
-                  data: image_message.data.toString(),
-                },
-              ],
-            },
-          ]
-          debug('groundingModelUserMessages', groundingModelMessages)
-
-          let groundingSystemPrompt = ''
-          if (groundingModelConfig.groundingPrompt) {
-            // Use custom grounding prompt if defined even the model is not PURE grounding model
-            groundingSystemPrompt = groundingModelConfig.groundingPrompt
-              .replaceAll('{screen_width}', `${preview.cursorPosition?.screenWidth ?? 1280}`)
-              .replaceAll('{screen_height}', `${preview.cursorPosition?.screenHeight ?? 720}`)
-              .replaceAll('{LANGUAGE}', extras.language === 'zh' ? '中文' : 'English')
-          } else {
-            throw new Error('No grounding prompt defined for grounding model ' + groundingModelId)
-          }
-
-          const result = streamText({
-            model: groundingModelConfig.model,
-            system: [groundingSystemPrompt, userSystemPrompt].filter(Boolean).join('\n'),
-            messages: groundingModelMessages,
-            headers: {
-              Authorization: `Bearer ${this.options.apiKey()}`,
-              ['X-Organization-Id']: this.currentOrgId ?? '',
-            },
-            abortSignal: options.abortSignal,
-            onFinish: async (message) => {
-              debug('onFinish (grounding)', message)
               if (options.abortSignal?.aborted) {
                 throw new Error('User aborted')
               }
-              const groundingText = message.text
-              const parsedAction = await parseLlmText(
-                coreClient,
-                groundingText,
-                groundingModelConfig.parser,
-                options.abortSignal,
-              ).catch((err) => {
-                if (options.abortSignal?.aborted) {
-                  throw new Error('User aborted')
-                }
-                throw new Error('Failed to parse LLM output, please try again later: ' + err.message)
-              })
-              debug('parsedAction (grounding)', parsedAction)
-              if (parsedAction?.actions && parsedAction.actions.length > 0) {
-                writer.write({
-                  type: 'data-parsed',
-                  data: {
-                    actions: parsedAction.actions,
-                    text: [actionSummary, parsedAction.thoughts, parsedAction.unknown].filter(Boolean).join('\n'),
-                  },
-                })
-                indicatorStore.lastAction = structuredClone(parsedAction.actions[0]!)
-                for (const action of parsedAction?.actions) {
-                  debug('executeComputerUseAction (grounding)', action)
 
+              // Grounding call
+              const groundingModelMessages: ModelMessage[] = [
+                {
+                  role: 'user',
+                  content: [
+                    { type: 'text', text: planText },
+                    {
+                      ...image_message,
+                      data: image_message.data.toString(),
+                    },
+                  ],
+                },
+              ]
+              debug('groundingModelUserMessages', groundingModelMessages)
+
+              let groundingSystemPrompt = ''
+              if (groundingModelConfig.groundingPrompt) {
+                groundingSystemPrompt = groundingModelConfig.groundingPrompt
+                  .replaceAll('{screen_width}', `${preview.cursorPosition?.screenWidth ?? 1280}`)
+                  .replaceAll('{screen_height}', `${preview.cursorPosition?.screenHeight ?? 720}`)
+                  .replaceAll('{LANGUAGE}', extras.language === 'zh' ? '中文' : 'English')
+              } else {
+                throw new Error('No grounding prompt defined for grounding model ' + groundingModelId)
+              }
+
+              const groundingResult = streamText({
+                model: groundingModelConfig.model,
+                system: [groundingSystemPrompt, userSystemPrompt].filter(Boolean).join('\n'),
+                messages: groundingModelMessages,
+                headers: {
+                  Authorization: `Bearer ${this.options.apiKey()}`,
+                  ['X-Organization-Id']: this.currentOrgId ?? '',
+                },
+                abortSignal: options.abortSignal,
+                onFinish: async (groundingMessage) => {
+                  debug('onFinish (grounding)', groundingMessage)
                   if (options.abortSignal?.aborted) {
                     throw new Error('User aborted')
                   }
-                  await executeComputerUseAction(
+                  const groundingText = groundingMessage.text
+                  const parsedAction = await parseLlmText(
                     coreClient,
-                    sandboxId,
-                    {
-                      action,
-                      includeScreenShot: false,
-                      includeCursorPosition: false,
-                    },
+                    groundingText,
+                    groundingModelConfig.parser,
                     options.abortSignal,
                   ).catch((err) => {
-                    console.error(err)
                     if (options.abortSignal?.aborted) {
                       throw new Error('User aborted')
                     }
-                    throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
+                    throw new Error('Failed to parse LLM output, please try again later: ' + err.message)
                   })
-                }
+                  debug('parsedAction (grounding)', parsedAction)
+                  if (parsedAction?.actions && parsedAction.actions.length > 0) {
+                    writer.write({
+                      type: 'data-parsed',
+                      data: {
+                        actions: parsedAction.actions,
+                        text: ['GroundingAgent:', parsedAction.thoughts, parsedAction.unknown]
+                          .filter(Boolean)
+                          .join('\n'),
+                      },
+                    })
+                    indicatorStore.lastAction = structuredClone(parsedAction.actions[0]!)
+                    for (const action of parsedAction.actions) {
+                      debug('executeComputerUseAction (grounding)', action)
 
-                // Reflection step
-                try {
-                  if (options.abortSignal?.aborted) {
-                    throw new Error('User aborted')
-                  }
-
-                  const reflectionPreview = await previewSandbox(coreClient, sandboxId, options.abortSignal).catch(
-                    (err) => {
-                      console.error(err)
                       if (options.abortSignal?.aborted) {
                         throw new Error('User aborted')
                       }
-                      throw new Error('Failed to get screenshot for reflection: ' + err.message)
-                    },
-                  )
-                  if (!reflectionPreview?.screenShot) {
-                    throw new Error('Reflection preview failed, no screenshot found')
+                      await executeComputerUseAction(
+                        coreClient,
+                        sandboxId,
+                        {
+                          action,
+                          includeScreenShot: false,
+                          includeCursorPosition: false,
+                        },
+                        options.abortSignal,
+                      ).catch((err) => {
+                        console.error(err)
+                        if (options.abortSignal?.aborted) {
+                          throw new Error('User aborted')
+                        }
+                        throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
+                      })
+                    }
+
+                    // Reflection step (optional)
+                    if (extras.reflection === 'enabled') {
+                      try {
+                        if (options.abortSignal?.aborted) {
+                          throw new Error('User aborted')
+                        }
+
+                        const reflectionPreview = await previewSandbox(
+                          coreClient,
+                          sandboxId,
+                          options.abortSignal,
+                        ).catch((err) => {
+                          console.error(err)
+                          if (options.abortSignal?.aborted) {
+                            throw new Error('User aborted')
+                          }
+                          throw new Error('Failed to get screenshot for reflection: ' + err.message)
+                        })
+                        if (!reflectionPreview?.screenShot) {
+                          throw new Error('Reflection preview failed, no screenshot found')
+                        }
+
+                        const reflectionUserMessageContent = `Planner Output: ${planText}`
+                        const reflectionImagePart: FilePart = {
+                          type: 'file',
+                          mediaType: 'image/webp',
+                          data: new URL(reflectionPreview.screenShot),
+                        }
+
+                        // We need to fetch and encode the image for the reflection call
+                        const response = await apiRetry(options.abortSignal, (signal) =>
+                          fetch(reflectionImagePart.data.toString(), { signal }),
+                        )
+                        const arrayBuffer = await response.arrayBuffer()
+                        const base64 = encodeBase64(arrayBuffer)
+                        reflectionImagePart.data = new URL(`data:image/webp;base64,${base64}`)
+
+                        const reflectionResult = streamText({
+                          model: plannerModelConfig.model, // Use planner model for reflection
+                          system: reflectionPromptAllLang,
+                          messages: [
+                            {
+                              role: 'user',
+                              content: [{ type: 'text', text: reflectionUserMessageContent }, reflectionImagePart],
+                            },
+                          ],
+                          headers: {
+                            Authorization: `Bearer ${this.options.apiKey()}`,
+                          },
+                          abortSignal: options.abortSignal,
+                        })
+                        for await (const _ of reflectionResult.fullStream); // drain the stream，failure to do so will cause the following await to hang
+                        const reflectionText = await reflectionResult.text
+                        debug('reflectionText', reflectionText)
+
+                        // Cache the screenshot for the next turn
+                        this.reflectionScreenshot = {
+                          sandboxId,
+                          text: reflectionText,
+                          url: reflectionPreview.screenShot,
+                          cursorPosition: reflectionPreview.cursorPosition,
+                        }
+
+                        writer.write({
+                          type: 'data-reflection',
+                          data: {
+                            reflectionText,
+                          },
+                        })
+                      } catch (err) {
+                        if (err instanceof Error && err.name === 'AbortError') {
+                          throw err
+                        }
+                        console.error('Reflection step failed:', err)
+                        throw new Error('Reflection step failed, please try again later: ' + (err as Error).message)
+                      }
+                    }
                   }
+                },
+              })
 
-                  // Cache the screenshot for the next turn
-                  this.reflectionScreenshot = {
-                    sandboxId,
-                    url: reflectionPreview.screenShot,
-                    cursorPosition: reflectionPreview.cursorPosition,
-                  }
-
-                  const reflectionUserMessageContent = `Planner Output: ${planText}\nGrounding Output: ${groundingText}`
-                  const reflectionImagePart: FilePart = {
-                    type: 'file',
-                    mediaType: 'image/webp',
-                    data: new URL(reflectionPreview.screenShot),
-                  }
-
-                  // We need to fetch and encode the image for the reflection call
-                  const response = await apiRetry(options.abortSignal, (signal) =>
-                    fetch(reflectionImagePart.data.toString(), { signal }),
-                  )
-                  const arrayBuffer = await response.arrayBuffer()
-                  const base64 = encodeBase64(arrayBuffer)
-                  reflectionImagePart.data = new URL(`data:image/webp;base64,${base64}`)
-
-                  const reflectionResult = streamText({
-                    model: plannerModelConfig.model, // Use planner model for reflection
-                    system: reflectionPromptAllLang,
-                    messages: [
-                      {
-                        role: 'user',
-                        content: [{ type: 'text', text: reflectionUserMessageContent }, reflectionImagePart],
-                      },
-                    ],
-                    headers: {
-                      Authorization: `Bearer ${this.options.apiKey()}`,
-                    },
-                    abortSignal: options.abortSignal,
-                  })
-                  for await (const _ of reflectionResult.fullStream); // drain the stream，failure to do so will cause the following await to hang
-                  const reflectionText = await reflectionResult.text
-                  debug('reflectionText', reflectionText)
-
-                  writer.write({
-                    type: 'data-reflection',
-                    data: {
-                      reflectionText,
-                    },
-                  })
-                } catch (err) {
-                  if (err instanceof Error && err.name === 'AbortError') {
-                    throw err
-                  }
-                  console.error('Reflection step failed:', err)
-                  throw new Error('Reflection step failed, please try again later: ' + (err as Error).message)
-                }
-              }
+              // Drain the grounding stream to trigger its onFinish, without merging its text output to the UI message.
+              for await (const _ of groundingResult.fullStream);
             },
           })
           writer.merge(
-            result.toUIMessageStream({
+            plannerResult.toUIMessageStream({
               messageMetadata({ part }) {
                 if (part.type === 'start') {
                   return {
@@ -587,6 +605,82 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
                     }
                     throw new Error('Failed to execute computer use action, please try again later: ' + err.message)
                   })
+                }
+
+                // Reflection step for single-model workflow
+                if (extras.reflection === 'enabled') {
+                  try {
+                    if (options.abortSignal?.aborted) {
+                      throw new Error('User aborted')
+                    }
+
+                    const reflectionPreview = await previewSandbox(coreClient, sandboxId, options.abortSignal).catch(
+                      (err) => {
+                        console.error(err)
+                        if (options.abortSignal?.aborted) {
+                          throw new Error('User aborted')
+                        }
+                        throw new Error('Failed to get screenshot for reflection: ' + err.message)
+                      },
+                    )
+                    if (!reflectionPreview?.screenShot) {
+                      throw new Error('Reflection preview failed, no screenshot found')
+                    }
+
+                    const reflectionUserMessageContent = `Output: ${message.text}`
+                    const reflectionImagePart: FilePart = {
+                      type: 'file',
+                      mediaType: 'image/webp',
+                      data: new URL(reflectionPreview.screenShot),
+                    }
+
+                    // We need to fetch and encode the image for the reflection call
+                    const response = await apiRetry(options.abortSignal, (signal) =>
+                      fetch(reflectionImagePart.data.toString(), { signal }),
+                    )
+                    const arrayBuffer = await response.arrayBuffer()
+                    const base64 = encodeBase64(arrayBuffer)
+                    reflectionImagePart.data = new URL(`data:image/webp;base64,${base64}`)
+
+                    const reflectionResult = streamText({
+                      model: plannerModelConfig.model, // Use planner model for reflection
+                      system: reflectionPromptAllLang,
+                      messages: [
+                        {
+                          role: 'user',
+                          content: [{ type: 'text', text: reflectionUserMessageContent }, reflectionImagePart],
+                        },
+                      ],
+                      headers: {
+                        Authorization: `Bearer ${this.options.apiKey()}`,
+                      },
+                      abortSignal: options.abortSignal,
+                    })
+                    for await (const _ of reflectionResult.fullStream); // drain the stream，failure to do so will cause the following await to hang
+                    const reflectionText = await reflectionResult.text
+                    debug('reflectionText', reflectionText)
+
+                    // Cache the screenshot for the next turn
+                    this.reflectionScreenshot = {
+                      sandboxId,
+                      text: reflectionText,
+                      url: reflectionPreview.screenShot,
+                      cursorPosition: reflectionPreview.cursorPosition,
+                    }
+
+                    writer.write({
+                      type: 'data-reflection',
+                      data: {
+                        reflectionText,
+                      },
+                    })
+                  } catch (err) {
+                    if (err instanceof Error && err.name === 'AbortError') {
+                      throw err
+                    }
+                    console.error('Reflection step failed:', err)
+                    throw new Error('Reflection step failed, please try again later: ' + (err as Error).message)
+                  }
                 }
               }
             },
