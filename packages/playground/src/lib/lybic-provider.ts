@@ -37,6 +37,18 @@ const lybicProvider = customProvider({
       model: openaiCompatible('Qwen2.5-VL-7B'),
       middleware: [],
     }),
+    'o3': wrapLanguageModel({
+      model: openaiCompatible('o3'),
+      middleware: [],
+    }),
+    'gemini-2.5-pro': wrapLanguageModel({
+      model: openaiCompatible('gemini-2.5-pro'),
+      middleware: [],
+    }),
+    'gemini-2.5-flash': wrapLanguageModel({
+      model: openaiCompatible('gemini-2.5-flash'),
+      middleware: [],
+    }),
   },
 })
 

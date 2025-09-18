@@ -95,6 +95,30 @@ const MODEL_CONFIG = {
     parser: 'qwen',
     type: ['grounding'],
   },
+  'gemini-2.5-pro': {
+    model: lybicModel('gemini-2.5-pro'),
+    zh: plannerAgentPromptAllLang,
+    en: plannerAgentPromptAllLang,
+    groundingPrompt: null,
+    parser: '',
+    type: ['planner'],
+  },
+  'gemini-2.5-flash': {
+    model: lybicModel('gemini-2.5-flash'),
+    zh: plannerAgentPromptAllLang,
+    en: plannerAgentPromptAllLang,
+    groundingPrompt: null,
+    parser: '',
+    type: ['planner'],
+  },
+  'o3': {
+    model: lybicModel('o3'),
+    zh: plannerAgentPromptAllLang,
+    en: plannerAgentPromptAllLang,
+    groundingPrompt: null,
+    parser: '',
+    type: ['planner'],
+  }
 } as Record<
   string,
   {

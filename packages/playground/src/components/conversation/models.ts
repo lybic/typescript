@@ -19,6 +19,24 @@ export const UI_MODELS = {
     hidden: false,
     type: ['planner'],
   },
+  'gemini-2.5-pro': {
+    displayName: 'Gemini 2.5 Pro',
+    thinking: false,
+    hidden: true, // Hidden because of internal use only
+    type: ['planner'],
+  },
+  'gemini-2.5-flash': {
+    displayName: 'Gemini 2.5 Flash',
+    thinking: false,
+    hidden: true, // Hidden because of internal use only
+    type: ['planner'],
+  },
+  'o3': {
+    displayName: 'OpenAI GPT4-O3',
+    thinking: false,
+    hidden: true, // Hidden because of internal use only
+    type: ['planner'],
+  },
   'doubao-seed-1-6-flash-250715': {
     displayName: 'Doubao Seed 1.6 Flash',
     thinking: true,
