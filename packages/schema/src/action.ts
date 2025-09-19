@@ -51,6 +51,7 @@ export const computerUseActionMouseClickSchema = z
       .string()
       .optional()
       .describe('Key to hold down during click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
+    relative: z.boolean().optional().describe('Whether the coordinates are relative to the current mouse position.'),
   })
   .describe('Click the mouse at the specified coordinates')
 
@@ -64,8 +65,23 @@ export const computerUseActionMouseDoubleClickSchema = z
       .string()
       .optional()
       .describe('Key to hold down during double click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
+    relative: z.boolean().optional().describe('Whether the coordinates are relative to the current mouse position.'),
   })
   .describe('Double click the mouse at the specified coordinates')
+
+export const computerUseActionMouseTripleClickSchema = z
+  .object({
+    type: z.literal('mouse:tripleClick'),
+    x: lengthSchema.describe('X coordinate'),
+    y: lengthSchema.describe('Y coordinate'),
+    button: z.number().describe('Mouse button index'),
+    holdKey: z
+      .string()
+      .optional()
+      .describe('Key to hold down during triple click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
+    relative: z.boolean().optional().describe('Whether the coordinates are relative to the current mouse position.'),
+  })
+  .describe('Triple click the mouse at the specified coordinates')
 
 export const computerUseActionMouseMoveSchema = z
   .object({
@@ -76,6 +92,7 @@ export const computerUseActionMouseMoveSchema = z
       .string()
       .optional()
       .describe('Key to hold down during move, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
+    relative: z.boolean().optional().describe('Whether the coordinates are relative to the current mouse position.'),
   })
   .describe('Move the mouse to the specified coordinates')
 
@@ -90,6 +107,7 @@ export const computerUseActionMouseScrollSchema = z
       .string()
       .optional()
       .describe('Key to hold down during scroll, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
+    relative: z.boolean().optional().describe('Whether the coordinates are relative to the current mouse position.'),
   })
   .describe('Scroll the mouse')
 
@@ -100,10 +118,16 @@ export const computerUseActionMouseDragSchema = z
     startY: lengthSchema.describe('Start Y coordinate'),
     endX: lengthSchema.describe('End X coordinate'),
     endY: lengthSchema.describe('End Y coordinate'),
+    button: z.number().optional().describe('Mouse button index'),
     holdKey: z
       .string()
       .optional()
       .describe('Key to hold down during drag, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift".'),
+    startRelative: z
+      .boolean()
+      .optional()
+      .describe('Whether the coordinates are relative to the current mouse position.'),
+    endRelative: z.boolean().optional().describe('Whether the coordinates are relative to the current mouse position.'),
   })
   .describe('Drag the mouse from start to end coordinates')
 
@@ -176,6 +200,7 @@ export const computerUseActionSchema = z
   .union([
     computerUseActionMouseClickSchema,
     computerUseActionMouseDoubleClickSchema,
+    computerUseActionMouseTripleClickSchema,
     computerUseActionMouseMoveSchema,
     computerUseActionMouseScrollSchema,
     computerUseActionMouseDragSchema,
@@ -217,6 +242,7 @@ export type ILengthFraction = z.infer<typeof lengthFractionSchema>
 export type IComputerUseAction = z.infer<typeof computerUseActionSchema>
 export type IComputerUseActionMouseClick = z.infer<typeof computerUseActionMouseClickSchema>
 export type IComputerUseActionMouseDoubleClick = z.infer<typeof computerUseActionMouseDoubleClickSchema>
+export type IComputerUseActionMouseTripleClick = z.infer<typeof computerUseActionMouseTripleClickSchema>
 export type IComputerUseActionMouseMove = z.infer<typeof computerUseActionMouseMoveSchema>
 export type IComputerUseActionMouseScroll = z.infer<typeof computerUseActionMouseScrollSchema>
 export type IComputerUseActionMouseDrag = z.infer<typeof computerUseActionMouseDragSchema>
