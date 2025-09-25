@@ -163,38 +163,112 @@ export const computerUseActionKeyboardHotkeySchema = z
   })
   .describe('Press a keyboard hotkey')
 
-export const computerUseActionScreenshotSchema = z
+export const mobileUseActionTapSchema = z
+  .object({
+    type: z.literal('touch:tap'),
+    x: lengthSchema.describe('X coordinate'),
+    y: lengthSchema.describe('Y coordinate'),
+  })
+  .describe('Tap the screen at the specified coordinates')
+
+export const mobileUseActionSwipeSchema = z
+  .object({
+    type: z.literal('touch:swipe'),
+    startX: lengthSchema.describe('Start X coordinate'),
+    startY: lengthSchema.describe('Start Y coordinate'),
+    endX: lengthSchema.describe('End X coordinate'),
+    endY: lengthSchema.describe('End Y coordinate'),
+  })
+  .describe('Swipe the screen from start to end coordinates')
+
+export const mobileUseActionLongPressSchema = z
+  .object({
+    type: z.literal('touch:longPress'),
+    x: lengthSchema.describe('X coordinate'),
+    y: lengthSchema.describe('Y coordinate'),
+    duration: z.number().describe('Duration in milliseconds'),
+  })
+  .describe('Long press the screen at the specified coordinates')
+
+export const mobileUseActionPressBackSchema = z
+  .object({
+    type: z.literal('android:back'),
+  })
+  .describe('Press the back button')
+
+export const mobileUseActionPressHomeSchema = z
+  .object({
+    type: z.literal('android:home'),
+  })
+  .describe('Press the home button')
+
+export const mobileUseActionStartAppSchema = z
+  .object({
+    type: z.literal('os:startApp'),
+    name: z.string().describe('Package name, bundle id or app name'),
+  })
+  .describe('Start an app')
+
+export const mobileUseActionCloseAppSchema = z
+  .object({
+    type: z.literal('os:closeApp'),
+  })
+  .describe('Close the current app')
+
+export const generalActionScreenshotSchema = z
   .object({
     type: z.literal('screenshot'),
   })
   .describe('Take a screenshot of the current screen')
 
-export const computerUseActionWaitSchema = z
+export const generalActionWaitSchema = z
   .object({
     type: z.literal('wait'),
     duration: z.number().describe('Duration in milliseconds'),
   })
   .describe('Wait for a specified duration')
 
-export const computerUseActionFinishedSchema = z
+export const generalActionFinishedSchema = z
   .object({
     type: z.literal('finished'),
     message: z.string().optional().describe('Completion message'),
   })
   .describe('Indicates the action has finished')
 
-export const computerUseActionFailedSchema = z
+export const generalActionFailedSchema = z
   .object({
     type: z.literal('failed'),
     message: z.string().optional().describe('Failure message'),
   })
   .describe('Indicates the action has failed')
 
-export const computerUseActionUserTakeoverSchema = z
+export const generalActionUserTakeoverSchema = z
   .object({
     type: z.literal('client:user-takeover'),
   })
   .describe('Indicates the human user should take over the control')
+
+export const mobileUseActionSchema = z
+  .union([
+    generalActionScreenshotSchema,
+    generalActionWaitSchema,
+    generalActionFinishedSchema,
+    generalActionFailedSchema,
+    generalActionUserTakeoverSchema,
+    mobileUseActionTapSchema,
+    mobileUseActionSwipeSchema,
+    mobileUseActionLongPressSchema,
+    mobileUseActionPressBackSchema,
+    mobileUseActionPressHomeSchema,
+    mobileUseActionStartAppSchema,
+    mobileUseActionCloseAppSchema,
+  ])
+  .and(
+    z.object({
+      callId: z.string().optional().describe('Optional call identifier'),
+    }),
+  )
+  .describe('All possible mobile use actions, with optional callId')
 
 export const computerUseActionSchema = z
   .union([
@@ -206,11 +280,11 @@ export const computerUseActionSchema = z
     computerUseActionMouseDragSchema,
     computerUseActionKeyboardTypeSchema,
     computerUseActionKeyboardHotkeySchema,
-    computerUseActionScreenshotSchema,
-    computerUseActionWaitSchema,
-    computerUseActionFinishedSchema,
-    computerUseActionFailedSchema,
-    computerUseActionUserTakeoverSchema,
+    generalActionScreenshotSchema,
+    generalActionWaitSchema,
+    generalActionFinishedSchema,
+    generalActionFailedSchema,
+    generalActionUserTakeoverSchema,
     computerUseActionKeyDownSchema,
     computerUseActionKeyUpSchema,
   ])
@@ -220,6 +294,10 @@ export const computerUseActionSchema = z
     }),
   )
   .describe('All possible computer use actions, with optional callId')
+
+export const sandboxActionSchema = z
+  .union([computerUseActionSchema, mobileUseActionSchema])
+  .describe('All possible sandbox actions')
 
 export const executeComputerUseActionSchema = z.object({
   action: computerUseActionSchema,
@@ -235,6 +313,17 @@ export const executeComputerUseActionSchema = z.object({
     .describe('Whether to include the cursor position after action in the response'),
 })
 
+export const executeMobileUseActionSchema = z.object({
+  action: mobileUseActionSchema,
+  includeScreenShot: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe('Whether to include the screenshot url after action in the response'),
+})
+
+export const executeSandboxActionSchema = z.union([executeComputerUseActionSchema, executeMobileUseActionSchema])
+
 export type ILength = z.infer<typeof lengthSchema>
 export type ILengthPixel = z.infer<typeof lengthPxSchema>
 export type ILengthFraction = z.infer<typeof lengthFractionSchema>
@@ -248,12 +337,16 @@ export type IComputerUseActionMouseScroll = z.infer<typeof computerUseActionMous
 export type IComputerUseActionMouseDrag = z.infer<typeof computerUseActionMouseDragSchema>
 export type IComputerUseActionKeyboardType = z.infer<typeof computerUseActionKeyboardTypeSchema>
 export type IComputerUseActionKeyboardHotkey = z.infer<typeof computerUseActionKeyboardHotkeySchema>
-export type IComputerUseActionScreenshot = z.infer<typeof computerUseActionScreenshotSchema>
-export type IComputerUseActionWait = z.infer<typeof computerUseActionWaitSchema>
-export type IComputerUseActionFinished = z.infer<typeof computerUseActionFinishedSchema>
-export type IComputerUseActionFailed = z.infer<typeof computerUseActionFailedSchema>
-export type IComputerUseActionUserTakeover = z.infer<typeof computerUseActionUserTakeoverSchema>
+export type IComputerUseActionScreenshot = z.infer<typeof generalActionScreenshotSchema>
+export type IComputerUseActionWait = z.infer<typeof generalActionWaitSchema>
+export type IComputerUseActionFinished = z.infer<typeof generalActionFinishedSchema>
+export type IComputerUseActionFailed = z.infer<typeof generalActionFailedSchema>
+export type IComputerUseActionUserTakeover = z.infer<typeof generalActionUserTakeoverSchema>
 export type IComputerUseActionKeyDown = z.infer<typeof computerUseActionKeyDownSchema>
 export type IComputerUseActionKeyUp = z.infer<typeof computerUseActionKeyUpSchema>
 
+export type ISandboxAction = z.infer<typeof sandboxActionSchema>
+
 export type IExecuteComputerUseAction = z.infer<typeof executeComputerUseActionSchema>
+export type IExecuteMobileUseAction = z.infer<typeof executeMobileUseActionSchema>
+export type IExecuteSandboxAction = z.infer<typeof executeSandboxActionSchema>
