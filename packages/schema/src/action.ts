@@ -131,7 +131,7 @@ export const computerUseActionMouseDragSchema = z
   })
   .describe('Drag the mouse from start to end coordinates')
 
-export const computerUseActionKeyboardTypeSchema = z
+export const generalActionKeyboardTypeSchema = z
   .object({
     type: z.literal('keyboard:type'),
     content: z.string().describe('Text content to type'),
@@ -146,7 +146,7 @@ export const computerUseActionKeyboardTypeSchema = z
   })
   .describe('Type text content')
 
-export const computerUseActionKeyboardHotkeySchema = z
+export const generalActionKeyboardHotkeySchema = z
   .object({
     type: z.literal('keyboard:hotkey'),
     keys: z
@@ -171,15 +171,15 @@ export const mobileUseActionTapSchema = z
   })
   .describe('Tap the screen at the specified coordinates')
 
-export const mobileUseActionSwipeSchema = z
+export const mobileUseActionDragSchema = z
   .object({
-    type: z.literal('touch:swipe'),
+    type: z.literal('touch:drag'),
     startX: lengthSchema.describe('Start X coordinate'),
     startY: lengthSchema.describe('Start Y coordinate'),
     endX: lengthSchema.describe('End X coordinate'),
     endY: lengthSchema.describe('End Y coordinate'),
   })
-  .describe('Swipe the screen from start to end coordinates')
+  .describe('Touch and hold at start coordinates, then move to end coordinates and release')
 
 export const mobileUseActionLongPressSchema = z
   .object({
@@ -205,15 +205,32 @@ export const mobileUseActionPressHomeSchema = z
 export const mobileUseActionStartAppSchema = z
   .object({
     type: z.literal('os:startApp'),
-    name: z.string().describe('Package name, bundle id or app name'),
+    packageName: z.string().describe('App package name'),
   })
-  .describe('Start an app')
+  .describe('Start an app by its package name')
+
+export const mobileUseActionStartAppByNameSchema = z
+  .object({
+    type: z.literal('os:startAppByName'),
+    name: z.string().describe('App name'),
+  })
+  .describe('Start an app by its name')
 
 export const mobileUseActionCloseAppSchema = z
   .object({
     type: z.literal('os:closeApp'),
   })
   .describe('Close the current app')
+
+export const mobileUseActionSwipeSchema = z
+  .object({
+    type: z.literal('touch:swipe'),
+    x: lengthSchema.describe('X coordinate'),
+    y: lengthSchema.describe('Y coordinate'),
+    direction: z.enum(['up', 'down', 'left', 'right']).describe('Scroll direction'),
+    distance: lengthSchema.describe('Scroll distance'),
+  })
+  .describe('Swipe the screen in a specified direction by a specified distance')
 
 export const generalActionScreenshotSchema = z
   .object({
@@ -255,12 +272,16 @@ export const mobileUseActionSchema = z
     generalActionFinishedSchema,
     generalActionFailedSchema,
     generalActionUserTakeoverSchema,
+    generalActionKeyboardTypeSchema,
+    generalActionKeyboardHotkeySchema,
     mobileUseActionTapSchema,
+    mobileUseActionDragSchema,
     mobileUseActionSwipeSchema,
     mobileUseActionLongPressSchema,
     mobileUseActionPressBackSchema,
     mobileUseActionPressHomeSchema,
     mobileUseActionStartAppSchema,
+    mobileUseActionStartAppByNameSchema,
     mobileUseActionCloseAppSchema,
   ])
   .and(
@@ -278,8 +299,8 @@ export const computerUseActionSchema = z
     computerUseActionMouseMoveSchema,
     computerUseActionMouseScrollSchema,
     computerUseActionMouseDragSchema,
-    computerUseActionKeyboardTypeSchema,
-    computerUseActionKeyboardHotkeySchema,
+    generalActionKeyboardTypeSchema,
+    generalActionKeyboardHotkeySchema,
     generalActionScreenshotSchema,
     generalActionWaitSchema,
     generalActionFinishedSchema,
@@ -335,8 +356,8 @@ export type IComputerUseActionMouseTripleClick = z.infer<typeof computerUseActio
 export type IComputerUseActionMouseMove = z.infer<typeof computerUseActionMouseMoveSchema>
 export type IComputerUseActionMouseScroll = z.infer<typeof computerUseActionMouseScrollSchema>
 export type IComputerUseActionMouseDrag = z.infer<typeof computerUseActionMouseDragSchema>
-export type IComputerUseActionKeyboardType = z.infer<typeof computerUseActionKeyboardTypeSchema>
-export type IComputerUseActionKeyboardHotkey = z.infer<typeof computerUseActionKeyboardHotkeySchema>
+export type IGeneralActionKeyboardType = z.infer<typeof generalActionKeyboardTypeSchema>
+export type IGeneralActionKeyboardHotkey = z.infer<typeof generalActionKeyboardHotkeySchema>
 export type IComputerUseActionScreenshot = z.infer<typeof generalActionScreenshotSchema>
 export type IComputerUseActionWait = z.infer<typeof generalActionWaitSchema>
 export type IComputerUseActionFinished = z.infer<typeof generalActionFinishedSchema>
@@ -345,7 +366,8 @@ export type IComputerUseActionUserTakeover = z.infer<typeof generalActionUserTak
 export type IComputerUseActionKeyDown = z.infer<typeof computerUseActionKeyDownSchema>
 export type IComputerUseActionKeyUp = z.infer<typeof computerUseActionKeyUpSchema>
 
-export type ISandboxAction = z.infer<typeof sandboxActionSchema>
+export type IAssistantAction = z.infer<typeof sandboxActionSchema>
+export type IMobileUseAction = z.infer<typeof mobileUseActionSchema>
 
 export type IExecuteComputerUseAction = z.infer<typeof executeComputerUseActionSchema>
 export type IExecuteMobileUseAction = z.infer<typeof executeMobileUseActionSchema>
