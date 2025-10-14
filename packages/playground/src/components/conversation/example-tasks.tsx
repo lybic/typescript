@@ -8,15 +8,18 @@ export function ExampleTasks({ onSendText }: { onSendText: (text: string) => voi
     <div className="flex flex-col gap-2 h-full justify-end px-2 pb-4">
       <div className="text-sm text-muted-foreground">No idea? Try one of these:</div>
       <Task
-        title="Open the calculator (in standard mode)"
-        description="and calculate (1263+456)×78÷5"
-        prompt="Open the calculator (in standard mode) and calculate (1263+456)×78÷5"
+        title="Book a flight"
+        description="Please help me book the cheapest flight from Beijing to Shanghai for tomorrow on Ctrip."
+        prompt="Please help me book the cheapest flight from Beijing to Shanghai for tomorrow on Ctrip."
         onSendText={onSendText}
       />
       <Task
-        title="Search for news about Agent"
-        description="and record the first three news headlines into a txt document"
-        prompt="Search for news about Agent and record the first three news headlines into a txt document"
+        title="Scrape comments"
+        description='Go to Bilibili, search for videos related to "lybic", then record the first comment in a WPS Table.'
+        prompt={`Go to Bilibili, search for videos related to "lybic", then record the first comment in a WPS Table. The WPS Table application is on the desktop.
+Requirements:
+1. The content to be recorded in the table must include the commenter's name, comment content, and comment time.
+2. Do not copy by selecting text; instead, directly record and input the content you see into the table. It is essential to ensure the content is accurate and free of errors.`}
         onSendText={onSendText}
       />
     </div>
