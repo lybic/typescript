@@ -36,6 +36,7 @@ import { sandboxStore } from '@/stores/sandbox'
 import { UI_MODELS } from './models'
 import { exportChatHistory } from '@/lib/save-chat-history'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+import { sessionStore } from '@/stores/session'
 
 export function InputArea({
   chat,
@@ -53,8 +54,8 @@ export function InputArea({
   onStop: () => void
 }) {
   const { id: sandboxId } = useSnapshot(sandboxStore)
-  const { model, ground, screenshotsInContext, language, systemPrompt, thinking } =
-    useSnapshot(conversationConfigState)
+  const { signedInViaDashboard } = useSnapshot(sessionStore)
+  const { model, ground, screenshotsInContext, language, systemPrompt, thinking } = useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
 
   useEffect(() => {
@@ -109,9 +110,13 @@ export function InputArea({
       />
       <div className="flex gap-2 mt-2 justify-between items-center">
         <div className="text-xs text-muted-foreground flex items-center">
-          <div>LLM Credits:</div>
-          <div className="ml-1"></div>
-          <LLMBudget />
+          {!signedInViaDashboard && (
+            <>
+              <div>LLM Credits:</div>
+              <div className="ml-1"></div>
+              <LLMBudget />
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Tooltip>
@@ -203,7 +208,7 @@ export function InputArea({
                   <div className="mx-2 flex flex-col">
                     <div>Grounding Model</div>
                     <div className="text-muted-foreground">
-                      {ground ? UI_MODELS[ground]?.displayName ?? ground : 'Select...'}
+                      {ground ? (UI_MODELS[ground]?.displayName ?? ground) : 'Select...'}
                     </div>
                     {model === ground && ground && (
                       <div className="text-xs text-muted-foreground mt-1">
@@ -341,7 +346,13 @@ export function InputArea({
                 </Button>
               </TooltipTrigger>
               <TooltipContent collisionPadding={12}>
-                <p>{!sandboxId ? 'Select or create a sandbox first' : !canSend ? 'Please select a grounding model' : 'Send'}</p>
+                <p>
+                  {!sandboxId
+                    ? 'Select or create a sandbox first'
+                    : !canSend
+                      ? 'Please select a grounding model'
+                      : 'Send'}
+                </p>
               </TooltipContent>
             </Tooltip>
           )}
