@@ -4,15 +4,18 @@ import { sandboxesQueryOptions } from '@/queries/sandboxes-query'
 import { trailUserQueryOptions } from '@/queries/trail-user-query'
 import { sandboxStore } from '@/stores/sandbox'
 import { sessionStore } from '@/stores/session'
-import { IconPlus, IconReload } from '@tabler/icons-react'
+import { IconBoxOff, IconPlus, IconReload } from '@tabler/icons-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
 import { useSnapshot } from 'valtio'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Spinner } from '../ui/spinner'
 import { sandboxQueryOptions } from '@/queries/sandbox-query'
 import { useNewChat } from '@/hooks/use-new-chat'
+import { Tooltip, TooltipContent } from '../ui/tooltip'
+import { TooltipTrigger } from '@radix-ui/react-tooltip'
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '../ui/empty'
 
 export function DesktopTopBarSelect() {
   const queryClient = useQueryClient()
@@ -48,6 +51,13 @@ export function DesktopTopBarSelect() {
     }
   })
 
+  const handleCreateSandbox = () => {
+    createSandbox.mutateAsync().then((user) => {
+      sandboxStore.id = user.allowedSandboxId
+      queryClient.invalidateQueries(sandboxQueryOptions(session.orgId, user.allowedSandboxId))
+    })
+  }
+
   return (
     <>
       <Select value={selectedSandboxId} onValueChange={handleSelectSandboxChange} disabled={createSandbox.isPending}>
@@ -76,14 +86,39 @@ export function DesktopTopBarSelect() {
                 </div>
               </SelectItem>
             ))}
+            {sandboxesQuery.data?.length === 0 && (
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <IconBoxOff />
+                  </EmptyMedia>
+                  <EmptyTitle>No Sandbox</EmptyTitle>
+                </EmptyHeader>
+                <EmptyContent>
+                  <Button onClick={handleCreateSandbox} isLoading={createSandbox.isPending}>
+                    New Sandbox
+                  </Button>
+                </EmptyContent>
+              </Empty>
+            )}
           </SelectGroup>
-          <SelectItem value="create" disabled={trialUserQuery.data?.remainSandboxCount === 0}>
-            <IconPlus className="size-4 in-[[data-slot=select-value]]:hidden" />
-            New Sandbox
-            {trialUserQuery.data && ` (${trialUserQuery.data.remainSandboxCount} Remaining)`}
-          </SelectItem>
         </SelectContent>
       </Select>
+      <Tooltip>
+        <TooltipContent>
+          New Sandbox{trialUserQuery.data && ` (${trialUserQuery.data.remainSandboxCount} Remaining)`}
+        </TooltipContent>
+        <TooltipTrigger asChild>
+          <Button
+            variant="outline"
+            className="size-8"
+            onClick={handleCreateSandbox}
+            isLoading={createSandbox.isPending}
+          >
+            <IconPlus />
+          </Button>
+        </TooltipTrigger>
+      </Tooltip>
       <Button variant="outline" className="size-8" onClick={handleReload} isLoading={sandboxesQuery.isFetching}>
         <IconReload className="size-4" />
       </Button>
