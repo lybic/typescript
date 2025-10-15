@@ -6,11 +6,11 @@ export const myAxios = axios.create({
   baseURL: import.meta.env.VITE_LYBIC_BASE_URL ?? '/',
 })
 myAxios.interceptors.request.use((config) => {
-  const { trialSessionToken } = sessionStore
+  const { trialSessionToken, dashboardSessionToken } = sessionStore
   if (trialSessionToken) {
     config.headers.set('x-trial-session-token', trialSessionToken)
-  } else {
-    config.withCredentials = true
+  } else if (dashboardSessionToken) {
+    config.headers.set('authorization', `Bearer ${dashboardSessionToken}`)
   }
   return config
 })

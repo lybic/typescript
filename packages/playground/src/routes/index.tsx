@@ -30,7 +30,7 @@ function Home() {
           <Spinner className="size-8 text-muted-foreground" />
         </div>
       )}
-      {!session.orgId && <iframe src="/verify" className="w-full h-full absolute top-0 left-0" />}
+      {!session.orgId && <VerificationDialog />}
       <CheckWebTransport />
       <CheckUnsupportedFeatures />
     </div>

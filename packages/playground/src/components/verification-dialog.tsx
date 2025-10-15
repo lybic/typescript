@@ -1,49 +1,49 @@
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { useConnectResponder } from '@/hooks/use-connect-responder'
+import { sessionStore } from '@/stores/session'
 import { DialogDescription } from '@radix-ui/react-dialog'
-import { IconBuilding, IconMoodPuzzled, IconPhone, IconRefresh } from '@tabler/icons-react'
-import { VerifyPhoneNumber } from './verification-dialog/verify-phone-number'
+import { IconExternalLink } from '@tabler/icons-react'
+import { useCallback, useEffect } from 'react'
 
 export function VerificationDialog() {
+  const response = useConnectResponder()
+  const handleLogin = useCallback(() => {
+    const screenX = window.screenX + (window.innerWidth - 500) / 2
+    const screenY = window.screenY + (window.innerHeight - 620) / 2
+    window.open(
+      'http://localhost:3050/auth/connect',
+      'connect',
+      `width=500,height=620,popup=true,screenX=${screenX},screenY=${screenY}`,
+    )
+  }, [])
+
+  useEffect(() => {
+    if (response?.sessionToken && response?.orgId) {
+      sessionStore.trialSessionToken = ''
+      sessionStore.dashboardSessionToken = response?.sessionToken ?? ''
+      sessionStore.orgId = response?.orgId ?? ''
+      sessionStore.signedInViaDashboard = true
+    }
+  }, [response])
+
   return (
     <Dialog open>
       <DialogContent showCloseButton={false}>
         <DialogHeader>
-          <DialogTitle>Verification required</DialogTitle>
-          <DialogDescription asChild>
-            <Tabs defaultValue="trail" className="mt-2">
-              <TabsList className="mb-4 hidden">
-                <TabsTrigger value="trail">
-                  <IconPhone />
-                  Phone Number
-                </TabsTrigger>
-                <TabsTrigger value="org">
-                  <IconBuilding />
-                  Existing Organization
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="trail">
-                <VerifyPhoneNumber />
-              </TabsContent>
-              <TabsContent value="org">
-                <Alert>
-                  <IconMoodPuzzled />
-                  <AlertTitle>No organization found</AlertTitle>
-                  <AlertDescription className="space-y-2">
-                    <div>
-                      Please{' '}
-                      <a href="https://dashboard.lybic.cn/" target="_blank" className="underline underline-offset-2">
-                        sign in
-                      </a>{' '}
-                      via the Lybic dashboard and make sure you have joined an organization.
-                    </div>
-                  </AlertDescription>
-                </Alert>
-              </TabsContent>
-            </Tabs>
+          <DialogTitle>Login required</DialogTitle>
+          <DialogDescription>
+            <div>
+              In order to use the Lybic playground, you need to login via the Lybic dashboard, and join or create an
+              organization.
+            </div>
           </DialogDescription>
+          <div className="mt-2">
+            <Button className="w-full" type="button" onClick={handleLogin}>
+              <IconExternalLink />
+              Login
+            </Button>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>
