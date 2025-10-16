@@ -73,7 +73,7 @@ const MODEL_CONFIG = {
     parser: 'ui-tars',
     type: ['planner', 'grounding'],
   },
-  'OpenCUA': {
+  OpenCUA: {
     model: lybicModel('OpenCUA-7B'),
     zh: groundingAgentOpenCuaPromptAllLang,
     en: groundingAgentOpenCuaPromptAllLang,
@@ -281,8 +281,10 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           debug('groundingModelConfig', groundingModelConfig)
 
           // Planner call
-          const plannerSystemPrompt = plannerAgentPromptAllLang
-            .replaceAll('{LANGUAGE}', extras.language === 'zh' ? '中文' : 'English')
+          const plannerSystemPrompt = plannerAgentPromptAllLang.replaceAll(
+            '{LANGUAGE}',
+            extras.language === 'zh' ? '中文' : 'English',
+          )
 
           let planText = ''
           const plannerResult = streamText({
@@ -291,6 +293,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             messages: modelMessages,
             headers: {
               Authorization: `Bearer ${this.options.apiKey()}`,
+              ['X-Organization-Id']: this.currentOrgId ?? '',
             },
             abortSignal: options.abortSignal,
             providerOptions: {
@@ -347,6 +350,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             messages: groundingModelMessages,
             headers: {
               Authorization: `Bearer ${this.options.apiKey()}`,
+              ['X-Organization-Id']: this.currentOrgId ?? '',
             },
             abortSignal: options.abortSignal,
             onFinish: async (message) => {
@@ -435,6 +439,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
             messages: modelMessages,
             headers: {
               Authorization: `Bearer ${this.options.apiKey()}`,
+              ['X-Organization-Id']: this.currentOrgId ?? '',
             },
             abortSignal: options.abortSignal,
             providerOptions: {

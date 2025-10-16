@@ -102,7 +102,7 @@ export function Conversation() {
     messages: chatId === 'unassigned' ? initialMessages : [],
     experimental_throttle: 50,
     transport: new LybicChatTransport({
-      apiKey: () => sessionStore.llmApiKey,
+      apiKey: () => (sessionStore.signedInViaDashboard ? sessionStore.dashboardSessionToken : sessionStore.llmApiKey),
     }),
     onFinish: useEffectEvent(({ message }) => {
       debug('onFinish', message, chat.messages)
