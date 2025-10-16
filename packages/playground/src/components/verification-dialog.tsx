@@ -1,9 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useConnectResponder } from '@/hooks/use-connect-responder'
+import { getSessionQueryOptions } from '@/queries/get-session'
 import { sessionStore } from '@/stores/session'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { IconExternalLink } from '@tabler/icons-react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect } from 'react'
 
 export function VerificationDialog() {
@@ -18,12 +20,14 @@ export function VerificationDialog() {
     )
   }, [])
 
+  const queryClient = useQueryClient()
   useEffect(() => {
     if (response?.sessionToken && response?.orgId) {
       sessionStore.trialSessionToken = ''
       sessionStore.dashboardSessionToken = response?.sessionToken ?? ''
       sessionStore.orgId = response?.orgId ?? ''
       sessionStore.signedInViaDashboard = true
+      queryClient.resetQueries(getSessionQueryOptions())
     }
   }, [response])
 

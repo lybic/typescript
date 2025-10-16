@@ -4,7 +4,7 @@ import { sandboxesQueryOptions } from '@/queries/sandboxes-query'
 import { trailUserQueryOptions } from '@/queries/trail-user-query'
 import { sandboxStore } from '@/stores/sandbox'
 import { sessionStore } from '@/stores/session'
-import { IconBoxOff, IconPlus, IconReload } from '@tabler/icons-react'
+import { IconBoxOff, IconMoodConfuzed, IconPlus, IconReload } from '@tabler/icons-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
@@ -99,6 +99,17 @@ export function DesktopTopBarSelect() {
                     New Sandbox
                   </Button>
                 </EmptyContent>
+              </Empty>
+            )}
+            {sandboxesQuery.error && (
+              <Empty>
+                <EmptyHeader>
+                  <EmptyMedia variant="icon">
+                    <IconMoodConfuzed />
+                  </EmptyMedia>
+                  <EmptyTitle>Failed to load sandboxes</EmptyTitle>
+                </EmptyHeader>
+                <EmptyContent>{sandboxesQuery.error.message}</EmptyContent>
               </Empty>
             )}
           </SelectGroup>

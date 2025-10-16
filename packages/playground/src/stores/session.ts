@@ -10,6 +10,14 @@ const initialState = {
 
 export const sessionStore = proxy(initialState)
 
+export function clearSession() {
+  sessionStore.signedInViaDashboard = false
+  sessionStore.dashboardSessionToken = ''
+  sessionStore.orgId = ''
+  sessionStore.trialSessionToken = ''
+  sessionStore.llmApiKey = ''
+}
+
 function readFromLocalStorage() {
   const playgroundJson = localStorage.getItem('lybic-playground')
   if (playgroundJson) {
