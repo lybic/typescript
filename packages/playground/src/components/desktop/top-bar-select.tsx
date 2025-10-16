@@ -52,9 +52,9 @@ export function DesktopTopBarSelect() {
   })
 
   const handleCreateSandbox = () => {
-    createSandbox.mutateAsync().then((user) => {
-      sandboxStore.id = user.allowedSandboxId
-      queryClient.invalidateQueries(sandboxQueryOptions(session.orgId, user.allowedSandboxId))
+    createSandbox.mutateAsync().then((sandboxId) => {
+      sandboxStore.id = sandboxId
+      queryClient.invalidateQueries(sandboxQueryOptions(session.orgId, sandboxId))
     })
   }
 
