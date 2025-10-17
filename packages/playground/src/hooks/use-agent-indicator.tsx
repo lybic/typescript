@@ -76,10 +76,14 @@ export function useAgentIndicator(
   useEffect(() => {
     recalculateScreenPos()
     const resizeObserver = new ResizeObserver(recalculateScreenPos)
+    window.addEventListener('resize', recalculateScreenPos)
     if (container.current) {
       resizeObserver.observe(container.current)
     }
-    return () => resizeObserver.disconnect()
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', recalculateScreenPos)
+    }
   }, [screenSize, lastAction])
 
   useEffect(() => {

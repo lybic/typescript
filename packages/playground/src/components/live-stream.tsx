@@ -37,5 +37,5 @@ export function LiveStream({
     }
   }, [sandboxId])
 
-  return <canvas className="w-full h-full outline-none" ref={canvas} tabIndex={0} />
+  return <canvas className="lybic-stream outline-none" ref={canvas} tabIndex={0} />
 }
