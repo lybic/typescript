@@ -7,8 +7,13 @@ import { useEffect, useRef } from 'react'
 export function LiveStream({
   connectDetails,
   sandboxId,
+  shape,
 }: {
   connectDetails: SandboxConnectDetails
+  shape: {
+    os: 'Android' | 'Windows' | 'Linux'
+    hardwareAcceleratedEncoding: boolean
+  }
   sandboxId: string
 }) {
   const streamingClient = useRef<StreamingClient | null>(null)
@@ -18,9 +23,10 @@ export function LiveStream({
     if (!canvas.current) return
 
     const sc = new StreamingClient(canvas.current, {
-      preferredVideoEncoding: 4 /* VP9 */,
-      videoFps: 12,
-      videoBitrate: 1 * 1024 * 1024,
+      preferredVideoEncoding: shape.hardwareAcceleratedEncoding ? 2 /* H265 */ : 4 /* VP9 */,
+      videoFps: shape.hardwareAcceleratedEncoding ? 30 : 12,
+      videoBitrate: 1200 * 1024,
+      pointerTouchInput: shape.os === 'Android',
     })
     const sub = sc.screenSize$.subscribe((size) => {
       indicatorStore.screenSize = size

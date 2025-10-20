@@ -46,7 +46,7 @@ export function AgentDesktop() {
           ref={containerRef}
         >
           {sb.connectDetails ? (
-            <LiveStream connectDetails={sb.connectDetails} sandboxId={sb.id} />
+            <LiveStream connectDetails={sb.connectDetails} shape={sb.shape} sandboxId={sb.id} />
           ) : (
             <div className="lybic-stream">
               <div className="w-full h-full absolute clip-rounded-lg">
