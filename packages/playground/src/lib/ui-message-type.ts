@@ -28,7 +28,7 @@ export type BodyExtras = {
   baseUrl?: string
   systemPrompt?: string
   model: string
-  ground: string | null
+  groundingModel: string | null
   screenshotsInContext?: number | 'all'
   language?: 'zh' | 'en'
   sandboxId?: string

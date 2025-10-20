@@ -65,7 +65,8 @@ function shouldAutoSend(lastMessage?: LybicUIMessage): {
 
 export function Conversation() {
   const queryClient = useQueryClient()
-  const { systemPrompt, model, ground, screenshotsInContext, language, thinking, reflection } = useSnapshot(conversationConfigState)
+  const { systemPrompt, model, ground, screenshotsInContext, language, thinking, reflection } =
+    useSnapshot(conversationConfigState)
   const messagesRef = useRef<HTMLDivElement>(null)
   const [chatId, setChatId] = useState('unassigned')
   const initialMessages = useMemo(
@@ -118,10 +119,13 @@ export function Conversation() {
       const { autoSend, error, success, userTakeover } = shouldAutoSend(message)
       if (autoSend) {
         setWaitingForAutoSend(true)
-        autoSendTimer.current = setTimeout(() => {
-          handleSendText('')
-          setWaitingForAutoSend(false)
-        }, reflection === 'enabled' ? 0 : DELAY_TIME_MS)
+        autoSendTimer.current = setTimeout(
+          () => {
+            handleSendText('')
+            setWaitingForAutoSend(false)
+          },
+          reflection === 'enabled' ? 0 : DELAY_TIME_MS,
+        )
       }
       if (error) {
         toast.error('Action failed', { description: error })
@@ -157,6 +161,10 @@ export function Conversation() {
             return messages
           }),
         )
+      } else if (data.type === 'data-parsed') {
+        if (data.data.actions.length > 0) {
+          indicatorStore.lastAction = structuredClone(data.data.actions[0]!)
+        }
       }
     },
   })
@@ -179,7 +187,7 @@ export function Conversation() {
           trialSessionToken: sessionStore.trialSessionToken,
           thinking: UI_MODELS[model]?.thinking ? thinking : undefined,
           model,
-          ground,
+          groundingModel: ground,
           screenshotsInContext,
           language,
         } as BodyExtras,
