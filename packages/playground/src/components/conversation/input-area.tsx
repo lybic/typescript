@@ -39,6 +39,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { sessionStore } from '@/stores/session'
 import { CHAT_MENU } from './chat-menu'
 import { ChatMenuItem } from './chat-menu-item'
+import { cn } from '@/lib/utils'
 
 export function InputArea({
   chat,
@@ -57,8 +58,13 @@ export function InputArea({
 }) {
   const { id: sandboxId } = useSnapshot(sandboxStore)
   const { signedInViaDashboard } = useSnapshot(sessionStore)
+  const { model } = useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
 
+  const modelConfig = UI_MODELS[model]
+  const disabledMenuItems = {
+    thinking: modelConfig?.thinking ? false : true,
+  } as Record<string, boolean>
   const canSend = !!sandboxId
 
   const handleSubmit = useEffectEvent(() => {
@@ -142,8 +148,9 @@ export function InputArea({
               {CHAT_MENU.map((menuItem) =>
                 'options' in menuItem ? (
                   <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
+                    <DropdownMenuSubTrigger disabled={disabledMenuItems[menuItem.key] ?? false}>
                       <ChatMenuItem
+                        disabled={disabledMenuItems[menuItem.key] ?? false}
                         menuItem={{
                           ...menuItem,
                           description: menuItem.options.find(
