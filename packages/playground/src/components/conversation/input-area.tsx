@@ -166,7 +166,7 @@ export function InputArea({
                 <DropdownMenuSubTrigger>
                   <IconMessageChatbot className="shrink-0 size-4 text-muted-foreground" />
                   <div className="mx-2 flex flex-col">
-                    <div>Planner Model</div>
+                    <div>Model</div>
                     <div className="text-muted-foreground">{UI_MODELS[model]?.displayName ?? model}</div>
                   </div>
                 </DropdownMenuSubTrigger>
@@ -176,58 +176,10 @@ export function InputArea({
                       value={model}
                       onValueChange={(value) => {
                         conversationConfigState.model = value
-                        const newPlanner = UI_MODELS[value]
-                        if (newPlanner && newPlanner.type.includes('grounding')) {
-                          conversationConfigState.ground = value
-                        } else {
-                          const currentGroundingModel = UI_MODELS[conversationConfigState.ground ?? '']
-                          if (!currentGroundingModel || !currentGroundingModel.type.includes('grounding')) {
-                            const firstGroundingModel = Object.keys(UI_MODELS).find((key) =>
-                              UI_MODELS[key]!.type.includes('grounding'),
-                            )
-                            if (firstGroundingModel) {
-                              conversationConfigState.ground = firstGroundingModel
-                            }
-                          }
-                        }
                       }}
                     >
                       {Object.entries(UI_MODELS)
                         .filter(([_, value]) => value.type.includes('planner') && (showHidden || !value.hidden))
-                        .map(([key, value]) => (
-                          <DropdownMenuRadioItem key={key} value={key}>
-                            {value.displayName}
-                          </DropdownMenuRadioItem>
-                        ))}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <IconRuler className="shrink-0 size-4 text-muted-foreground" />
-                  <div className="mx-2 flex flex-col">
-                    <div>Grounding Model</div>
-                    <div className="text-muted-foreground">
-                      {ground ? (UI_MODELS[ground]?.displayName ?? ground) : 'Select...'}
-                    </div>
-                    {model === ground && ground && (
-                      <div className="text-xs text-muted-foreground mt-1">
-                        The model you choose will support self-grounding
-                      </div>
-                    )}
-                  </div>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent collisionPadding={20} className="w-64">
-                    <DropdownMenuRadioGroup
-                      value={ground ?? undefined}
-                      onValueChange={(value) => {
-                        conversationConfigState.ground = value
-                      }}
-                    >
-                      {Object.entries(UI_MODELS)
-                        .filter(([_, value]) => value.type.includes('grounding') && (showHidden || !value.hidden))
                         .map(([key, value]) => (
                           <DropdownMenuRadioItem key={key} value={key}>
                             {value.displayName}
@@ -261,30 +213,6 @@ export function InputArea({
                       value={`${thinking}`}
                       onValueChange={(value) => {
                         conversationConfigState.thinking = value as 'disabled' | 'enabled'
-                      }}
-                    >
-                      <DropdownMenuRadioItem value="disabled">Disabled</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="enabled">Enabled</DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <IconBulb className="shrink-0 size-4 text-muted-foreground" />
-                  <div className="mx-2 flex flex-col">
-                    <div>Reflection</div>
-                    <div className="text-muted-foreground">
-                      {(reflection ?? 'disabled') === 'enabled' ? 'Enabled' : 'Disabled'}
-                    </div>
-                  </div>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent collisionPadding={20}>
-                    <DropdownMenuRadioGroup
-                      value={reflection ?? 'disabled'}
-                      onValueChange={(value) => {
-                        conversationConfigState.reflection = value as 'disabled' | 'enabled'
                       }}
                     >
                       <DropdownMenuRadioItem value="disabled">Disabled</DropdownMenuRadioItem>
