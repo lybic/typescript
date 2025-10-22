@@ -257,6 +257,26 @@ export class LybicClient {
     })
   }
 
+  public executeSandboxAction(
+    sandboxId: string,
+    data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/execute']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/execute'], 'post'>,
+      'body' | 'params'
+    >,
+  ) {
+    return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/execute', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+        },
+      },
+      body: data,
+      ...initParam,
+    })
+  }
+
   public getStats(initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/stats'], 'get'>, 'params'>) {
     return this.client.GET('/api/orgs/{orgId}/stats', {
       params: {
@@ -280,17 +300,21 @@ export class LybicClient {
 
   public parseLlmOutputText(
     type: operations['parseModelTextOutput']['parameters']['path']['type'],
+    actionSpace: 'computer-use' | 'mobile-use',
     data: paths['/api/computer-use/parse/{type}']['post']['requestBody']['content']['application/json'],
     initParam?: Omit<MaybeOptionalInit<paths['/api/computer-use/parse/{type}'], 'post'>, 'body' | 'params'>,
   ) {
-    return this.client.POST('/api/computer-use/parse/{type}', {
-      params: {
-        path: {
-          type,
+    return this.client.POST(
+      actionSpace === 'computer-use' ? '/api/computer-use/parse/{type}' : '/api/mobile-use/parse/{type}',
+      {
+        params: {
+          path: {
+            type,
+          },
         },
+        body: data,
+        ...initParam,
       },
-      body: data,
-      ...initParam,
-    })
+    )
   }
 }

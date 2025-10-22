@@ -341,9 +341,30 @@ export const executeMobileUseActionSchema = z.object({
     .optional()
     .default(true)
     .describe('Whether to include the screenshot url after action in the response'),
+  includeCursorPosition: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe(
+      'Whether to include the cursor position after action in the response. Only width and height are meaningful.',
+    ),
 })
 
-export const executeSandboxActionSchema = z.union([executeComputerUseActionSchema, executeMobileUseActionSchema])
+export const executeSandboxActionSchema = z.object({
+  action: z.union([computerUseActionSchema, mobileUseActionSchema]),
+  includeScreenShot: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe('Whether to include the screenshot url after action in the response'),
+  includeCursorPosition: z
+    .boolean()
+    .optional()
+    .default(true)
+    .describe(
+      'Whether to include the cursor position after action in the response. On some cursor-less devices, only width and height are meaningful.',
+    ),
+})
 
 export type ILength = z.infer<typeof lengthSchema>
 export type ILengthPixel = z.infer<typeof lengthPxSchema>

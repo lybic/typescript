@@ -5,11 +5,12 @@ import guiAgentSeedPromptEn from '@/prompts/gui-agent-seed.en.txt?raw'
 import guiAgentSeedPromptZh from '@/prompts/gui-agent-seed.zh.txt?raw'
 import guiAgentUiTarsPromptEn from '@/prompts/gui-agent-ui-tars.en.txt?raw'
 import guiAgentUiTarsPromptZh from '@/prompts/gui-agent-ui-tars.zh.txt?raw'
+import mobileUseUiTarsPrompt from '@/prompts/mobile-use-ui-tars.txt?raw'
 import plannerAgentPromptAllLang from '@/prompts/planner-agent.txt?raw'
 import { LybicClient } from '@lybic/core'
 import { ChatRequestOptions, ChatTransport, createUIMessageStream, LanguageModel, streamText, UIMessageChunk } from 'ai'
 import createDebug from 'debug'
-import { executeComputerUseAction } from './api/execute-computer-use-action'
+import { executeSandboxAction } from './api/execute-computer-use-action'
 import { parseLlmText } from './api/parse-llm-text'
 import { buildHistory } from './chat-utils/build-history'
 import { mergeToWriter } from './chat-utils/merge-to-writer'
@@ -188,9 +189,11 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
           main: MODEL_CONFIG[extras.model]!,
         }
         const userSystemPrompt = extras.systemPrompt as string | null
+        const actionSpace = extras.actionSpace ?? 'computer-use'
+        const computerUseSystemPrompt = extras.language === 'zh' ? modelConfig.main.zh : modelConfig.main.en
 
         const systemPrompt = formatGroundingPrompt(
-          extras.language === 'zh' ? modelConfig.main.zh : modelConfig.main.en,
+          actionSpace === 'computer-use' ? computerUseSystemPrompt : mobileUseUiTarsPrompt, // [FIXME]: different models should have their own system prompt
           { userLanguage: extras.language as 'zh' | 'en', screenSize },
         )
 
@@ -216,7 +219,8 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
                 }
                 const parsedAction = await throwIfAborted(
                   options.abortSignal,
-                  () => parseLlmText(coreClient, message.text, modelConfig.main.parser, options.abortSignal),
+                  () =>
+                    parseLlmText(coreClient, message.text, modelConfig.main.parser, actionSpace, options.abortSignal),
                   'Parse LLM output',
                 )
                 debug('parsedActions', parsedAction)
@@ -229,12 +233,12 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
                     },
                   })
                   for (const action of parsedAction?.actions) {
-                    debug('executeComputerUseAction', action)
+                    debug('execute action', action)
 
                     await throwIfAborted(
                       options.abortSignal,
                       () =>
-                        executeComputerUseAction(
+                        executeSandboxAction(
                           coreClient!,
                           sandboxId as string,
                           { action, includeScreenShot: false, includeCursorPosition: false },

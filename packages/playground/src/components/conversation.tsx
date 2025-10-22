@@ -190,6 +190,7 @@ export function Conversation() {
           groundingModel: ground,
           screenshotsInContext,
           language,
+          actionSpace: 'mobile-use', // [FIXME]: get action space from sandbox shape
         } as BodyExtras,
       },
     )

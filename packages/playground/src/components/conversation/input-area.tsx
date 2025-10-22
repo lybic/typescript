@@ -211,13 +211,7 @@ export function InputArea({
                 </Button>
               </TooltipTrigger>
               <TooltipContent collisionPadding={12}>
-                <p>
-                  {!sandboxId
-                    ? 'Select or create a sandbox first'
-                    : !canSend
-                      ? 'Please select a grounding model'
-                      : 'Send'}
-                </p>
+                <p>{!sandboxId ? 'Select or create a sandbox first' : 'Send'}</p>
               </TooltipContent>
             </Tooltip>
           )}

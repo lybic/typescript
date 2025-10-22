@@ -1,7 +1,7 @@
 import { LybicClient, operations } from '@lybic/core'
 import { apiRetry } from './api-retry'
 
-export function executeComputerUseAction(
+export function executeSandboxAction(
   coreClient: LybicClient,
   sandboxId: string,
   {
@@ -9,14 +9,14 @@ export function executeComputerUseAction(
     includeCursorPosition,
     includeScreenShot,
   }: {
-    action: operations['executeComputerUseAction']['requestBody']['content']['application/json']['action']
+    action: operations['executeSandboxAction']['requestBody']['content']['application/json']['action']
     includeScreenShot: boolean
     includeCursorPosition: boolean
   },
   signal?: AbortSignal,
 ) {
   return apiRetry(signal, async (signal) => {
-    const response = await coreClient.executeComputerUseAction(
+    const response = await coreClient.executeSandboxAction(
       sandboxId,
       {
         action,
