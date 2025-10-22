@@ -7,7 +7,6 @@ import { sessionStore } from '@/stores/session'
 import { IconBoxOff, IconMoodConfuzed, IconPlus, IconReload } from '@tabler/icons-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
-import { useEffectEvent } from 'use-effect-event'
 import { useSnapshot } from 'valtio'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Spinner } from '../ui/spinner'
@@ -24,16 +23,16 @@ export function DesktopTopBarSelect() {
   const trialUserQuery = useQuery(trailUserQueryOptions())
   const [selectedSandboxId, setSelectedSandboxId] = useState<string>('')
 
-  const handleReload = useEffectEvent(() => {
+  const handleReload = () => {
     sandboxesQuery.refetch()
     trialUserQuery.refetch()
-  })
+  }
 
   const createSandbox = useCreateSandbox()
 
   const newChat = useNewChat()
 
-  const handleSelectSandboxChange = useEffectEvent((value: string) => {
+  const handleSelectSandboxChange = (value: string) => {
     setSelectedSandboxId(value)
     newChat()
     if (value === 'create') {
@@ -49,7 +48,7 @@ export function DesktopTopBarSelect() {
     } else if (value) {
       sandboxStore.id = value
     }
-  })
+  }
 
   const handleCreateSandbox = () => {
     createSandbox.mutateAsync().then((sandboxId) => {

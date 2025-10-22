@@ -7,7 +7,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { sessionStore } from '@/stores/session'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select'
 import { Spinner } from '../ui/spinner'
-import { useEffectEvent } from 'use-effect-event'
 import { useCreateSandbox } from '@/hooks/use-create-sandbox'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { trailUserQueryOptions } from '@/queries/trail-user-query'
@@ -42,7 +41,7 @@ export function DesktopTopBar() {
     }
   }, [sandboxQuery.data, sandboxQuery.isPending])
 
-  const handleCountdownExpired = useEffectEvent(() => {
+  const handleCountdownExpired = () => {
     sandboxExpiredToast.current = toast.warning('Your sandbox was expired.', {
       description: 'Please create or select a new sandbox to continue.',
       closeButton: true,
@@ -52,7 +51,7 @@ export function DesktopTopBar() {
     sandboxStore.expiresAt = 0
     sandboxStore.id = ''
     queryClient.invalidateQueries()
-  })
+  }
 
   const deleteSandbox = useDeleteSandbox(session.orgId, sbState.id)
 

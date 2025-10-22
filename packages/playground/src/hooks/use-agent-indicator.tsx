@@ -2,7 +2,6 @@ import { indicatorStore } from '@/stores/indicator'
 import { type IComputerUseAction, ILength } from '@lybic/schema'
 import { RefObject, useEffect, useRef, useState } from 'react'
 import { useSnapshot } from 'valtio'
-import { useEffectEvent } from 'use-effect-event'
 
 type MouseAction = IComputerUseAction & { type: `mouse:${string}` }
 
@@ -27,7 +26,7 @@ export function useAgentIndicator(
     }
   }, [])
 
-  const recalculateScreenPos = useEffectEvent(() => {
+  const recalculateScreenPos = () => {
     if (!container.current) return
 
     const containerRect = container.current.getBoundingClientRect()
@@ -71,7 +70,7 @@ export function useAgentIndicator(
         setType('point')
       }
     }
-  })
+  }
 
   useEffect(() => {
     recalculateScreenPos()

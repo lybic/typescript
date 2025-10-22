@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useEffectEvent } from 'use-effect-event'
+import { useCallback, useEffect } from 'react'
 import { proxy, subscribe } from 'valtio'
 
 const newChatStore = proxy({
@@ -7,9 +6,9 @@ const newChatStore = proxy({
 })
 
 export function useNewChat() {
-  return useEffectEvent(() => {
+  return useCallback(() => {
     newChatStore.chat++
-  })
+  }, [])
 }
 
 export function useOnNewChat(callback: () => void) {

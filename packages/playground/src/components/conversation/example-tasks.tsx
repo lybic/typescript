@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { useEffectEvent } from 'use-effect-event'
 import { useSnapshot } from 'valtio'
 import { sandboxStore } from '@/stores/sandbox'
 
@@ -38,9 +37,9 @@ function Task({
   onSendText: (text: string) => void
 }) {
   const { id: sandboxId } = useSnapshot(sandboxStore)
-  const handleClick = useEffectEvent(() => {
+  const handleClick = () => {
     onSendText(prompt)
-  })
+  }
 
   return (
     <Button

@@ -16,7 +16,6 @@ import {
 } from '@tabler/icons-react'
 import { LLMBudget } from './llm-budget'
 import { Fragment, useEffect, useState } from 'react'
-import { useEffectEvent } from 'use-effect-event'
 import { LybicUIMessage } from '@/lib/ui-message-type'
 import {
   DropdownMenu,
@@ -67,7 +66,7 @@ export function InputArea({
   } as Record<string, boolean>
   const canSend = !!sandboxId
 
-  const handleSubmit = useEffectEvent(() => {
+  const handleSubmit = () => {
     if (input === 'showHiddenModels') {
       localStorage.setItem('lybicPlaygroundShowHiddenModels', 'true')
       location.reload()
@@ -80,15 +79,15 @@ export function InputArea({
       onSendText(input)
       setInput('')
     }
-  })
+  }
 
-  const handleStop = useEffectEvent(() => {
+  const handleStop = () => {
     onStop()
-  })
+  }
 
-  const handleExportChat = useEffectEvent(async () => {
+  const handleExportChat = async () => {
     await exportChatHistory(chat)
-  })
+  }
 
   const handleMenuItemClick = (key: string) => {
     if (key === 'system-prompt') {
