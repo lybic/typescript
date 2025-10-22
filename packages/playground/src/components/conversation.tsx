@@ -176,6 +176,7 @@ export function Conversation() {
 
   const handleSendText = useEffectEvent((text: string) => {
     indicatorStore.status = 'running'
+    const actionSpace = sandboxStore.shape?.os === 'Android' ? 'mobile-use' : 'computer-use'
     chat.sendMessage(
       { text, metadata: { createdAt: Date.now() } },
       {
@@ -190,7 +191,7 @@ export function Conversation() {
           groundingModel: ground,
           screenshotsInContext,
           language,
-          actionSpace: 'mobile-use', // [FIXME]: get action space from sandbox shape
+          actionSpace,
         } as BodyExtras,
       },
     )
