@@ -166,6 +166,12 @@ export const executeComputerUseResponseSchema = z.object({
       screenIndex: z.number().describe('The index of the screen.'),
     })
     .optional(),
+  actionResult: z
+    .any()
+    .optional()
+    .describe(
+      "The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists.",
+    ),
 })
 
 export type ExecuteComputerUseResponse = z.infer<typeof executeComputerUseResponseSchema>
