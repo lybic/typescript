@@ -18,6 +18,10 @@ export type LybicUIMessage = UIMessage<
       actions: IAssistantAction[]
       text?: string
     }
+    actions: {
+      index: number
+      result?: any
+    }
     reflection: {
       reflectionText: string
     }

@@ -529,6 +529,28 @@ export interface components {
             /** @description Specs and datacenter of the sandbox. */
             shape: string;
         };
+        CreateSandboxResponseDto: {
+            id: string;
+            name: string;
+            /**
+             * Format: date-time
+             * @description Deprecated, use `expiresAt` instead.
+             */
+            expiredAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+            /** Format: date-time */
+            createdAt: string;
+            projectId: string;
+            shapeName: string;
+        };
+        ExtendSandboxDto: {
+            /**
+             * @description The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days.
+             * @default 3600
+             */
+            maxLifeSeconds: number;
+        };
         GetSandboxResponseDto: {
             sandbox: {
                 id: string;
@@ -572,13 +594,6 @@ export interface components {
                 endUserToken: string;
                 roomId: string;
             };
-        };
-        ExtendSandboxDto: {
-            /**
-             * @description The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days.
-             * @default 3600
-             */
-            maxLifeSeconds: number;
         };
         ComputerUseActionDto: {
             /** @description All possible computer use actions, with optional callId */
@@ -957,6 +972,8 @@ export interface components {
                 /** @description The index of the screen. */
                 screenIndex: number;
             };
+            /** @description The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists. */
+            actionResult?: unknown;
         };
         ExecuteSandboxActionDto: {
             action: ({
@@ -1557,6 +1574,9 @@ export interface components {
             } | {
                 /** @enum {string} */
                 type: "android:home";
+            } | {
+                /** @enum {string} */
+                type: "os:listApps";
             } | {
                 /** @enum {string} */
                 type: "os:startApp";
@@ -2221,6 +2241,9 @@ export interface components {
                 type: "android:home";
             } | {
                 /** @enum {string} */
+                type: "os:listApps";
+            } | {
+                /** @enum {string} */
                 type: "os:startApp";
                 /** @description App package name */
                 packageName: string;
@@ -2416,7 +2439,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["GetSandboxResponseDto"];
+                    "application/json": components["schemas"]["CreateSandboxResponseDto"];
                 };
             };
         };

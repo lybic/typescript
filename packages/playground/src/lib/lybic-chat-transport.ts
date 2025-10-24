@@ -234,10 +234,10 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
                       text: [parsedAction.thoughts, parsedAction.unknown].filter(Boolean).join('\n'),
                     },
                   })
-                  for (const action of parsedAction?.actions) {
+                  for (const [index, action] of parsedAction?.actions.entries()) {
                     debug('execute action', action)
 
-                    await throwIfAborted(
+                    const result = await throwIfAborted(
                       options.abortSignal,
                       () =>
                         executeSandboxAction(
@@ -248,6 +248,13 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
                         ),
                       'Execute computer use action',
                     )
+                    writer.write({
+                      type: 'data-actions',
+                      data: {
+                        index,
+                        result: result?.actionResult,
+                      },
+                    })
                   }
                 }
               },
