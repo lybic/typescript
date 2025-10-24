@@ -19,7 +19,7 @@ export function clearSession() {
 }
 
 function readFromLocalStorage() {
-  const playgroundJson = localStorage.getItem('lybic-playground')
+  const playgroundJson = localStorage.getItem('lybic-playground-v2')
   if (playgroundJson) {
     const { trialSessionToken, orgId, signedInViaDashboard, llmApiKey, dashboardSessionToken } =
       JSON.parse(playgroundJson)
@@ -32,6 +32,10 @@ function readFromLocalStorage() {
 }
 
 if (typeof localStorage !== 'undefined') {
+  if (localStorage.getItem('lybic-playground')) {
+    localStorage.removeItem('lybic-playground')
+  }
+
   readFromLocalStorage()
 
   let updateTimer: NodeJS.Timeout | null = null
@@ -41,7 +45,7 @@ if (typeof localStorage !== 'undefined') {
     }
     updateTimer = setTimeout(() => {
       localStorage.setItem(
-        'lybic-playground',
+        'lybic-playground-v2',
         JSON.stringify({
           trialSessionToken: sessionStore.trialSessionToken,
           orgId: sessionStore.orgId,
@@ -55,7 +59,7 @@ if (typeof localStorage !== 'undefined') {
   })
 
   addEventListener('storage', (event) => {
-    if (event.key === 'lybic-playground') {
+    if (event.key === 'lybic-playground-v2') {
       readFromLocalStorage()
     }
   })
