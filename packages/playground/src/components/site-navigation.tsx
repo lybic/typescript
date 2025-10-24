@@ -32,7 +32,7 @@ export function SiteNavigation() {
             </a>
           </NavigationMenuLink>
           <NavigationMenuLink asChild>
-            <a href="https://dashboard.lybic.cn" target="_blank" className={navigationMenuTriggerStyle()}>
+            <a href={import.meta.env.VITE_LYBIC_BASE_URL} target="_blank" className={navigationMenuTriggerStyle()}>
               Dashboard
             </a>
           </NavigationMenuLink>
