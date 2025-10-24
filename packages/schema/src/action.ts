@@ -202,6 +202,12 @@ export const mobileUseActionPressHomeSchema = z
   })
   .describe('Press the home button')
 
+export const mobileUseActionListAppsSchema = z
+  .object({
+    type: z.literal('os:listApps'),
+  })
+  .describe('List all installed apps')
+
 export const mobileUseActionStartAppSchema = z
   .object({
     type: z.literal('os:startApp'),
@@ -280,6 +286,7 @@ export const mobileUseActionSchema = z
     mobileUseActionLongPressSchema,
     mobileUseActionPressBackSchema,
     mobileUseActionPressHomeSchema,
+    mobileUseActionListAppsSchema,
     mobileUseActionStartAppSchema,
     mobileUseActionStartAppByNameSchema,
     mobileUseActionCloseAppSchema,
