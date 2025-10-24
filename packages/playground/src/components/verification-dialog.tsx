@@ -14,7 +14,7 @@ export function VerificationDialog() {
     const screenX = window.screenX + (window.innerWidth - 500) / 2
     const screenY = window.screenY + (window.innerHeight - 620) / 2
     window.open(
-      'http://localhost:3050/auth/connect',
+      `${import.meta.env.VITE_LYBIC_BASE_URL}/auth/connect`,
       'connect',
       `width=500,height=620,popup=true,screenX=${screenX},screenY=${screenY}`,
     )
