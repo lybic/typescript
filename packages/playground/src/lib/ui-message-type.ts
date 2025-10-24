@@ -1,5 +1,5 @@
 import { UIMessage } from 'ai'
-import { IComputerUseAction } from '@lybic/schema'
+import { IAssistantAction, IComputerUseAction } from '@lybic/schema'
 
 export type LybicUIMessage = UIMessage<
   Partial<{
@@ -15,7 +15,7 @@ export type LybicUIMessage = UIMessage<
       url: string
     }
     parsed: {
-      actions: IComputerUseAction[]
+      actions: IAssistantAction[]
       text?: string
     }
     reflection: {
@@ -34,6 +34,7 @@ export type BodyExtras = {
   sandboxId?: string
   orgId?: string
   trialSessionToken?: string
+  bearerToken?: string
   thinking?: 'auto' | 'enabled' | 'disabled' // 豆包系列模型思考
   reflection?: 'enabled' | 'disabled'
   actionSpace?: 'computer-use' | 'mobile-use'

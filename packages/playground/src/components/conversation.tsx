@@ -110,6 +110,7 @@ export function Conversation() {
           sandboxId: sandboxStore.id,
           orgId: sessionStore.orgId,
           trialSessionToken: sessionStore.trialSessionToken,
+          bearerToken: sessionStore.dashboardSessionToken,
           thinking: UI_MODELS[model]?.thinking ? thinking : undefined,
           model,
           groundingModel: ground,

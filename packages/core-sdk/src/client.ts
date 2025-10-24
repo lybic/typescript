@@ -16,7 +16,12 @@ export class LybicClient {
     baseUrl,
     orgId,
     ...clientOptions
-  }: { baseUrl: string; orgId: string } & ({ apiKey: string } | { trialSessionToken: string }) & ClientOptions) {
+  }: { baseUrl: string; orgId: string } & (
+    | { apiKey: string }
+    | { trialSessionToken: string }
+    | { bearerToken: string }
+  ) &
+    ClientOptions) {
     this.client = createClient<paths>({ baseUrl, ...clientOptions })
 
     this.client.use({
@@ -27,8 +32,8 @@ export class LybicClient {
           headers.set('X-Api-Key', clientOptions.apiKey)
         } else if ('trialSessionToken' in clientOptions) {
           headers.set('X-Trial-Session-Token', clientOptions.trialSessionToken)
-        } else {
-          credentials = 'include'
+        } else if ('bearerToken' in clientOptions) {
+          headers.set('Authorization', `Bearer ${clientOptions.bearerToken}`)
         }
 
         return new Request(request, { headers, credentials })

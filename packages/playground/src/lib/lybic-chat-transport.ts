@@ -125,6 +125,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
   private currentBaseUrl: string | null | undefined = null
   private currentOrgId: string | null | undefined = null
   private currentTrialSessionToken: string | null | undefined = null
+  private currentBearerToken: string | null | undefined = null
 
   public constructor(
     private readonly options: {
@@ -133,11 +134,12 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
   ) {}
 
   private getCoreClient(body: BodyExtras) {
-    const { baseUrl, orgId, trialSessionToken } = body
+    const { baseUrl, orgId, trialSessionToken, bearerToken } = body
     if (
       baseUrl !== this.currentBaseUrl ||
       orgId !== this.currentOrgId ||
-      trialSessionToken !== this.currentTrialSessionToken
+      trialSessionToken !== this.currentTrialSessionToken ||
+      bearerToken !== this.currentBearerToken
     ) {
       this.currentBaseUrl = baseUrl
       this.currentOrgId = orgId
@@ -145,7 +147,7 @@ export class LybicChatTransport implements ChatTransport<LybicUIMessage> {
       this.coreClient = new LybicClient({
         baseUrl: baseUrl ?? '/',
         orgId: orgId ?? '',
-        ...(trialSessionToken ? { trialSessionToken } : ({} as { apiKey: string })),
+        ...(bearerToken ? { bearerToken } : trialSessionToken ? { trialSessionToken } : ({} as { apiKey: string })),
       })
     }
     return this.coreClient!
