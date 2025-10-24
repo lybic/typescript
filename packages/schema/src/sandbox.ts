@@ -118,11 +118,8 @@ export const createBringYourOwnSandboxSchema = z.object({
   gatewayAddress: attachMeta(z.string().describe('The gateway address of the sandbox.'), {
     title: 'Gateway Address',
   }),
-  quicPort: attachMeta(z.number().describe('The quic port of the sandbox.'), {
-    title: 'Quic Port',
-  }),
-  webTransportPort: attachMeta(z.number().describe('The web transport port of the sandbox.'), {
-    title: 'Web Transport Port',
+  gatewayPort: attachMeta(z.number().describe('The QUIC and WebTransport port of the sandbox.'), {
+    title: 'Port',
   }),
   roomCertificateHashBase64: attachMeta(
     z.string().describe('The base64 encoded room certificate hash of the sandbox.'),
@@ -139,6 +136,7 @@ export const createBringYourOwnSandboxSchema = z.object({
   roomId: attachMeta(z.string().describe('The room id of the sandbox.'), {
     title: 'Room ID',
   }),
+  roomShape: shapeSchema,
 })
 
 export type CreateBringYourOwnSandbox = z.infer<typeof createBringYourOwnSandboxSchema>
