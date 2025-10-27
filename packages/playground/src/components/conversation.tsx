@@ -148,7 +148,7 @@ export function Conversation() {
               handleSendText('')
               setWaitingForAutoSend(false)
             },
-            reflection === 'enabled' ? 0 : DELAY_TIME_MS,
+            sandboxStore.shape?.os === 'Android' ? 2900 : 1600,
           )
         }
         if (error) {
