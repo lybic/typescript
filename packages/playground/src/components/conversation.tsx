@@ -75,13 +75,6 @@ export function Conversation() {
 
   const [openSystemPromptDialog, setOpenSystemPromptDialog] = useState(false)
 
-  const handleNewChat = () => {
-    setChatId(nanoid())
-    localStorage['lybic-playground-messages'] = '[]'
-  }
-
-  useOnNewChat(handleNewChat)
-
   const autoSendTimer = useRef<NodeJS.Timeout | null>(null)
   const clearAutoSendTimer = () => {
     if (autoSendTimer.current) {
@@ -199,6 +192,14 @@ export function Conversation() {
     chat.stop()
     clearAutoSendTimer()
   }
+
+  const handleNewChat = () => {
+    handleStop()
+    setChatId(nanoid())
+    localStorage['lybic-playground-messages'] = '[]'
+  }
+
+  useOnNewChat(handleNewChat)
 
   useEffect(() => {
     if (messagesRef.current) {
