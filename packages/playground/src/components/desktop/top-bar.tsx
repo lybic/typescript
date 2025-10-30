@@ -59,6 +59,7 @@ export function DesktopTopBar() {
     sandboxStore.connectDetails = null
     sandboxStore.expiresAt = 0
     sandboxStore.id = ''
+    location.reload()
   }
 
   return (
