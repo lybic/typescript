@@ -1,6 +1,6 @@
 import createClient, { Client, ClientOptions, MaybeOptionalInit } from 'openapi-fetch'
-import { operations, type paths } from './schema'
-import { ResponseError } from './response-error'
+import type { operations, paths } from './schema.d.js'
+import { ResponseError } from './response-error.js'
 
 export class LybicClient {
   /**
