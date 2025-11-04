@@ -210,7 +210,7 @@ export const sandboxFileMultipartUploadSchema = z
 export const sandboxFileUploadItemSchema = z
   .object({
     localPath: z.string().min(1).describe('Absolute path in sandbox'),
-    putUrl: z.string().url().optional().describe('PUT upload URL'),
+    putUrl: z.string().url().describe('PUT upload URL'),
     multipartUpload: sandboxFileMultipartUploadSchema.optional().describe('Multipart upload configuration'),
   })
   .refine((v) => !!v.putUrl || !!v.multipartUpload, {
