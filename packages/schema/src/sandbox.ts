@@ -198,3 +198,86 @@ export const extendSandboxSchema = z.object({
 })
 
 export type ExtendSandbox = z.infer<typeof extendSandboxSchema>
+
+export const sandboxFileMultipartUploadSchema = z
+  .object({
+    url: z.string().url().describe('Multipart upload target URL'),
+    formFields: z.record(z.string()).default({}).describe('Extra form fields for multipart upload'),
+    fileFieldName: z.string().default('file').describe('File field name in multipart form'),
+  })
+  .describe('Multipart upload configuration')
+
+export const sandboxFileUploadItemSchema = z
+  .object({
+    localPath: z.string().min(1).describe('Absolute path in sandbox'),
+    putUrl: z.string().url().optional().describe('PUT upload URL'),
+    multipartUpload: sandboxFileMultipartUploadSchema.optional().describe('Multipart upload configuration'),
+  })
+  .refine((v) => !!v.putUrl || !!v.multipartUpload, {
+    message: 'Either putUrl or multipartUpload must be provided',
+  })
+  .describe('Single file upload item')
+
+export const sandboxFileUploadRequestSchema = z.object({
+  files: attachMeta(z.array(sandboxFileUploadItemSchema).min(1), { title: 'Files to upload' }),
+})
+
+export const sandboxFileUploadResultSchema = z
+  .object({
+    localPath: z.string().describe('Sandbox local path'),
+    success: z.boolean().describe('Whether the operation succeeded'),
+    error: z.string().optional().describe('Error message if failed'),
+  })
+  .describe('Single file upload result')
+
+export const sandboxFileUploadResponseSchema = z.object({
+  results: z.array(sandboxFileUploadResultSchema),
+})
+
+export const sandboxFileDownloadItemSchema = z
+  .object({
+    url: z.string().url().describe('Download URL'),
+    headers: z.record(z.string()).default({}).describe('Optional HTTP headers'),
+    localPath: z.string().min(1).describe('Absolute path to save in sandbox'),
+  })
+  .describe('Single file download item')
+
+export const sandboxFileDownloadRequestSchema = z.object({
+  files: attachMeta(z.array(sandboxFileDownloadItemSchema).min(1), { title: 'Files to download' }),
+})
+
+export const sandboxFileDownloadResultSchema = z
+  .object({
+    localPath: z.string().describe('Sandbox local path'),
+    success: z.boolean().describe('Whether the operation succeeded'),
+    error: z.string().optional().describe('Error message if failed'),
+  })
+  .describe('Single file download result')
+
+export const sandboxFileDownloadResponseSchema = z.object({
+  results: z.array(sandboxFileDownloadResultSchema),
+})
+
+export const sandboxProcessRequestSchema = z
+  .object({
+    executable: z.string().min(1).describe('Executable path'),
+    args: z.array(z.string()).default([]).describe('Arguments'),
+    workingDirectory: z.string().optional().describe('Working directory'),
+    stdinBase64: z.string().optional().describe('Optional stdin as base64-encoded bytes'),
+  })
+  .describe('Create a process in sandbox')
+
+export const sandboxProcessResponseSchema = z
+  .object({
+    stdoutBase64: z.string().default('').describe('stdout as base64-encoded bytes'),
+    stderrBase64: z.string().default('').describe('stderr as base64-encoded bytes'),
+    exitCode: z.number().describe('Exit code'),
+  })
+  .describe('Process execution result')
+
+export type SandboxFileUploadRequest = z.infer<typeof sandboxFileUploadRequestSchema>
+export type SandboxFileUploadResponse = z.infer<typeof sandboxFileUploadResponseSchema>
+export type SandboxFileDownloadRequest = z.infer<typeof sandboxFileDownloadRequestSchema>
+export type SandboxFileDownloadResponse = z.infer<typeof sandboxFileDownloadResponseSchema>
+export type SandboxProcessRequest = z.infer<typeof sandboxProcessRequestSchema>
+export type SandboxProcessResponse = z.infer<typeof sandboxProcessResponseSchema>
