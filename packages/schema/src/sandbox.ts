@@ -64,6 +64,7 @@ const gatewayAddressSchema = z.object({
   name: z.string(),
   preferredProviders: z.array(z.nativeEnum(InternetServiceProvider)),
   gatewayType: z.nativeEnum(GatewayType),
+  path: z.string().optional(),
 })
 
 export const sandboxConnectDetailsSchema = z.object({
