@@ -56,6 +56,7 @@ export enum GatewayType {
   QUIC = 5,
   WEB_TRANSPORT = 6,
   WEBSOCKET = 7,
+  WEBSOCKET_SECURE = 8,
 }
 
 const gatewayAddressSchema = z.object({
