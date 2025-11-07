@@ -22,7 +22,7 @@ export function CheckWebTransport() {
       return
     }
 
-    StreamingClient.testConnectivity().then((result) => {
+    testConnectivity().then((result) => {
       if (!result) {
         setOpen(true)
         setWtUnavailable(true)
@@ -60,4 +60,19 @@ export function CheckWebTransport() {
       </DialogContent>
     </Dialog>
   )
+}
+
+async function testConnectivity() {
+  const endpoint = 'https://connect.lybic.cn:5007/ping'
+
+  const wt = new WebTransport(endpoint)
+
+  try {
+    await Promise.race([wt.ready, new Promise<void>((_, reject) => setTimeout(reject, 4000))])
+    wt.close()
+  } catch (e) {
+    console.error('webtransport connect error', e)
+    return false
+  }
+  return true
 }
