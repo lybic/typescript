@@ -30,6 +30,10 @@ export const planSchema = z.object({
     title: 'One Time',
     fieldComponent: 'switch',
   }),
+  purchasable: attachMeta(z.boolean(), {
+    title: 'Purchasable',
+    fieldComponent: 'switch',
+  }),
 })
 
 export type Plan = z.infer<typeof planSchema>
