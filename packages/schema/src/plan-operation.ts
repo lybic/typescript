@@ -30,6 +30,13 @@ export const createUpgradePlanOperationSchema = z.object({
     title: 'Plan Name',
     fieldComponent: 'string',
   }),
+  months: attachMeta(z.coerce.number().int().min(1).max(12), {
+    title: 'Months',
+  }),
+  expectedDeductionAmount: attachMeta(z.string().optional(), {
+    title: 'Expected Deduction Amount',
+    fieldComponent: 'string',
+  }),
 })
 
 export type CreateUpgradePlanOperation = z.infer<typeof createUpgradePlanOperationSchema>
