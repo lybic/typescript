@@ -12,3 +12,24 @@ export const createPurchasePlanOperationSchema = z.object({
 })
 
 export type CreatePurchasePlanOperation = z.infer<typeof createPurchasePlanOperationSchema>
+
+export const createExtendPlanOperationSchema = z.object({
+  planName: attachMeta(z.string(), {
+    title: 'Plan Name',
+    fieldComponent: 'string',
+  }),
+  months: attachMeta(z.coerce.number().int().min(1).max(12), {
+    title: 'Months',
+  }),
+})
+
+export type CreateExtendPlanOperation = z.infer<typeof createExtendPlanOperationSchema>
+
+export const createUpgradePlanOperationSchema = z.object({
+  planName: attachMeta(z.string(), {
+    title: 'Plan Name',
+    fieldComponent: 'string',
+  }),
+})
+
+export type CreateUpgradePlanOperation = z.infer<typeof createUpgradePlanOperationSchema>
