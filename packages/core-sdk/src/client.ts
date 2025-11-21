@@ -1,4 +1,4 @@
-import createClient, { Client, ClientOptions, MaybeOptionalInit } from 'openapi-fetch'
+import createClient, { type Client, type ClientOptions, type MaybeOptionalInit } from 'openapi-fetch'
 import type { operations, paths } from './schema.d.js'
 import { ResponseError } from './response-error.js'
 
