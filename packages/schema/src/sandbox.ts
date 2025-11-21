@@ -40,6 +40,7 @@ export const sandboxSchema = z.object({
   createdAt: z.string().datetime(),
   projectId: z.string(),
   shapeName: z.string(),
+  status: z.enum(['PENDING', 'RUNNING', 'STOPPED', 'ERROR']).optional().describe('Current sandbox status'),
 })
 
 export type Sandbox = z.infer<typeof sandboxSchema>
