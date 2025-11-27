@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { useEffectEvent } from 'use-effect-event'
+import { useEffect, useState, useEffectEvent } from 'react'
 
 export function useAliyunCaptcha({ onSuccess }: { onSuccess: (captchaToken: string) => void }) {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
