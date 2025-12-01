@@ -272,7 +272,7 @@ export const generalActionUserTakeoverSchema = z
   .describe('Indicates the human user should take over the control')
 
 export const mobileUseActionSchema = z
-  .union([
+  .discriminatedUnion('type', [
     generalActionScreenshotSchema,
     generalActionWaitSchema,
     generalActionFinishedSchema,
@@ -299,7 +299,7 @@ export const mobileUseActionSchema = z
   .describe('All possible mobile use actions, with optional callId')
 
 export const computerUseActionSchema = z
-  .union([
+  .discriminatedUnion('type', [
     computerUseActionMouseClickSchema,
     computerUseActionMouseDoubleClickSchema,
     computerUseActionMouseTripleClickSchema,
@@ -358,7 +358,7 @@ export const executeMobileUseActionSchema = z.object({
 })
 
 export const executeSandboxActionSchema = z.object({
-  action: z.union([computerUseActionSchema, mobileUseActionSchema]),
+  action: z.discriminatedUnion('type', [computerUseActionSchema, mobileUseActionSchema]),
   includeScreenShot: z
     .boolean()
     .optional()
