@@ -1,4 +1,7 @@
-import { useEffect, useState, useEffectEvent } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/immutability */
+import { useEffect, useState } from 'react'
+import { useEffectEvent } from 'use-effect-event'
 
 export function useAliyunCaptcha({ onSuccess }: { onSuccess: (captchaToken: string) => void }) {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
