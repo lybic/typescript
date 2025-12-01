@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
-import type { Sandbox, SandboxConnectDetails } from '@lybic/schema'
+import type { Sandbox, SandboxConnectDetails, Shape } from '@lybic/schema'
 import { myAxios } from '@/lib/axios'
 
 export const sandboxQueryOptions = (orgId: string, sandboxId: string) =>
@@ -11,7 +11,7 @@ export const sandboxQueryOptions = (orgId: string, sandboxId: string) =>
       }
 
       return (
-        await myAxios.get<{ sandbox: Sandbox; connectDetails: SandboxConnectDetails }>(
+        await myAxios.get<{ sandbox: Sandbox & { shape: Shape }; connectDetails: SandboxConnectDetails }>(
           `/api/orgs/${orgId}/sandboxes/${sandboxId}`,
         )
       ).data

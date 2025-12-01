@@ -1,5 +1,6 @@
 import { AgentDesktop } from '@/components/agent-desktop'
 import { CheckUnsupportedFeatures } from '@/components/check-unsupported-features'
+import { CheckWebTransport } from '@/components/check-web-transport'
 import { Conversation } from '@/components/conversation'
 import { SiteNavigation } from '@/components/site-navigation'
 import { Spinner } from '@/components/ui/spinner'
@@ -29,7 +30,8 @@ function Home() {
           <Spinner className="size-8 text-muted-foreground" />
         </div>
       )}
-      {!session.orgId && <iframe src="/verify" className="w-full h-full absolute top-0 left-0" />}
+      {!session.orgId && <VerificationDialog />}
+      <CheckWebTransport />
       <CheckUnsupportedFeatures />
     </div>
   )

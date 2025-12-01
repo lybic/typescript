@@ -4,9 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { forwardRef } from 'react'
+import { forwardRef, useCallback } from 'react'
 import { useSendVerifyCode } from '@/hooks/use-send-verify-code'
-import { useEffectEvent } from 'use-effect-event'
 import { useAliyunCaptcha } from '@/hooks/use-aliyun-captcha'
 import { useCreateTrialUser } from '@/hooks/use-create-trial-user'
 
@@ -77,23 +76,27 @@ const SendSMSCodeField = forwardRef<HTMLInputElement, { form: UseFormReturn<z.in
   ({ form, ...props }, ref) => {
     const sendVerifyCode = useSendVerifyCode()
 
-    const onAliyunCaptchaSuccess = useEffectEvent((captcha: string) => {
-      form.setFocus('verificationCode', { shouldSelect: true })
-      const mobileNumber = form.getValues('mobileNumber')
-      sendVerifyCode.mutate({ mobileNumber, captcha })
-    })
+    const onAliyunCaptchaSuccess = useCallback(
+      (captcha: string) => {
+        form.setFocus('verificationCode', { shouldSelect: true })
+        const mobileNumber = form.getValues('mobileNumber')
+        sendVerifyCode.mutate({ mobileNumber, captcha })
+      },
+      [form, sendVerifyCode],
+    )
     const aliyunCaptcha = useAliyunCaptcha({
       onSuccess: onAliyunCaptchaSuccess,
     })
 
-    const handleSend = useEffectEvent(async () => {
+    const handleSend = async () => {
       const valid = await form.trigger('mobileNumber')
       if (!valid) {
         form.setFocus('mobileNumber')
         return
       }
       aliyunCaptcha.show()
-    })
+    }
+
     return (
       <div className="flex gap-2">
         <Input {...props} ref={ref} placeholder="6-digits code" />

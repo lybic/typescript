@@ -2,7 +2,7 @@ import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { customProvider, defaultSettingsMiddleware, wrapLanguageModel } from 'ai'
 
 const openaiCompatible = createOpenAICompatible({
-  baseURL: import.meta.env.VITE_LYBIC_PLAYGROUND_LLM_BASE_URL!,
+  baseURL: `${import.meta.env.VITE_LYBIC_BASE_URL!}/api/v1`,
   name: 'lybic',
   includeUsage: true,
 })
@@ -23,6 +23,30 @@ const lybicProvider = customProvider({
     }),
     'doubao-seed-1-6-flash-250715': wrapLanguageModel({
       model: openaiCompatible('doubao-seed-1-6-flash-250715'),
+      middleware: [],
+    }),
+    'doubao-seed-1-6-vision-250815': wrapLanguageModel({
+      model: openaiCompatible('doubao-seed-1-6-vision-250815'),
+      middleware: [],
+    }),
+    'OpenCUA-7B': wrapLanguageModel({
+      model: openaiCompatible('OpenCUA-7B'),
+      middleware: [],
+    }),
+    'Qwen2.5-VL-7B': wrapLanguageModel({
+      model: openaiCompatible('Qwen2.5-VL-7B'),
+      middleware: [],
+    }),
+    'o3': wrapLanguageModel({
+      model: openaiCompatible('o3'),
+      middleware: [],
+    }),
+    'gemini-2.5-pro': wrapLanguageModel({
+      model: openaiCompatible('gemini-2.5-pro'),
+      middleware: [],
+    }),
+    'gemini-2.5-flash': wrapLanguageModel({
+      model: openaiCompatible('gemini-2.5-flash'),
       middleware: [],
     }),
   },

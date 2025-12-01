@@ -7,6 +7,10 @@ export const trailUserQueryOptions = () =>
   queryOptions({
     queryKey: ['trial-user'],
     queryFn: async () => {
+      if (sessionStore.signedInViaDashboard) {
+        return null
+      }
+
       try {
         const { data } = await myAxios.get<{
           organizationId: string
@@ -25,6 +29,12 @@ export const trailUserQueryOptions = () =>
       } catch (e) {
         if (e instanceof AxiosError && e.response?.status === 401) {
           console.warn('Trial session expired')
+          if (e.response?.data.error === 'TRIAL_USER_ONLY') {
+            sessionStore.trialSessionToken = ''
+            sessionStore.llmApiKey = ''
+            return null
+          }
+
           sessionStore.trialSessionToken = ''
           sessionStore.llmApiKey = ''
           sessionStore.signedInViaDashboard = false

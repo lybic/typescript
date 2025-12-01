@@ -42,13 +42,13 @@ export function AgentDesktop() {
       >
         <DesktopTopBar />
         <div
-          className="aspect-[16/9] w-[min(100%,calc(177cqh-12rem))] flex-[none] border-1 shadow-sm relative rounded-lg overflow-hidden"
+          className="flex-[none] border-1 shadow-sm relative rounded-lg overflow-hidden min-w-[10cqw] min-h-[10cqh]"
           ref={containerRef}
         >
           {sb.connectDetails ? (
-            <LiveStream connectDetails={sb.connectDetails} sandboxId={sb.id} />
+            <LiveStream connectDetails={sb.connectDetails} shape={sb.shape} sandboxId={sb.id} />
           ) : (
-            <>
+            <div className="lybic-stream">
               <div className="w-full h-full absolute clip-rounded-lg">
                 <BlurryBlob firstBlobColor="bg-blue-400" secondBlobColor="bg-purple-400" />
               </div>
@@ -62,10 +62,10 @@ export function AgentDesktop() {
                   </>
                 )}
               </div>
-            </>
+            </div>
           )}
         </div>
-        <div className="agent-dock top-4 w-[min(100%,calc(177cqh-12rem))] px-2 py-4 flex justify-between">
+        <div className="agent-dock w-full top-4 px-2 py-4 flex justify-between">
           <div className="flex gap-2 flex-1 items-center">
             <div
               className={cn(

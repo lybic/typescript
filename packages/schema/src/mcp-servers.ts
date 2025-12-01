@@ -2,6 +2,7 @@ import { z } from 'zod/v3'
 import { attachMeta } from './utils.js'
 
 export const mcpServerPolicySchema = z.object({
+  sandboxShape: z.string().describe('The shape of the sandbox created by the MCP server.'),
   sandboxMaxLifetimeSeconds: z.number().default(3600).describe('The maximum lifetime of a sandbox.'),
   sandboxMaxIdleTimeSeconds: z.number().default(3600).describe('The maximum idle time of a sandbox.'),
   sandboxAutoCreation: z
@@ -34,6 +35,10 @@ export const createMcpServerSchema = z.object({
   projectId: attachMeta(z.string().optional().describe('Project to which the MCP server belongs to.'), {
     title: 'Project',
     fieldComponent: 'project',
+  }),
+  sandboxShape: attachMeta(z.string().describe('The shape of the sandbox created by the MCP server.'), {
+    title: 'Sandbox Shape',
+    fieldComponent: 'shape',
   }),
   sandboxMaxLifetimeSeconds: attachMeta(
     z.coerce.number().default(3600).describe('The maximum lifetime of a sandbox.'),

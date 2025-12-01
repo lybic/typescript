@@ -5,6 +5,7 @@
     "outDir": "dist",
     "jsx": "preserve",
     "noUncheckedIndexedAccess": true,
+    "verbatimModuleSyntax": true,
     "lib": ["DOM"]
   },
 

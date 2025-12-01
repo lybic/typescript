@@ -11,7 +11,6 @@ import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { useEffect, useState } from 'react'
-import { useEffectEvent } from 'use-effect-event'
 
 export function SystemPromptDialog({
   open,
@@ -35,7 +34,7 @@ export function SystemPromptDialog({
     setHistory(JSON.parse(localStorage.getItem('lybic-playground-system-prompt-history') ?? '[]'))
   }, [])
 
-  const handleApply = useEffectEvent(() => {
+  const handleApply = () => {
     const newItem = input.trim()
     if (newItem) {
       const history = JSON.parse(localStorage.getItem('lybic-playground-system-prompt-history') ?? '[]')
@@ -48,7 +47,7 @@ export function SystemPromptDialog({
     }
     onApply?.(newItem)
     onOpenChange?.(false)
-  })
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

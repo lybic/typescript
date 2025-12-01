@@ -197,3 +197,28 @@
 .no-padding-inline {
   padding-inline: 0;
 }
+
+/* stream player */
+
+.lybic-stream.iss-stream-landscape {
+  width: min(100%, calc((var(--stream-width) / var(--stream-height)) * 100cqh - 12rem));
+}
+
+.lybic-stream.iss-stream-portrait {
+  height: min(calc(100cqh - 8rem), calc((var(--stream-height) / var(--stream-width)) * 100cqw - 8rem));
+}
+
+.lybic-stream:not(.iss-stream-landscape):not(.iss-stream-portrait) {
+  aspect-ratio: 16/9;
+  width: min(100cqw, calc(177cqh - 12rem));
+}
+
+.live-stream .desktop-top-bar,
+.live-stream .agent-dock {
+  width: min(100%, calc(177cqh - 12rem));
+}
+
+.live-stream:has(.iss-stream-portrait) .desktop-top-bar,
+.live-stream:has(.iss-stream-portrait) .agent-dock {
+  width: min(100%, 67cqh);
+}

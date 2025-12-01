@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/immutability */
 import { useEffect, useState } from 'react'
 import { useEffectEvent } from 'use-effect-event'
 

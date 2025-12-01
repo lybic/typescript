@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 import { Spinner } from '../ui/spinner'
 import { IconCaretRight } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
-import Markdown from 'react-markdown'
+import { Streamdown as Markdown } from 'streamdown'
 import { IComputerUseAction } from '@lybic/schema'
 import { useMemo } from 'react'
 import { LybicUIMessage } from '@/lib/ui-message-type'
@@ -30,7 +30,7 @@ export function MessageParts({
         parts.map((part, index) =>
           part.type === 'text' ? (
             part.text && (
-              <div className="prose prose-sm" key={index}>
+              <div className="prose prose-sm [&_*]:my-0" key={index}>
                 <Markdown>{overrideText ?? part.text}</Markdown>
               </div>
             )
@@ -59,7 +59,7 @@ export function MessageParts({
                   part.state !== 'streaming' && 'ui-slide-down',
                 )}
               >
-                <div className="px-2 pb-2 prose prose-sm text-xs">
+                <div className="px-2 pb-2 prose prose-sm [&_*]:my-0 text-xs">
                   <Markdown>{part.text}</Markdown>
                 </div>
               </CollapsibleContent>

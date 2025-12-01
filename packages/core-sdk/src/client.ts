@@ -1,5 +1,6 @@
-import createClient, { Client, ClientOptions, MaybeOptionalInit } from 'openapi-fetch'
-import { type paths } from './schema'
+import createClient, { type Client, type ClientOptions, type MaybeOptionalInit } from 'openapi-fetch'
+import type { operations, paths } from './schema.d.js'
+import { ResponseError } from './response-error.js'
 
 export class LybicClient {
   /**
@@ -15,7 +16,12 @@ export class LybicClient {
     baseUrl,
     orgId,
     ...clientOptions
-  }: { baseUrl: string; orgId: string } & ({ apiKey: string } | { trialSessionToken: string }) & ClientOptions) {
+  }: { baseUrl: string; orgId: string } & (
+    | { apiKey: string }
+    | { trialSessionToken: string }
+    | { bearerToken: string }
+  ) &
+    ClientOptions) {
     this.client = createClient<paths>({ baseUrl, ...clientOptions })
 
     this.client.use({
@@ -26,8 +32,8 @@ export class LybicClient {
           headers.set('X-Api-Key', clientOptions.apiKey)
         } else if ('trialSessionToken' in clientOptions) {
           headers.set('X-Trial-Session-Token', clientOptions.trialSessionToken)
-        } else {
-          credentials = 'include'
+        } else if ('bearerToken' in clientOptions) {
+          headers.set('Authorization', `Bearer ${clientOptions.bearerToken}`)
         }
 
         return new Request(request, { headers, credentials })
@@ -36,9 +42,12 @@ export class LybicClient {
         if (!response.ok) {
           try {
             const error = await response.json()
-            throw new Error(error.message ?? response.statusText)
+            throw new ResponseError(error.message ?? response.statusText, response, error)
           } catch (e) {
-            throw new Error(`${request.method} ${response.url}: ${response.status} ${response.statusText}`)
+            throw new ResponseError(
+              `${request.method} ${response.url}: ${response.status} ${response.statusText}`,
+              response,
+            )
           }
         }
       },
@@ -233,6 +242,46 @@ export class LybicClient {
     })
   }
 
+  public copyFilesWithSandbox(
+    sandboxId: string,
+    data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy'], 'post'>,
+      'body' | 'params'
+    >,
+  ) {
+    return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+        },
+      },
+      body: data,
+      ...initParam,
+    })
+  }
+
+  public execSandboxProcess(
+    sandboxId: string,
+    data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/process']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/process'], 'post'>,
+      'body' | 'params'
+    >,
+  ) {
+    return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/process', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+        },
+      },
+      body: data,
+      ...initParam,
+    })
+  }
+
   public executeComputerUseAction(
     sandboxId: string,
     data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/computer-use']['post']['requestBody']['content']['application/json'],
@@ -242,6 +291,26 @@ export class LybicClient {
     >,
   ) {
     return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/computer-use', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+        },
+      },
+      body: data,
+      ...initParam,
+    })
+  }
+
+  public executeSandboxAction(
+    sandboxId: string,
+    data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/execute']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/execute'], 'post'>,
+      'body' | 'params'
+    >,
+  ) {
+    return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/execute', {
       params: {
         path: {
           orgId: this.orgId,
@@ -272,5 +341,25 @@ export class LybicClient {
       body: data,
       ...initParam,
     })
+  }
+
+  public parseLlmOutputText(
+    type: operations['parseModelTextOutput']['parameters']['path']['type'],
+    actionSpace: 'computer-use' | 'mobile-use',
+    data: paths['/api/computer-use/parse/{type}']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<MaybeOptionalInit<paths['/api/computer-use/parse/{type}'], 'post'>, 'body' | 'params'>,
+  ) {
+    return this.client.POST(
+      actionSpace === 'computer-use' ? '/api/computer-use/parse/{type}' : '/api/mobile-use/parse/{type}',
+      {
+        params: {
+          path: {
+            type,
+          },
+        },
+        body: data,
+        ...initParam,
+      },
+    )
   }
 }

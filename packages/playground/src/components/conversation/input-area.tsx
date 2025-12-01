@@ -2,42 +2,32 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { UIMessage, UseChatHelpers } from '@ai-sdk/react'
 import {
-  IconBlocks,
   IconBulb,
-  IconCommand,
   IconDownload,
-  IconFile,
-  IconFileTime,
   IconLanguage,
   IconMessage2Star,
   IconMessageChatbot,
-  IconPhotoScan,
   IconPhotoSpark,
   IconPlayerStop,
   IconPlus,
-  IconPrompt,
   IconRuler,
   IconSend,
   IconSettings,
-  IconSlideshow,
 } from '@tabler/icons-react'
 import { LLMBudget } from './llm-budget'
-import { useState } from 'react'
-import { useEffectEvent } from 'use-effect-event'
+import { Fragment, useEffect, useState } from 'react'
 import { LybicUIMessage } from '@/lib/ui-message-type'
-import { indicatorStore } from '@/stores/indicator'
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuPortal,
+  DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  DropdownMenuRadioGroup,
 } from '../ui/dropdown-menu'
 import { useSnapshot } from 'valtio'
 import { conversationConfigState } from '@/stores/conversation-config'
@@ -45,6 +35,10 @@ import { sandboxStore } from '@/stores/sandbox'
 import { UI_MODELS } from './models'
 import { exportChatHistory } from '@/lib/save-chat-history'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+import { sessionStore } from '@/stores/session'
+import { CHAT_MENU } from './chat-menu'
+import { ChatMenuItem } from './chat-menu-item'
+import { cn } from '@/lib/utils'
 
 export function InputArea({
   chat,
@@ -62,25 +56,47 @@ export function InputArea({
   onStop: () => void
 }) {
   const { id: sandboxId } = useSnapshot(sandboxStore)
-  const { model, screenshotsInContext, language, systemPrompt, thinking } = useSnapshot(conversationConfigState)
+  const { signedInViaDashboard } = useSnapshot(sessionStore)
+  const { model } = useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
 
-  const handleSubmit = useEffectEvent(() => {
+  const modelConfig = UI_MODELS[model]
+  const disabledMenuItems = {
+    thinking: modelConfig?.thinking ? false : true,
+  } as Record<string, boolean>
+  const canSend = !!sandboxId
+
+  const handleSubmit = () => {
+    if (input === 'showHiddenModels') {
+      localStorage.setItem('lybicPlaygroundShowHiddenModels', 'true')
+      location.reload()
+      return
+    }
+
     if (chat.status === 'streaming' || chat.status === 'submitted') {
       onStop()
     } else {
       onSendText(input)
       setInput('')
     }
-  })
+  }
 
-  const handleStop = useEffectEvent(() => {
-    chat.stop()
-  })
+  const handleStop = () => {
+    onStop()
+  }
 
-  const handleExportChat = useEffectEvent(async () => {
+  const handleExportChat = async () => {
     await exportChatHistory(chat)
-  })
+  }
+
+  const handleMenuItemClick = (key: string) => {
+    if (key === 'system-prompt') {
+      onOpenSystemPromptDialog()
+    }
+    if (key === 'export-chat') {
+      handleExportChat()
+    }
+  }
 
   return (
     <div className="message-input p-2">
@@ -93,9 +109,13 @@ export function InputArea({
       />
       <div className="flex gap-2 mt-2 justify-between items-center">
         <div className="text-xs text-muted-foreground flex items-center">
-          <div>LLM Credits:</div>
-          <div className="ml-1"></div>
-          <LLMBudget />
+          {!signedInViaDashboard && (
+            <>
+              <div>LLM Credits:</div>
+              <div className="ml-1"></div>
+              <LLMBudget />
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Tooltip>
@@ -109,143 +129,60 @@ export function InputArea({
             </TooltipContent>
           </Tooltip>
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" aria-label="Chat Settings">
-                    <IconSettings />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Chat Settings</p>
-                </TooltipContent>
-              </Tooltip>
+            <DropdownMenuTrigger asChild>
+              <div>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" aria-label="Chat Settings">
+                      <IconSettings />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Chat Settings</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={handleExportChat}>
-                <IconDownload />
-                <div className="flex flex-col mr-2">
-                  <div>Export Chat</div>
-                  <div className="text-muted-foreground">Download current chat</div>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={onOpenSystemPromptDialog}>
-                <IconMessage2Star />
-                <div className="flex flex-col mr-2">
-                  <div>System Prompt</div>
-                  <div className="text-muted-foreground whitespace-nowrap overflow-hidden text-ellipsis max-w-48">
-                    {systemPrompt || '(Empty)'}
-                  </div>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <IconMessageChatbot className="shrink-0 size-4 text-muted-foreground" />
-                  <div className="mx-2 flex flex-col">
-                    <div>Model</div>
-                    <div className="text-muted-foreground">{UI_MODELS[model]?.displayName ?? model}</div>
-                  </div>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent collisionPadding={20} className="w-64">
-                    <DropdownMenuRadioGroup
-                      value={model}
-                      onValueChange={(value) => {
-                        conversationConfigState.model = value
-                      }}
-                    >
-                      {Object.entries(UI_MODELS).map(([key, value]) => (
-                        <DropdownMenuRadioItem key={key} value={key}>
-                          {value.displayName}
-                        </DropdownMenuRadioItem>
-                      ))}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger disabled={!UI_MODELS[model]?.thinking} className="data-[disabled]:opacity-75">
-                  <IconBulb className="shrink-0 size-4 text-muted-foreground" />
-                  <div className="mx-2 flex flex-col">
-                    <div>Thinking</div>
-                    <div className="text-muted-foreground">
-                      {UI_MODELS[model]?.thinking ? (
-                        thinking === 'enabled' ? (
-                          'Enabled'
-                        ) : (
-                          'Disabled'
-                        )
-                      ) : (
-                        <div className="text-muted-foreground">Not supported</div>
-                      )}
-                    </div>
-                  </div>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent collisionPadding={20}>
-                    <DropdownMenuRadioGroup
-                      value={`${thinking}`}
-                      onValueChange={(value) => {
-                        conversationConfigState.thinking = value as 'disabled' | 'enabled'
-                      }}
-                    >
-                      <DropdownMenuRadioItem value="disabled">Disabled</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="enabled">Enabled</DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <IconPhotoSpark className="shrink-0 size-4 text-muted-foreground" />
-                  <div className="mx-2 flex flex-col">
-                    <div>Screenshots in Context</div>
-                    <div className="text-muted-foreground">
-                      {screenshotsInContext === 'all' ? 'All' : screenshotsInContext}
-                    </div>
-                  </div>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent collisionPadding={20}>
-                    <DropdownMenuRadioGroup
-                      value={`${screenshotsInContext}`}
-                      onValueChange={(value) => {
-                        conversationConfigState.screenshotsInContext = value === 'all' ? 'all' : Number(value)
-                      }}
-                    >
-                      <DropdownMenuRadioItem value="1">Only Latest</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="2">2</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="3">3</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="4">4</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="5">5</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="6">6</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <IconLanguage className="shrink-0 size-4 text-muted-foreground" />
-                  <div className="mx-2 flex flex-col">
-                    <div>Prompt Language</div>
-                    <div className="text-muted-foreground">{language === 'zh' ? '中文' : 'English'}</div>
-                  </div>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent collisionPadding={20}>
-                    <DropdownMenuRadioGroup
-                      value={language}
-                      onValueChange={(value) => {
-                        conversationConfigState.language = value
-                      }}
-                    >
-                      <DropdownMenuRadioItem value="zh">中文</DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
+              {CHAT_MENU.map((menuItem) =>
+                'options' in menuItem ? (
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger disabled={disabledMenuItems[menuItem.key] ?? false}>
+                      <ChatMenuItem
+                        disabled={disabledMenuItems[menuItem.key] ?? false}
+                        menuItem={{
+                          ...menuItem,
+                          description: menuItem.options.find(
+                            (option) => option.key === `${conversationConfigState[menuItem.key]}`,
+                          )?.label,
+                        }}
+                      />
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent collisionPadding={20} className="w-64">
+                        <DropdownMenuRadioGroup
+                          value={`${conversationConfigState[menuItem.key]}`}
+                          onValueChange={(key: string) => {
+                            ;(conversationConfigState as Record<string, any>)[menuItem.key] = menuItem.options.find(
+                              (option) => option.key === key,
+                            )?.value
+                          }}
+                        >
+                          {menuItem.options.map((option) => (
+                            <DropdownMenuRadioItem key={option.key} value={option.key}>
+                              {option.label}
+                            </DropdownMenuRadioItem>
+                          ))}
+                        </DropdownMenuRadioGroup>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                ) : (
+                  <DropdownMenuItem key={menuItem.key} onClick={() => handleMenuItemClick(menuItem.key)}>
+                    <ChatMenuItem menuItem={menuItem} />
+                  </DropdownMenuItem>
+                ),
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
           {chat.status === 'streaming' || chat.status === 'submitted' || waitingForAutoSend ? (
@@ -264,7 +201,7 @@ export function InputArea({
               <TooltipTrigger asChild>
                 <Button
                   size="icon"
-                  disabled={!sandboxId}
+                  disabled={!canSend}
                   onClick={handleSubmit}
                   className="disabled:pointer-events-auto disabled:hover:bg-primary"
                   aria-label="Send"

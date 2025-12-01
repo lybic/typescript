@@ -1,2 +1,3 @@
-export * from './client'
-export * from './schema.d'
+export * from './client.js'
+export * from './schema.d.js'
+export * from './response-error.js'
