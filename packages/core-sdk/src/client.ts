@@ -233,6 +233,46 @@ export class LybicClient {
     })
   }
 
+  public copyFilesWithSandbox(
+    sandboxId: string,
+    data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy'], 'post'>,
+      'body' | 'params'
+    >,
+  ) {
+    return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+        },
+      },
+      body: data,
+      ...initParam,
+    })
+  }
+
+  public execSandboxProcess(
+    sandboxId: string,
+    data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/process']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/process'], 'post'>,
+      'body' | 'params'
+    >,
+  ) {
+    return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/process', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+        },
+      },
+      body: data,
+      ...initParam,
+    })
+  }
+
   public executeComputerUseAction(
     sandboxId: string,
     data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/computer-use']['post']['requestBody']['content']['application/json'],
