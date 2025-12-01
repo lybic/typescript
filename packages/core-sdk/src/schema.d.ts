@@ -112,6 +112,60 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Copy Sandbox Files */
+        post: operations["copyFilesWithSandbox"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orgs/{orgId}/sandboxes/{sandboxId}/process": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Execute Command in Sandbox */
+        post: operations["execSandboxProcess"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orgs/{orgId}/sandboxes/from-image": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create Sandbox from Image
+         * @description Creates a new sandbox from a machine image.
+         */
+        post: operations["createSandboxFromImage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/orgs/{orgId}/sandboxes/{sandboxId}": {
         parameters: {
             query?: never;
@@ -150,6 +204,26 @@ export interface paths {
          * @description Extends a sandbox expire time by its ID.
          */
         post: operations["extendSandbox"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orgs/{orgId}/sandboxes/{sandboxId}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Sandbox Status
+         * @description Returns the status of a sandbox (PENDING/RUNNING/STOPPED/ERROR).
+         */
+        get: operations["getSandboxStatus"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -211,6 +285,41 @@ export interface paths {
          */
         post: operations["previewSandbox"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orgs/{orgId}/machine-images": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all machine images */
+        get: operations["MachineImageController_listMachineImages"];
+        put?: never;
+        /** Create a machine image from a sandbox */
+        post: operations["MachineImageController_createMachineImage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orgs/{orgId}/machine-images/{imageId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete a machine image */
+        delete: operations["MachineImageController_deleteMachineImage"];
         options?: never;
         head?: never;
         patch?: never;
@@ -334,22 +443,6 @@ export interface paths {
         get: operations["getStats"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/chat/completions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["LlmGatewayController_proxyRequest"];
         delete?: never;
         options?: never;
         head?: never;
@@ -512,6 +605,11 @@ export interface components {
             createdAt: string;
             projectId: string;
             shapeName: string;
+            /**
+             * @description Current sandbox status
+             * @enum {string}
+             */
+            status?: "PENDING" | "RUNNING" | "STOPPED" | "ERROR";
         }[];
         CreateSandboxDto: {
             /**
@@ -543,6 +641,191 @@ export interface components {
             createdAt: string;
             projectId: string;
             shapeName: string;
+            /**
+             * @description Current sandbox status
+             * @enum {string}
+             */
+            status?: "PENDING" | "RUNNING" | "STOPPED" | "ERROR";
+        };
+        SandboxFileCopyRequestDto: {
+            files: {
+                /** @description A caller-defined unique identifier for this item. The value is included in the response to associate results with their corresponding requests */
+                id?: string;
+                /** @description Copy file source */
+                src: {
+                    /** @enum {string} */
+                    type: "sandboxFileLocation";
+                    /** @description File path in sandbox */
+                    path: string;
+                } | {
+                    /** @enum {string} */
+                    type: "httpPutLocation";
+                    /**
+                     * Format: uri
+                     * @description PUT upload URL
+                     */
+                    url: string;
+                    /** @description Optional HTTP headers */
+                    headers?: {
+                        [key: string]: string;
+                    };
+                } | {
+                    /** @enum {string} */
+                    type: "httpGetLocation";
+                    /**
+                     * Format: uri
+                     * @description GET download URL
+                     */
+                    url: string;
+                    /** @description Optional HTTP headers */
+                    headers?: {
+                        [key: string]: string;
+                    };
+                } | {
+                    /** @enum {string} */
+                    type: "httpPostFormLocation";
+                    /**
+                     * Format: uri
+                     * @description POST form upload URL
+                     */
+                    url: string;
+                    /** @description Form fields */
+                    form: {
+                        [key: string]: string;
+                    };
+                    /**
+                     * @description File field name in form
+                     * @default file
+                     */
+                    fileField: string;
+                    /** @description Optional HTTP headers */
+                    headers?: {
+                        [key: string]: string;
+                    };
+                };
+                /** @description Copy file destination */
+                dest: {
+                    /** @enum {string} */
+                    type: "sandboxFileLocation";
+                    /** @description File path in sandbox */
+                    path: string;
+                } | {
+                    /** @enum {string} */
+                    type: "httpPutLocation";
+                    /**
+                     * Format: uri
+                     * @description PUT upload URL
+                     */
+                    url: string;
+                    /** @description Optional HTTP headers */
+                    headers?: {
+                        [key: string]: string;
+                    };
+                } | {
+                    /** @enum {string} */
+                    type: "httpGetLocation";
+                    /**
+                     * Format: uri
+                     * @description GET download URL
+                     */
+                    url: string;
+                    /** @description Optional HTTP headers */
+                    headers?: {
+                        [key: string]: string;
+                    };
+                } | {
+                    /** @enum {string} */
+                    type: "httpPostFormLocation";
+                    /**
+                     * Format: uri
+                     * @description POST form upload URL
+                     */
+                    url: string;
+                    /** @description Form fields */
+                    form: {
+                        [key: string]: string;
+                    };
+                    /**
+                     * @description File field name in form
+                     * @default file
+                     */
+                    fileField: string;
+                    /** @description Optional HTTP headers */
+                    headers?: {
+                        [key: string]: string;
+                    };
+                };
+            }[];
+        };
+        SandboxFileCopyResponseDto: {
+            results: {
+                /** @description unique identifier of the files item from the request */
+                id?: string;
+                /** @description Whether the operation succeeded */
+                success: boolean;
+                /** @description Error message if failed */
+                error?: string;
+            }[];
+        };
+        SandboxProcessRequestDto: {
+            /** @description Executable path */
+            executable: string;
+            /**
+             * @description Arguments
+             * @default []
+             */
+            args: string[];
+            /** @description Working directory */
+            workingDirectory?: string;
+            /** @description Optional stdin as base64-encoded bytes */
+            stdinBase64?: string;
+        };
+        SandboxProcessResponseDto: {
+            /**
+             * @description stdout as base64-encoded bytes
+             * @default
+             */
+            stdoutBase64: string;
+            /**
+             * @description stderr as base64-encoded bytes
+             * @default
+             */
+            stderrBase64: string;
+            /** @description Exit code */
+            exitCode: number;
+        };
+        CreateSandboxFromImageDto: {
+            /** @description The machine image ID to create sandbox from. */
+            imageId: string;
+            /** @description The name of the sandbox. */
+            name: string;
+            /** @description The maximum life time of the sandbox in seconds. */
+            maxLifeSeconds: number;
+            /** @description The project id to use for the sandbox. Use default if not provided. */
+            projectId?: string;
+        };
+        CreateSandboxFromImageResponseDto: {
+            sandbox: {
+                id: string;
+                name: string;
+                /**
+                 * Format: date-time
+                 * @description Deprecated, use `expiresAt` instead.
+                 */
+                expiredAt: string;
+                /** Format: date-time */
+                expiresAt: string;
+                /** Format: date-time */
+                createdAt: string;
+                projectId: string;
+                shapeName: string;
+                /**
+                 * @description Current sandbox status
+                 * @enum {string}
+                 */
+                status?: "PENDING" | "RUNNING" | "STOPPED" | "ERROR";
+            };
+            bookId: string;
         };
         ExtendSandboxDto: {
             /**
@@ -566,6 +849,11 @@ export interface components {
                 createdAt: string;
                 projectId: string;
                 shapeName: string;
+                /**
+                 * @description Current sandbox status
+                 * @enum {string}
+                 */
+                status?: "PENDING" | "RUNNING" | "STOPPED" | "ERROR";
                 shape: {
                     name: string;
                     description: string;
@@ -588,7 +876,8 @@ export interface components {
                     name: string;
                     preferredProviders: ("CHINA_TELECOM" | "CHINA_UNICOM" | "CHINA_MOBILE" | "GLOBAL_BGP" | 1 | 2 | 3 | 4)[];
                     /** @enum {string} */
-                    gatewayType: "KCP" | "QUIC" | "WEB_TRANSPORT" | "WEBSOCKET" | 4 | 5 | 6 | 7;
+                    gatewayType: "KCP" | "QUIC" | "WEB_TRANSPORT" | "WEBSOCKET" | "WEBSOCKET_SECURE" | 4 | 5 | 6 | 7 | 8;
+                    path?: string;
                 }[];
                 certificateHashBase64: string;
                 endUserToken: string;
@@ -1602,6 +1891,40 @@ export interface components {
              */
             includeCursorPosition: boolean;
         };
+        CreateMachineImageDto: {
+            /** @description The sandbox ID to create image from. */
+            sandboxId: string;
+            /** @description The name of the machine image. */
+            name: string;
+            /** @description Optional description of the machine image. */
+            description?: string;
+        };
+        MachineImageResponseDto: {
+            id: string;
+            name: string;
+            description: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            shapeName: string;
+            /** @enum {string} */
+            status: "CREATING" | "READY" | "ERROR";
+        };
+        MachineImagesResponseDto: {
+            images: {
+                id: string;
+                name: string;
+                description: string | null;
+                /** Format: date-time */
+                createdAt: string;
+                shapeName: string;
+                /** @enum {string} */
+                status: "CREATING" | "READY" | "ERROR";
+            }[];
+            quota: {
+                used: number;
+                limit: number;
+            };
+        };
         ListProjectsResponseDto: {
             id: string;
             name: string;
@@ -2444,6 +2767,86 @@ export interface operations {
             };
         };
     };
+    copyFilesWithSandbox: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sandboxId: string;
+                /** @description The organization ID */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SandboxFileCopyRequestDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SandboxFileCopyResponseDto"];
+                };
+            };
+        };
+    };
+    execSandboxProcess: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sandboxId: string;
+                /** @description The organization ID */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SandboxProcessRequestDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SandboxProcessResponseDto"];
+                };
+            };
+        };
+    };
+    createSandboxFromImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization ID */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSandboxFromImageDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateSandboxFromImageResponseDto"];
+                };
+            };
+        };
+    };
     getSandbox: {
         parameters: {
             query?: never;
@@ -2504,6 +2907,27 @@ export interface operations {
                 "application/json": components["schemas"]["ExtendSandboxDto"];
             };
         };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSandboxStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sandboxId: string;
+                /** @description The organization ID */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             200: {
                 headers: {
@@ -2587,6 +3011,76 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["SandboxActionResponseDto"];
                 };
+            };
+        };
+    };
+    MachineImageController_listMachineImages: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization ID */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MachineImagesResponseDto"];
+                };
+            };
+        };
+    };
+    MachineImageController_createMachineImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The organization ID */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateMachineImageDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MachineImageResponseDto"];
+                };
+            };
+        };
+    };
+    MachineImageController_deleteMachineImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The machine image ID */
+                imageId: string;
+                /** @description The organization ID */
+                orgId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -2753,23 +3247,6 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["StatsResponseDto"];
                 };
-            };
-        };
-    };
-    LlmGatewayController_proxyRequest: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
