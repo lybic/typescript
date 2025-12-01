@@ -358,7 +358,33 @@ export const executeMobileUseActionSchema = z.object({
 })
 
 export const executeSandboxActionSchema = z.object({
-  action: z.discriminatedUnion('type', [computerUseActionSchema, mobileUseActionSchema]),
+  action: z.discriminatedUnion('type', [
+    computerUseActionKeyDownSchema,
+    computerUseActionKeyUpSchema,
+    computerUseActionMouseClickSchema,
+    computerUseActionMouseDoubleClickSchema,
+    computerUseActionMouseDragSchema,
+    computerUseActionMouseMoveSchema,
+    computerUseActionMouseScrollSchema,
+    computerUseActionMouseTripleClickSchema,
+    generalActionFailedSchema,
+    generalActionFinishedSchema,
+    generalActionKeyboardHotkeySchema,
+    generalActionKeyboardTypeSchema,
+    generalActionScreenshotSchema,
+    generalActionUserTakeoverSchema,
+    generalActionWaitSchema,
+    mobileUseActionCloseAppSchema,
+    mobileUseActionDragSchema,
+    mobileUseActionListAppsSchema,
+    mobileUseActionLongPressSchema,
+    mobileUseActionPressBackSchema,
+    mobileUseActionPressHomeSchema,
+    mobileUseActionStartAppByNameSchema,
+    mobileUseActionStartAppSchema,
+    mobileUseActionSwipeSchema,
+    mobileUseActionTapSchema,
+  ]),
   includeScreenShot: z
     .boolean()
     .optional()
