@@ -22,7 +22,7 @@
   "scripts": {
     "watch": "tsc -w --incremental",
     "build": "tsc && lingui compile",
-    "lingui:extract": "lingui extract",
+    "lingui:extract": "lingui extract --workers 1",
     "lingui:compile": "lingui compile"
   },
   "dependencies": {
