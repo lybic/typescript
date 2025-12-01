@@ -3,8 +3,8 @@ import { attachMeta } from './utils.js'
 import { shapeSchema } from './shape.js'
 
 export const createSandboxSchema = z.object({
-  name: attachMeta(z.string().optional().default('sandbox').describe('The name of the sandbox.'), {
-    title: 'Sandbox Name',
+  name: attachMeta(z.string().optional().default('sandbox').describe(/* i18n */ 'The name of the sandbox.'), {
+    title: /* i18n */ 'Sandbox Name',
   }),
   maxLifeSeconds: attachMeta(
     z.coerce
@@ -12,20 +12,20 @@ export const createSandboxSchema = z.object({
       .min(1)
       .max(60 * 60 * 24)
       .default(60 * 60)
-      .describe('The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 day.'),
+      .describe(/* i18n */ 'The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 day.'),
     {
-      title: 'Max Life Time',
+      title: /* i18n */ 'Max Life Time',
     },
   ),
   projectId: attachMeta(
-    z.string().optional().describe('The project id to use for the sandbox. Use default if not provided.'),
+    z.string().optional().describe(/* i18n */ 'The project id to use for the sandbox. Use default if not provided.'),
     {
-      title: 'Project',
+      title: /* i18n */ 'Project',
       fieldComponent: 'project',
     },
   ),
-  shape: attachMeta(z.string().describe('Specs and datacenter of the sandbox.'), {
-    title: 'Shape',
+  shape: attachMeta(z.string().describe(/* i18n */ 'Specs and datacenter of the sandbox.'), {
+    title: /* i18n */ 'Shape',
     fieldComponent: 'shape',
   }),
 })
@@ -35,12 +35,12 @@ export type CreateSandbox = z.infer<typeof createSandboxSchema>
 export const sandboxSchema = z.object({
   id: z.string(),
   name: z.string(),
-  expiredAt: z.string().datetime().describe('Deprecated, use `expiresAt` instead.'),
+  expiredAt: z.string().datetime().describe(/* i18n */ 'Deprecated, use `expiresAt` instead.'),
   expiresAt: z.string().datetime(),
   createdAt: z.string().datetime(),
   projectId: z.string(),
   shapeName: z.string(),
-  status: z.enum(['PENDING', 'RUNNING', 'STOPPED', 'ERROR']).optional().describe('Current sandbox status'),
+  status: z.enum(['PENDING', 'RUNNING', 'STOPPED', 'ERROR']).optional().describe(/* i18n */ 'Current sandbox status'),
 })
 
 export type Sandbox = z.infer<typeof sandboxSchema>
@@ -82,16 +82,16 @@ export const sandboxPreviewSchema = z.object({
   screenShot: z
     .string()
     .url()
-    .describe('The screenshot URL of the sandbox. Only available if includeScreenShot is true.'),
+    .describe(/* i18n */ 'The screenshot URL of the sandbox. Only available if includeScreenShot is true.'),
   cursorPosition: z
     .object({
-      x: z.number().describe('The x position of the cursor.'),
-      y: z.number().describe('The y position of the cursor.'),
-      screenWidth: z.number().describe('The width of the screen.'),
-      screenHeight: z.number().describe('The height of the screen.'),
-      screenIndex: z.number().describe('The index of the screen.'),
+      x: z.number().describe(/* i18n */ 'The x position of the cursor.'),
+      y: z.number().describe(/* i18n */ 'The y position of the cursor.'),
+      screenWidth: z.number().describe(/* i18n */ 'The width of the screen.'),
+      screenHeight: z.number().describe(/* i18n */ 'The height of the screen.'),
+      screenIndex: z.number().describe(/* i18n */ 'The index of the screen.'),
     })
-    .describe('The cursor position of the sandbox. Only available if includeCursorPosition is true.'),
+    .describe(/* i18n */ 'The cursor position of the sandbox. Only available if includeCursorPosition is true.'),
 })
 
 export type SandboxPreview = z.infer<typeof sandboxPreviewSchema>
