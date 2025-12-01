@@ -34,32 +34,32 @@ export const createMemberInvitationSchema = z.object({
       .string()
       .email()
       .describe(
-        'The email address of the user to invite. They must sign up with this email in order to accept invitation.',
+        /* i18n */ 'The email address of the user to invite. They must sign up with this email in order to accept invitation.',
       ),
     {
-      title: 'Email',
+      title: /* i18n */ 'Email',
     },
   ),
   role: attachMeta(
     z
       .enum(['owner', 'admin', 'member'])
       .default('member')
-      .describe('The role of the user in the organization if they accept the invitation.'),
+      .describe(/* i18n */ 'The role of the user in the organization if they accept the invitation.'),
     {
-      title: 'Role',
+      title: /* i18n */ 'Role',
       fieldComponent: 'select',
       fieldProps: {
         options: [
           {
-            label: 'Owner',
+            label: /* i18n */ 'Owner',
             value: 'owner',
           },
           {
-            label: 'Admin',
+            label: /* i18n */ 'Admin',
             value: 'admin',
           },
           {
-            label: 'Member',
+            label: /* i18n */ 'Member',
             value: 'member',
           },
         ],

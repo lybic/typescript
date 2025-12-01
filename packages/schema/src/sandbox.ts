@@ -97,13 +97,13 @@ export const sandboxPreviewSchema = z.object({
 export type SandboxPreview = z.infer<typeof sandboxPreviewSchema>
 
 export const createBringYourOwnSandboxSchema = z.object({
-  name: attachMeta(z.string().optional().default('sandbox').describe('The name of the sandbox.'), {
-    title: 'Sandbox Name',
+  name: attachMeta(z.string().optional().default('sandbox').describe(/* i18n */ 'The name of the sandbox.'), {
+    title: /* i18n */ 'Sandbox Name',
   }),
   projectId: attachMeta(
-    z.string().optional().describe('The project id to use for the sandbox. Use default if not provided.'),
+    z.string().optional().describe(/* i18n */ 'The project id to use for the sandbox. Use default if not provided.'),
     {
-      title: 'Project',
+      title: /* i18n */ 'Project',
       fieldComponent: 'project',
     },
   ),
@@ -113,31 +113,31 @@ export const createBringYourOwnSandboxSchema = z.object({
       .min(1)
       .max(60 * 60 * 24 * 365)
       .default(60 * 60)
-      .describe('The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year.'),
+      .describe(/* i18n */ 'The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year.'),
     {
-      title: 'Max Life Time',
+      title: /* i18n */ 'Max Life Time',
     },
   ),
-  gatewayAddress: attachMeta(z.string().describe('The gateway address of the sandbox.'), {
-    title: 'Gateway Address',
+  gatewayAddress: attachMeta(z.string().describe(/* i18n */ 'The gateway address of the sandbox.'), {
+    title: /* i18n */ 'Gateway Address',
   }),
-  gatewayPort: attachMeta(z.number().describe('The QUIC and WebTransport port of the sandbox.'), {
-    title: 'Port',
+  gatewayPort: attachMeta(z.number().describe(/* i18n */ 'The QUIC and WebTransport port of the sandbox.'), {
+    title: /* i18n */ 'Port',
   }),
   roomCertificateHashBase64: attachMeta(
-    z.string().describe('The base64 encoded room certificate hash of the sandbox.'),
+    z.string().describe(/* i18n */ 'The base64 encoded room certificate hash of the sandbox.'),
     {
-      title: 'Room Certificate Hash',
+      title: /* i18n */ 'Room Certificate Hash',
     },
   ),
-  jwkX: attachMeta(z.string().describe('The x of the jwk of the sandbox.'), {
-    title: 'JWK X',
+  jwkX: attachMeta(z.string().describe(/* i18n */ 'The x of the jwk of the sandbox.'), {
+    title: /* i18n */ 'JWK X',
   }),
-  jwkD: attachMeta(z.string().describe('The d of the jwk of the sandbox.'), {
-    title: 'JWK D',
+  jwkD: attachMeta(z.string().describe(/* i18n */ 'The d of the jwk of the sandbox.'), {
+    title: /* i18n */ 'JWK D',
   }),
-  roomId: attachMeta(z.string().describe('The room id of the sandbox.'), {
-    title: 'Room ID',
+  roomId: attachMeta(z.string().describe(/* i18n */ 'The room id of the sandbox.'), {
+    title: /* i18n */ 'Room ID',
   }),
   roomShape: shapeSchema,
 })
@@ -157,28 +157,32 @@ export const getSandboxResponseSchema = z.object({
 export type GetSandboxResponse = z.infer<typeof getSandboxResponseSchema>
 
 export const executeComputerUseResponseSchema = z.object({
-  screenShot: z.string().url().optional().describe('The screenshot of the sandbox after the action is executed.'),
+  screenShot: z
+    .string()
+    .url()
+    .optional()
+    .describe(/* i18n */ 'The screenshot of the sandbox after the action is executed.'),
   cursorPosition: z
     .object({
-      x: z.number().describe('The x position of the cursor.'),
-      y: z.number().describe('The y position of the cursor.'),
-      screenWidth: z.number().describe('The width of the screen.'),
-      screenHeight: z.number().describe('The height of the screen.'),
-      screenIndex: z.number().describe('The index of the screen.'),
+      x: z.number().describe(/* i18n */ 'The x position of the cursor.'),
+      y: z.number().describe(/* i18n */ 'The y position of the cursor.'),
+      screenWidth: z.number().describe(/* i18n */ 'The width of the screen.'),
+      screenHeight: z.number().describe(/* i18n */ 'The height of the screen.'),
+      screenIndex: z.number().describe(/* i18n */ 'The index of the screen.'),
     })
     .optional(),
   actionResult: z
     .any()
     .optional()
     .describe(
-      "The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists.",
+      /* i18n */ "The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists.",
     ),
 })
 
 export type ExecuteComputerUseResponse = z.infer<typeof executeComputerUseResponseSchema>
 
 export const connectMcpServerToSandboxSchema = z.object({
-  sandboxId: z.string().nullable().describe('The ID of the sandbox to connect the MCP server to.'),
+  sandboxId: z.string().nullable().describe(/* i18n */ 'The ID of the sandbox to connect the MCP server to.'),
 })
 
 export type ConnectMcpServerToSandbox = z.infer<typeof connectMcpServerToSandboxSchema>
@@ -191,10 +195,10 @@ export const extendSandboxSchema = z.object({
       .max(60 * 60 * 24)
       .default(60 * 60)
       .describe(
-        'The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days.',
+        /* i18n */ 'The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days.',
       ),
     {
-      title: 'New Max Life Time',
+      title: /* i18n */ 'New Max Life Time',
     },
   ),
 })
@@ -203,27 +207,27 @@ export type ExtendSandbox = z.infer<typeof extendSandboxSchema>
 
 export const sandboxFileLocationSchema = z.object({
   type: z.literal('sandboxFileLocation'),
-  path: z.string().min(1).describe('File path in sandbox'),
+  path: z.string().min(1).describe(/* i18n */ 'File path in sandbox'),
 })
 
 export const httpPutLocationSchema = z.object({
   type: z.literal('httpPutLocation'),
-  url: z.string().url().describe('PUT upload URL'),
-  headers: z.record(z.string()).optional().describe('Optional HTTP headers'),
+  url: z.string().url().describe(/* i18n */ 'PUT upload URL'),
+  headers: z.record(z.string()).optional().describe(/* i18n */ 'Optional HTTP headers'),
 })
 
 export const httpGetLocationSchema = z.object({
   type: z.literal('httpGetLocation'),
-  url: z.string().url().describe('GET download URL'),
-  headers: z.record(z.string()).optional().describe('Optional HTTP headers'),
+  url: z.string().url().describe(/* i18n */ 'GET download URL'),
+  headers: z.record(z.string()).optional().describe(/* i18n */ 'Optional HTTP headers'),
 })
 
 export const httpPostFormLocationSchema = z.object({
   type: z.literal('httpPostFormLocation'),
-  url: z.string().url().describe('POST form upload URL'),
-  form: z.record(z.string()).describe('Form fields'),
-  fileField: z.string().default('file').describe('File field name in form'),
-  headers: z.record(z.string()).optional().describe('Optional HTTP headers'),
+  url: z.string().url().describe(/* i18n */ 'POST form upload URL'),
+  form: z.record(z.string()).describe(/* i18n */ 'Form fields'),
+  fileField: z.string().default('file').describe(/* i18n */ 'File field name in form'),
+  headers: z.record(z.string()).optional().describe(/* i18n */ 'Optional HTTP headers'),
 })
 
 export const fileLocationSchema = z.discriminatedUnion('type', [
@@ -239,24 +243,24 @@ export const sandboxFileCopyItemSchema = z
       .string()
       .optional()
       .describe(
-        'A caller-defined unique identifier for this item. The value is included in the response to associate results with their corresponding requests',
+        /* i18n */ 'A caller-defined unique identifier for this item. The value is included in the response to associate results with their corresponding requests',
       ),
-    src: fileLocationSchema.describe('Copy file source'),
-    dest: fileLocationSchema.describe('Copy file destination'),
+    src: fileLocationSchema.describe(/* i18n */ 'Copy file source'),
+    dest: fileLocationSchema.describe(/* i18n */ 'Copy file destination'),
   })
-  .describe('Single file copy item')
+  .describe(/* i18n */ 'Single file copy item')
 
 export const sandboxFileCopyRequestSchema = z.object({
-  files: attachMeta(z.array(sandboxFileCopyItemSchema).min(1), { title: 'copy files' }),
+  files: attachMeta(z.array(sandboxFileCopyItemSchema).min(1), { title: /* i18n */ 'copy files' }),
 })
 
 export const sandboxFileCopyResultSchema = z
   .object({
-    id: z.string().optional().describe('unique identifier of the files item from the request'),
-    success: z.boolean().describe('Whether the operation succeeded'),
-    error: z.string().optional().describe('Error message if failed'),
+    id: z.string().optional().describe(/* i18n */ 'unique identifier of the files item from the request'),
+    success: z.boolean().describe(/* i18n */ 'Whether the operation succeeded'),
+    error: z.string().optional().describe(/* i18n */ 'Error message if failed'),
   })
-  .describe('Single file copy result')
+  .describe(/* i18n */ 'Single file copy result')
 
 export const sandboxFileCopyResponseSchema = z.object({
   results: z.array(sandboxFileCopyResultSchema),
@@ -264,20 +268,20 @@ export const sandboxFileCopyResponseSchema = z.object({
 
 export const sandboxProcessRequestSchema = z
   .object({
-    executable: z.string().min(1).describe('Executable path'),
-    args: z.array(z.string()).default([]).describe('Arguments'),
-    workingDirectory: z.string().optional().describe('Working directory'),
-    stdinBase64: z.string().optional().describe('Optional stdin as base64-encoded bytes'),
+    executable: z.string().min(1).describe(/* i18n */ 'Executable path'),
+    args: z.array(z.string()).default([]).describe(/* i18n */ 'Arguments'),
+    workingDirectory: z.string().optional().describe(/* i18n */ 'Working directory'),
+    stdinBase64: z.string().optional().describe(/* i18n */ 'Optional stdin as base64-encoded bytes'),
   })
-  .describe('Create a process in sandbox')
+  .describe(/* i18n */ 'Create a process in sandbox')
 
 export const sandboxProcessResponseSchema = z
   .object({
-    stdoutBase64: z.string().default('').describe('stdout as base64-encoded bytes'),
-    stderrBase64: z.string().default('').describe('stderr as base64-encoded bytes'),
-    exitCode: z.number().describe('Exit code'),
+    stdoutBase64: z.string().default('').describe(/* i18n */ 'stdout as base64-encoded bytes'),
+    stderrBase64: z.string().default('').describe(/* i18n */ 'stderr as base64-encoded bytes'),
+    exitCode: z.number().describe(/* i18n */ 'Exit code'),
   })
-  .describe('Process execution result')
+  .describe(/* i18n */ 'Process execution result')
 
 export type SandboxFileCopyRequest = z.infer<typeof sandboxFileCopyRequestSchema>
 export type SandboxFileCopyResponse = z.infer<typeof sandboxFileCopyResponseSchema>

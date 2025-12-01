@@ -3,16 +3,19 @@ import { attachMeta } from './utils.js'
 import { sandboxSchema } from './sandbox.js'
 
 export const createMachineImageSchema = z.object({
-  sandboxId: attachMeta(z.string().describe('The sandbox ID to create image from.'), {
-    title: 'Sandbox ID',
+  sandboxId: attachMeta(z.string().describe(/* i18n */ 'The sandbox ID to create image from.'), {
+    title: /* i18n */ 'Sandbox ID',
     fieldComponent: 'hidden',
   }),
-  name: attachMeta(z.string().min(1).max(100).describe('The name of the machine image.'), {
-    title: 'Image Name',
+  name: attachMeta(z.string().min(1).max(100).describe(/* i18n */ 'The name of the machine image.'), {
+    title: /* i18n */ 'Image Name',
   }),
-  description: attachMeta(z.string().max(500).optional().describe('Optional description of the machine image.'), {
-    title: 'Description',
-  }),
+  description: attachMeta(
+    z.string().max(500).optional().describe(/* i18n */ 'Optional description of the machine image.'),
+    {
+      title: /* i18n */ 'Description',
+    },
+  ),
 })
 
 export type CreateMachineImage = z.infer<typeof createMachineImageSchema>
@@ -41,23 +44,28 @@ export const machineImagesResponseSchema = z.object({
 export type MachineImagesResponse = z.infer<typeof machineImagesResponseSchema>
 
 export const createSandboxFromImageSchema = z.object({
-  imageId: attachMeta(z.string().describe('The machine image ID to create sandbox from.'), {
-    title: 'Image ID',
+  imageId: attachMeta(z.string().describe(/* i18n */ 'The machine image ID to create sandbox from.'), {
+    title: /* i18n */ 'Image ID',
     fieldComponent: 'hidden',
   }),
-  name: attachMeta(z.string().min(1).max(100).describe('The name of the sandbox.'), {
-    title: 'Sandbox Name',
+  name: attachMeta(z.string().min(1).max(100).describe(/* i18n */ 'The name of the sandbox.'), {
+    title: /* i18n */ 'Sandbox Name',
   }),
   maxLifeSeconds: attachMeta(
-    z.coerce.number().int().min(300).max(604800).describe('The maximum life time of the sandbox in seconds.'),
+    z.coerce
+      .number()
+      .int()
+      .min(300)
+      .max(604800)
+      .describe(/* i18n */ 'The maximum life time of the sandbox in seconds.'),
     {
-      title: 'Max Life Time',
+      title: /* i18n */ 'Max Life Time',
     },
   ),
   projectId: attachMeta(
-    z.string().optional().describe('The project id to use for the sandbox. Use default if not provided.'),
+    z.string().optional().describe(/* i18n */ 'The project id to use for the sandbox. Use default if not provided.'),
     {
-      title: 'Project',
+      title: /* i18n */ 'Project',
       fieldComponent: 'project',
     },
   ),
