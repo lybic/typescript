@@ -14,12 +14,74 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: src/dashboard.ts:22
+#: src/plan.ts:6
+#: src/shape.ts:6
+msgid "Name"
+msgstr "Name"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:16
+#: src/shape.ts:10
+msgid "Description"
+msgstr "Description"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:14
+msgid "Hardware Accelerated Encoding"
+msgstr "Hardware Accelerated Encoding"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:21
+msgid "This price acts as a multiplier, e.g. if it is set to 0.5, each hour of usage will be billed as 0.5 hours."
+msgstr "This price acts as a multiplier, e.g. if it is set to 0.5, each hour of usage will be billed as 0.5 hours."
+
+#. js-lingui-explicit-id
+#: src/shape.ts:24
+msgid "Price Per Hour"
+msgstr "Price Per Hour"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:29
+msgid "Required Plan Tier"
+msgstr "Required Plan Tier"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:33
+msgid "OS"
+msgstr "OS"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:53
+msgid "Virtualization"
+msgstr "Virtualization"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:69
+msgid "Architecture"
+msgstr "Architecture"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:88
+msgid "Nomos Spec ID"
+msgstr "Nomos Spec ID"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:92
+msgid "Nomos Datacenter ID"
+msgstr "Nomos Datacenter ID"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:51
 #: src/sandbox.ts:6
+#: src/sandbox.ts:100
 msgid "The name of the sandbox."
 msgstr "The name of the sandbox."
 
 #. js-lingui-explicit-id
+#: src/machine-image.ts:52
 #: src/sandbox.ts:7
+#: src/sandbox.ts:101
 msgid "Sandbox Name"
 msgstr "Sandbox Name"
 
@@ -29,17 +91,24 @@ msgid "The maximum life time of the sandbox in seconds. Default is 1 hour, max i
 msgstr "The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 day."
 
 #. js-lingui-explicit-id
+#: src/machine-image.ts:62
 #: src/sandbox.ts:17
+#: src/sandbox.ts:118
 msgid "Max Life Time"
 msgstr "Max Life Time"
 
 #. js-lingui-explicit-id
+#: src/machine-image.ts:66
 #: src/sandbox.ts:21
+#: src/sandbox.ts:104
 msgid "The project id to use for the sandbox. Use default if not provided."
 msgstr "The project id to use for the sandbox. Use default if not provided."
 
 #. js-lingui-explicit-id
+#: src/machine-image.ts:68
+#: src/mcp-servers.ts:36
 #: src/sandbox.ts:23
+#: src/sandbox.ts:106
 msgid "Project"
 msgstr "Project"
 
@@ -70,26 +139,31 @@ msgstr "The screenshot URL of the sandbox. Only available if includeScreenShot i
 
 #. js-lingui-explicit-id
 #: src/sandbox.ts:88
+#: src/sandbox.ts:167
 msgid "The x position of the cursor."
 msgstr "The x position of the cursor."
 
 #. js-lingui-explicit-id
 #: src/sandbox.ts:89
+#: src/sandbox.ts:168
 msgid "The y position of the cursor."
 msgstr "The y position of the cursor."
 
 #. js-lingui-explicit-id
 #: src/sandbox.ts:90
+#: src/sandbox.ts:169
 msgid "The width of the screen."
 msgstr "The width of the screen."
 
 #. js-lingui-explicit-id
 #: src/sandbox.ts:91
+#: src/sandbox.ts:170
 msgid "The height of the screen."
 msgstr "The height of the screen."
 
 #. js-lingui-explicit-id
 #: src/sandbox.ts:92
+#: src/sandbox.ts:171
 msgid "The index of the screen."
 msgstr "The index of the screen."
 
@@ -97,3 +171,909 @@ msgstr "The index of the screen."
 #: src/sandbox.ts:94
 msgid "The cursor position of the sandbox. Only available if includeCursorPosition is true."
 msgstr "The cursor position of the sandbox. Only available if includeCursorPosition is true."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:116
+msgid "The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year."
+msgstr "The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:121
+msgid "The gateway address of the sandbox."
+msgstr "The gateway address of the sandbox."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:122
+msgid "Gateway Address"
+msgstr "Gateway Address"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:124
+msgid "The QUIC and WebTransport port of the sandbox."
+msgstr "The QUIC and WebTransport port of the sandbox."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:125
+msgid "Port"
+msgstr "Port"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:128
+msgid "The base64 encoded room certificate hash of the sandbox."
+msgstr "The base64 encoded room certificate hash of the sandbox."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:130
+msgid "Room Certificate Hash"
+msgstr "Room Certificate Hash"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:133
+msgid "The x of the jwk of the sandbox."
+msgstr "The x of the jwk of the sandbox."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:134
+msgid "JWK X"
+msgstr "JWK X"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:136
+msgid "The d of the jwk of the sandbox."
+msgstr "The d of the jwk of the sandbox."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:137
+msgid "JWK D"
+msgstr "JWK D"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:139
+msgid "The room id of the sandbox."
+msgstr "The room id of the sandbox."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:140
+msgid "Room ID"
+msgstr "Room ID"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:164
+msgid "The screenshot of the sandbox after the action is executed."
+msgstr "The screenshot of the sandbox after the action is executed."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:178
+msgid "The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists."
+msgstr "The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:185
+msgid "The ID of the sandbox to connect the MCP server to."
+msgstr "The ID of the sandbox to connect the MCP server to."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:198
+msgid "The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days."
+msgstr "The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days."
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:201
+msgid "New Max Life Time"
+msgstr "New Max Life Time"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:210
+msgid "File path in sandbox"
+msgstr "File path in sandbox"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:215
+msgid "PUT upload URL"
+msgstr "PUT upload URL"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:216
+#: src/sandbox.ts:222
+#: src/sandbox.ts:230
+msgid "Optional HTTP headers"
+msgstr "Optional HTTP headers"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:221
+msgid "GET download URL"
+msgstr "GET download URL"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:227
+msgid "POST form upload URL"
+msgstr "POST form upload URL"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:228
+msgid "Form fields"
+msgstr "Form fields"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:229
+msgid "File field name in form"
+msgstr "File field name in form"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:246
+msgid "A caller-defined unique identifier for this item. The value is included in the response to associate results with their corresponding requests"
+msgstr "A caller-defined unique identifier for this item. The value is included in the response to associate results with their corresponding requests"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:248
+msgid "Copy file source"
+msgstr "Copy file source"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:249
+msgid "Copy file destination"
+msgstr "Copy file destination"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:251
+msgid "Single file copy item"
+msgstr "Single file copy item"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:254
+msgid "copy files"
+msgstr "copy files"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:259
+msgid "unique identifier of the files item from the request"
+msgstr "unique identifier of the files item from the request"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:260
+msgid "Whether the operation succeeded"
+msgstr "Whether the operation succeeded"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:261
+msgid "Error message if failed"
+msgstr "Error message if failed"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:263
+msgid "Single file copy result"
+msgstr "Single file copy result"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:271
+msgid "Executable path"
+msgstr "Executable path"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:272
+msgid "Arguments"
+msgstr "Arguments"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:273
+msgid "Working directory"
+msgstr "Working directory"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:274
+msgid "Optional stdin as base64-encoded bytes"
+msgstr "Optional stdin as base64-encoded bytes"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:276
+msgid "Create a process in sandbox"
+msgstr "Create a process in sandbox"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:280
+msgid "stdout as base64-encoded bytes"
+msgstr "stdout as base64-encoded bytes"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:281
+msgid "stderr as base64-encoded bytes"
+msgstr "stderr as base64-encoded bytes"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:282
+msgid "Exit code"
+msgstr "Exit code"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:284
+msgid "Process execution result"
+msgstr "Process execution result"
+
+#. js-lingui-explicit-id
+#: src/project.ts:14
+msgid "Name of the project."
+msgstr "Name of the project."
+
+#. js-lingui-explicit-id
+#: src/project.ts:14
+msgid "Project Name"
+msgstr "Project Name"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:10
+msgid "Tier"
+msgstr "Tier"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:14
+msgid "Concurrent Sandboxes"
+msgstr "Concurrent Sandboxes"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:18
+msgid "Price Per Month"
+msgstr "Price Per Month"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:22
+msgid "Sandbox Hours Included Per Month"
+msgstr "Sandbox Hours Included Per Month"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:26
+msgid "Agent Credits Included Per Month"
+msgstr "Agent Credits Included Per Month"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:30
+msgid "One Time"
+msgstr "One Time"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:34
+msgid "Purchasable"
+msgstr "Purchasable"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:43
+msgid "Organization ID"
+msgstr "Organization ID"
+
+#. js-lingui-explicit-id
+#: src/plan-operation.ts:6
+#: src/plan-operation.ts:18
+#: src/plan-operation.ts:30
+#: src/plan.ts:47
+msgid "Plan Name"
+msgstr "Plan Name"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:51
+msgid "Expired At"
+msgstr "Expired At"
+
+#. js-lingui-explicit-id
+#: src/plan-operation.ts:10
+#: src/plan-operation.ts:22
+#: src/plan-operation.ts:34
+msgid "Months"
+msgstr "Months"
+
+#. js-lingui-explicit-id
+#: src/plan-operation.ts:37
+msgid "Expected Deduction Amount"
+msgstr "Expected Deduction Amount"
+
+#. js-lingui-explicit-id
+#: src/member.ts:37
+msgid "The email address of the user to invite. They must sign up with this email in order to accept invitation."
+msgstr "The email address of the user to invite. They must sign up with this email in order to accept invitation."
+
+#. js-lingui-explicit-id
+#: src/member.ts:40
+msgid "Email"
+msgstr "Email"
+
+#. js-lingui-explicit-id
+#: src/member.ts:47
+msgid "The role of the user in the organization if they accept the invitation."
+msgstr "The role of the user in the organization if they accept the invitation."
+
+#. js-lingui-explicit-id
+#: src/member.ts:49
+msgid "Role"
+msgstr "Role"
+
+#. js-lingui-explicit-id
+#: src/member.ts:54
+msgid "Owner"
+msgstr "Owner"
+
+#. js-lingui-explicit-id
+#: src/member.ts:58
+msgid "Admin"
+msgstr "Admin"
+
+#. js-lingui-explicit-id
+#: src/member.ts:62
+msgid "Member"
+msgstr "Member"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:5
+#: src/mcp-servers.ts:39
+msgid "The shape of the sandbox created by the MCP server."
+msgstr "The shape of the sandbox created by the MCP server."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:6
+#: src/mcp-servers.ts:44
+msgid "The maximum lifetime of a sandbox."
+msgstr "The maximum lifetime of a sandbox."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:7
+#: src/mcp-servers.ts:50
+msgid "The maximum idle time of a sandbox."
+msgstr "The maximum idle time of a sandbox."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:12
+#: src/mcp-servers.ts:60
+msgid "Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools."
+msgstr "Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:14
+#: src/mcp-servers.ts:68
+msgid "Whether to expose recreate tool to LLMs."
+msgstr "Whether to expose recreate tool to LLMs."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:15
+#: src/mcp-servers.ts:72
+msgid "Whether to expose restart tool to LLMs."
+msgstr "Whether to expose restart tool to LLMs."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:16
+#: src/mcp-servers.ts:79
+msgid "Whether to expose delete tool to LLMs."
+msgstr "Whether to expose delete tool to LLMs."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:22
+msgid "ID of the MCP server."
+msgstr "ID of the MCP server."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:23
+#: src/mcp-servers.ts:34
+msgid "Name of the MCP server."
+msgstr "Name of the MCP server."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:24
+msgid "Creation date of the MCP server."
+msgstr "Creation date of the MCP server."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:25
+msgid "Whether this is the default MCP server for the organization."
+msgstr "Whether this is the default MCP server for the organization."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:26
+msgid "Project ID to which the MCP server belongs."
+msgstr "Project ID to which the MCP server belongs."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:28
+msgid "ID of the currently connected sandbox."
+msgstr "ID of the currently connected sandbox."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:34
+msgid "MCP Server Name"
+msgstr "MCP Server Name"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:35
+msgid "Project to which the MCP server belongs to."
+msgstr "Project to which the MCP server belongs to."
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:40
+msgid "Sandbox Shape"
+msgstr "Sandbox Shape"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:46
+msgid "Sandbox Max Lifetime"
+msgstr "Sandbox Max Lifetime"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:52
+msgid "Sandbox Max Idle Time"
+msgstr "Sandbox Max Idle Time"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:63
+msgid "Sandbox Auto Creation"
+msgstr "Sandbox Auto Creation"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:69
+msgid "Sandbox Expose Recreate Tool"
+msgstr "Sandbox Expose Recreate Tool"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:74
+msgid "Sandbox Expose Restart Tool"
+msgstr "Sandbox Expose Restart Tool"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:81
+msgid "Sandbox Expose Delete Tool"
+msgstr "Sandbox Expose Delete Tool"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:6
+msgid "The sandbox ID to create image from."
+msgstr "The sandbox ID to create image from."
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:7
+msgid "Sandbox ID"
+msgstr "Sandbox ID"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:10
+msgid "The name of the machine image."
+msgstr "The name of the machine image."
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:11
+msgid "Image Name"
+msgstr "Image Name"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:14
+msgid "Optional description of the machine image."
+msgstr "Optional description of the machine image."
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:47
+msgid "The machine image ID to create sandbox from."
+msgstr "The machine image ID to create sandbox from."
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:48
+msgid "Image ID"
+msgstr "Image ID"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:60
+msgid "The maximum life time of the sandbox in seconds."
+msgstr "The maximum life time of the sandbox in seconds."
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:4
+msgid "Number of MCP servers"
+msgstr "Number of MCP servers"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:5
+msgid "Number of sandboxes"
+msgstr "Number of sandboxes"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:6
+msgid "Number of projects"
+msgstr "Number of projects"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:12
+msgid "API URL"
+msgstr "API URL"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:13
+msgid "Site URL"
+msgstr "Site URL"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:14
+msgid "Site region"
+msgstr "Site region"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:15
+msgid "Turnstile site key"
+msgstr "Turnstile site key"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:21
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:23
+msgid "Use Case"
+msgstr "Use Case"
+
+#. js-lingui-explicit-id
+#: src/action.ts:5
+msgid "Indicates the unit is pixel"
+msgstr "Indicates the unit is pixel"
+
+#. js-lingui-explicit-id
+#: src/action.ts:6
+#: src/action.ts:8
+msgid "Length in pixels"
+msgstr "Length in pixels"
+
+#. js-lingui-explicit-id
+#: src/action.ts:13
+msgid "Numerator of the fraction"
+msgstr "Numerator of the fraction"
+
+#. js-lingui-explicit-id
+#: src/action.ts:14
+msgid "Denominator of the fraction"
+msgstr "Denominator of the fraction"
+
+#. js-lingui-explicit-id
+#: src/action.ts:16
+msgid "Length as a fraction"
+msgstr "Length as a fraction"
+
+#. js-lingui-explicit-id
+#: src/action.ts:20
+msgid "Length, either in pixels or as a fraction"
+msgstr "Length, either in pixels or as a fraction"
+
+#. js-lingui-explicit-id
+#: src/action.ts:25
+msgid "Key to press"
+msgstr "Key to press"
+
+#. js-lingui-explicit-id
+#: src/action.ts:28
+msgid "Press ONE key down, in xdotool key syntax. Only use this action if hotkey or type cannot satisfy your needs."
+msgstr "Press ONE key down, in xdotool key syntax. Only use this action if hotkey or type cannot satisfy your needs."
+
+#. js-lingui-explicit-id
+#: src/action.ts:34
+msgid "Key to release"
+msgstr "Key to release"
+
+#. js-lingui-explicit-id
+#: src/action.ts:37
+msgid "Release ONE key, in xdotool key syntax. Only use this action if keydown cannot satisfy your needs and only after a key down."
+msgstr "Release ONE key, in xdotool key syntax. Only use this action if keydown cannot satisfy your needs and only after a key down."
+
+#. js-lingui-explicit-id
+#: src/action.ts:43
+#: src/action.ts:66
+#: src/action.ts:85
+#: src/action.ts:104
+#: src/action.ts:120
+#: src/action.ts:197
+#: src/action.ts:215
+#: src/action.ts:262
+msgid "X coordinate"
+msgstr "X coordinate"
+
+#. js-lingui-explicit-id
+#: src/action.ts:44
+#: src/action.ts:67
+#: src/action.ts:86
+#: src/action.ts:105
+#: src/action.ts:121
+#: src/action.ts:198
+#: src/action.ts:216
+#: src/action.ts:263
+msgid "Y coordinate"
+msgstr "Y coordinate"
+
+#. js-lingui-explicit-id
+#: src/action.ts:48
+msgid "Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once."
+msgstr "Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once."
+
+#. js-lingui-explicit-id
+#: src/action.ts:54
+msgid "Key to hold down during click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "Key to hold down during click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+
+#. js-lingui-explicit-id
+#: src/action.ts:59
+#: src/action.ts:78
+#: src/action.ts:97
+#: src/action.ts:113
+#: src/action.ts:133
+#: src/action.ts:152
+#: src/action.ts:156
+msgid "Whether the coordinates are relative to the current mouse position."
+msgstr "Whether the coordinates are relative to the current mouse position."
+
+#. js-lingui-explicit-id
+#: src/action.ts:61
+msgid "Click the mouse at the specified coordinates"
+msgstr "Click the mouse at the specified coordinates"
+
+#. js-lingui-explicit-id
+#: src/action.ts:68
+#: src/action.ts:87
+#: src/action.ts:144
+msgid "Mouse button index"
+msgstr "Mouse button index"
+
+#. js-lingui-explicit-id
+#: src/action.ts:73
+msgid "Key to hold down during double click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "Key to hold down during double click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+
+#. js-lingui-explicit-id
+#: src/action.ts:80
+msgid "Double click the mouse at the specified coordinates"
+msgstr "Double click the mouse at the specified coordinates"
+
+#. js-lingui-explicit-id
+#: src/action.ts:92
+msgid "Key to hold down during triple click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "Key to hold down during triple click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+
+#. js-lingui-explicit-id
+#: src/action.ts:99
+msgid "Triple click the mouse at the specified coordinates"
+msgstr "Triple click the mouse at the specified coordinates"
+
+#. js-lingui-explicit-id
+#: src/action.ts:109
+msgid "Key to hold down during move, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "Key to hold down during move, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+
+#. js-lingui-explicit-id
+#: src/action.ts:115
+msgid "Move the mouse to the specified coordinates"
+msgstr "Move the mouse to the specified coordinates"
+
+#. js-lingui-explicit-id
+#: src/action.ts:122
+msgid "Vertical scroll steps"
+msgstr "Vertical scroll steps"
+
+#. js-lingui-explicit-id
+#: src/action.ts:123
+msgid "Horizontal scroll steps"
+msgstr "Horizontal scroll steps"
+
+#. js-lingui-explicit-id
+#: src/action.ts:128
+msgid "Key to hold down during scroll, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "Key to hold down during scroll, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+
+#. js-lingui-explicit-id
+#: src/action.ts:135
+msgid "Scroll the mouse"
+msgstr "Scroll the mouse"
+
+#. js-lingui-explicit-id
+#: src/action.ts:140
+#: src/action.ts:205
+msgid "Start X coordinate"
+msgstr "Start X coordinate"
+
+#. js-lingui-explicit-id
+#: src/action.ts:141
+#: src/action.ts:206
+msgid "Start Y coordinate"
+msgstr "Start Y coordinate"
+
+#. js-lingui-explicit-id
+#: src/action.ts:142
+#: src/action.ts:207
+msgid "End X coordinate"
+msgstr "End X coordinate"
+
+#. js-lingui-explicit-id
+#: src/action.ts:143
+#: src/action.ts:208
+msgid "End Y coordinate"
+msgstr "End Y coordinate"
+
+#. js-lingui-explicit-id
+#: src/action.ts:148
+msgid "Key to hold down during drag, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "Key to hold down during drag, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+
+#. js-lingui-explicit-id
+#: src/action.ts:158
+msgid "Drag the mouse from start to end coordinates"
+msgstr "Drag the mouse from start to end coordinates"
+
+#. js-lingui-explicit-id
+#: src/action.ts:163
+msgid "Text content to type"
+msgstr "Text content to type"
+
+#. js-lingui-explicit-id
+#: src/action.ts:170
+msgid "Whether to treat line breaks as enter. If true, any line breaks(\\n) in content will be treated as enter key press, and content will be split into multiple lines."
+msgstr "Whether to treat line breaks as enter. If true, any line breaks(\\n) in content will be treated as enter key press, and content will be split into multiple lines."
+
+#. js-lingui-explicit-id
+#: src/action.ts:173
+msgid "Type text content"
+msgstr "Type text content"
+
+#. js-lingui-explicit-id
+#: src/action.ts:181
+msgid "Hotkey combination, in xdotool key syntax. Examples: \"a\", \"Return\", \"alt+Tab\", \"ctrl+s\", \"Up\", \"KP_0\" (for the numpad 0 key)."
+msgstr "Hotkey combination, in xdotool key syntax. Examples: \"a\", \"Return\", \"alt+Tab\", \"ctrl+s\", \"Up\", \"KP_0\" (for the numpad 0 key)."
+
+#. js-lingui-explicit-id
+#: src/action.ts:189
+msgid "Duration in milliseconds. If specified, the hotkey will be held for a while and then released."
+msgstr "Duration in milliseconds. If specified, the hotkey will be held for a while and then released."
+
+#. js-lingui-explicit-id
+#: src/action.ts:192
+msgid "Press a keyboard hotkey"
+msgstr "Press a keyboard hotkey"
+
+#. js-lingui-explicit-id
+#: src/action.ts:200
+msgid "Tap the screen at the specified coordinates"
+msgstr "Tap the screen at the specified coordinates"
+
+#. js-lingui-explicit-id
+#: src/action.ts:210
+msgid "Touch and hold at start coordinates, then move to end coordinates and release"
+msgstr "Touch and hold at start coordinates, then move to end coordinates and release"
+
+#. js-lingui-explicit-id
+#: src/action.ts:217
+#: src/action.ts:278
+msgid "Duration in milliseconds"
+msgstr "Duration in milliseconds"
+
+#. js-lingui-explicit-id
+#: src/action.ts:219
+msgid "Long press the screen at the specified coordinates"
+msgstr "Long press the screen at the specified coordinates"
+
+#. js-lingui-explicit-id
+#: src/action.ts:225
+msgid "Press the back button"
+msgstr "Press the back button"
+
+#. js-lingui-explicit-id
+#: src/action.ts:231
+msgid "Press the home button"
+msgstr "Press the home button"
+
+#. js-lingui-explicit-id
+#: src/action.ts:237
+msgid "List all installed apps"
+msgstr "List all installed apps"
+
+#. js-lingui-explicit-id
+#: src/action.ts:242
+msgid "App package name"
+msgstr "App package name"
+
+#. js-lingui-explicit-id
+#: src/action.ts:244
+msgid "Start an app by its package name"
+msgstr "Start an app by its package name"
+
+#. js-lingui-explicit-id
+#: src/action.ts:249
+msgid "App name"
+msgstr "App name"
+
+#. js-lingui-explicit-id
+#: src/action.ts:251
+msgid "Start an app by its name"
+msgstr "Start an app by its name"
+
+#. js-lingui-explicit-id
+#: src/action.ts:257
+msgid "Close the current app"
+msgstr "Close the current app"
+
+#. js-lingui-explicit-id
+#: src/action.ts:264
+msgid "Scroll direction"
+msgstr "Scroll direction"
+
+#. js-lingui-explicit-id
+#: src/action.ts:265
+msgid "Scroll distance"
+msgstr "Scroll distance"
+
+#. js-lingui-explicit-id
+#: src/action.ts:267
+msgid "Swipe the screen in a specified direction by a specified distance"
+msgstr "Swipe the screen in a specified direction by a specified distance"
+
+#. js-lingui-explicit-id
+#: src/action.ts:273
+msgid "Take a screenshot of the current screen"
+msgstr "Take a screenshot of the current screen"
+
+#. js-lingui-explicit-id
+#: src/action.ts:280
+msgid "Wait for a specified duration"
+msgstr "Wait for a specified duration"
+
+#. js-lingui-explicit-id
+#: src/action.ts:285
+msgid "Completion message"
+msgstr "Completion message"
+
+#. js-lingui-explicit-id
+#: src/action.ts:287
+msgid "Indicates the action has finished"
+msgstr "Indicates the action has finished"
+
+#. js-lingui-explicit-id
+#: src/action.ts:292
+msgid "Failure message"
+msgstr "Failure message"
+
+#. js-lingui-explicit-id
+#: src/action.ts:294
+msgid "Indicates the action has failed"
+msgstr "Indicates the action has failed"
+
+#. js-lingui-explicit-id
+#: src/action.ts:300
+msgid "Indicates the human user should take over the control"
+msgstr "Indicates the human user should take over the control"
+
+#. js-lingui-explicit-id
+#: src/action.ts:324
+#: src/action.ts:349
+msgid "Optional call identifier"
+msgstr "Optional call identifier"
+
+#. js-lingui-explicit-id
+#: src/action.ts:327
+msgid "All possible mobile use actions, with optional callId"
+msgstr "All possible mobile use actions, with optional callId"
+
+#. js-lingui-explicit-id
+#: src/action.ts:352
+msgid "All possible computer use actions, with optional callId"
+msgstr "All possible computer use actions, with optional callId"
+
+#. js-lingui-explicit-id
+#: src/action.ts:356
+msgid "All possible sandbox actions"
+msgstr "All possible sandbox actions"
+
+#. js-lingui-explicit-id
+#: src/action.ts:364
+#: src/action.ts:378
+#: src/action.ts:394
+msgid "Whether to include the screenshot url after action in the response"
+msgstr "Whether to include the screenshot url after action in the response"
+
+#. js-lingui-explicit-id
+#: src/action.ts:369
+msgid "Whether to include the cursor position after action in the response"
+msgstr "Whether to include the cursor position after action in the response"
+
+#. js-lingui-explicit-id
+#: src/action.ts:384
+msgid "Whether to include the cursor position after action in the response. Only width and height are meaningful."
+msgstr "Whether to include the cursor position after action in the response. Only width and height are meaningful."
+
+#. js-lingui-explicit-id
+#: src/action.ts:400
+msgid "Whether to include the cursor position after action in the response. On some cursor-less devices, only width and height are meaningful."
+msgstr "Whether to include the cursor position after action in the response. On some cursor-less devices, only width and height are meaningful."
