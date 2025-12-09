@@ -10,11 +10,11 @@ export function ChatMenuItem({
   disabled?: boolean
 }) {
   return (
-    <div className={cn('flex gap-2 items-center', disabled && 'pointer-events-none opacity-75')}>
+    <div className={cn('flex gap-2 items-center max-w-64', disabled && 'pointer-events-none opacity-75')}>
       <menuItem.icon className="shrink-0 size-4 text-muted-foreground" />
       <div className="flex flex-col mr-2">
         <div>{menuItem.label}</div>
-        <div className="text-muted-foreground">
+        <div className="text-muted-foreground line-clamp-1">
           {disabled ? (
             'N/A'
           ) : typeof menuItem.description === 'string' ? (
