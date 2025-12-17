@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       tsConfigPaths(),
-      tanstackStart({ customViteReactPlugin: true, spa: { enabled: true }, target: 'node-server' }),
+      tanstackStart({ customViteReactPlugin: true, spa: { enabled: true }, target: 'static' }),
       viteReact({
         babel: {
           plugins: ['babel-plugin-react-compiler'],
