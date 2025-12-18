@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite dev",
     "build:prod:intl": "VITE_LYBIC_BASE_URL=https://dashboard.lybic.cn vite build",
-    "build:dev:intl": "VITE_LYBIC_BASE_URL=VITE_LYBIC_BASE_URL=https://lybic-dev.swecan.tingyutech.cn vite build"
+    "build:dev:intl": "VITE_LYBIC_BASE_URL=https://lybic-dev.swecan.tingyutech.cn vite build"
   },
   "devDependencies": {
     "@lybic/tsconfig": "workspace:*",
