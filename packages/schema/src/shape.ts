@@ -29,6 +29,13 @@ export const shapeSchema = z.object({
     title: /* i18n */ 'Required Plan Tier',
     fieldComponent: 'string',
   }),
+  requiredFeatureFlag: attachMeta(
+    z.string().describe(/* i18n */ 'The feature flag required by creating the shape of sandbox.'),
+    {
+      title: /* i18n */ 'Required Feature Flag',
+      fieldComponent: 'string',
+    },
+  ),
   os: attachMeta(z.enum(['Windows', 'Linux', 'Android']), {
     title: /* i18n */ 'OS',
     fieldComponent: 'select',
