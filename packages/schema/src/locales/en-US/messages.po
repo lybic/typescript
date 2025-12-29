@@ -14,6 +14,52 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
+#: src/shape.ts:33
+msgid "The feature flag required by creating the shape of sandbox."
+msgstr "The feature flag required by creating the shape of sandbox."
+
+#. js-lingui-explicit-id
+#: src/shape.ts:35
+msgid "Required Feature Flag"
+msgstr "Required Feature Flag"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:14
+msgid "The organization ID to set the feature flag for."
+msgstr "The organization ID to set the feature flag for."
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:18
+msgid "The feature flag to set."
+msgstr "The feature flag to set."
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:19
+#: src/feature-flag.ts:40
+msgid "Feature Flag"
+msgstr "Feature Flag"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:26
+msgid "The value of the feature flag. If not provided, the feature flag will be set to true."
+msgstr "The value of the feature flag. If not provided, the feature flag will be set to true."
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:28
+msgid "Feature Flag Value (optional)"
+msgstr "Feature Flag Value (optional)"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:35
+msgid "The organization ID to remove the feature flag for."
+msgstr "The organization ID to remove the feature flag for."
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:39
+msgid "The feature flag to remove."
+msgstr "The feature flag to remove."
+
+#. js-lingui-explicit-id
 #: src/dashboard.ts:22
 #: src/plan.ts:6
 #: src/shape.ts:6
@@ -47,27 +93,27 @@ msgid "Required Plan Tier"
 msgstr "Required Plan Tier"
 
 #. js-lingui-explicit-id
-#: src/shape.ts:33
+#: src/shape.ts:40
 msgid "OS"
 msgstr "OS"
 
 #. js-lingui-explicit-id
-#: src/shape.ts:53
+#: src/shape.ts:60
 msgid "Virtualization"
 msgstr "Virtualization"
 
 #. js-lingui-explicit-id
-#: src/shape.ts:69
+#: src/shape.ts:76
 msgid "Architecture"
 msgstr "Architecture"
 
 #. js-lingui-explicit-id
-#: src/shape.ts:88
+#: src/shape.ts:95
 msgid "Nomos Spec ID"
 msgstr "Nomos Spec ID"
 
 #. js-lingui-explicit-id
-#: src/shape.ts:92
+#: src/shape.ts:99
 msgid "Nomos Datacenter ID"
 msgstr "Nomos Datacenter ID"
 
@@ -435,6 +481,8 @@ msgid "Purchasable"
 msgstr "Purchasable"
 
 #. js-lingui-explicit-id
+#: src/feature-flag.ts:15
+#: src/feature-flag.ts:36
 #: src/plan.ts:43
 msgid "Organization ID"
 msgstr "Organization ID"
@@ -1059,7 +1107,7 @@ msgstr "All possible sandbox actions"
 #. js-lingui-explicit-id
 #: src/action.ts:364
 #: src/action.ts:378
-#: src/action.ts:394
+#: src/action.ts:420
 msgid "Whether to include the screenshot url after action in the response"
 msgstr "Whether to include the screenshot url after action in the response"
 
@@ -1074,6 +1122,6 @@ msgid "Whether to include the cursor position after action in the response. Only
 msgstr "Whether to include the cursor position after action in the response. Only width and height are meaningful."
 
 #. js-lingui-explicit-id
-#: src/action.ts:400
+#: src/action.ts:426
 msgid "Whether to include the cursor position after action in the response. On some cursor-less devices, only width and height are meaningful."
 msgstr "Whether to include the cursor position after action in the response. On some cursor-less devices, only width and height are meaningful."
