@@ -36,7 +36,7 @@ import { UI_MODELS } from './models'
 import { exportChatHistory } from '@/lib/save-chat-history'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { sessionStore } from '@/stores/session'
-import { CHAT_MENU } from './chat-menu'
+import { getChatMenu } from './chat-menu'
 import { ChatMenuItem } from './chat-menu-item'
 import { cn } from '@/lib/utils'
 
@@ -47,6 +47,7 @@ export function InputArea({
   onSendText,
   onNewChat,
   onStop,
+  onOpenMapDialog,
 }: {
   chat: UseChatHelpers<LybicUIMessage>
   waitingForAutoSend: boolean
@@ -54,17 +55,19 @@ export function InputArea({
   onSendText: (text: string) => void
   onNewChat: () => void
   onStop: () => void
+  onOpenMapDialog: () => void
 }) {
-  const { id: sandboxId } = useSnapshot(sandboxStore)
+  const sb = useSnapshot(sandboxStore)
   const { signedInViaDashboard } = useSnapshot(sessionStore)
   const { model } = useSnapshot(conversationConfigState)
   const [input, setInput] = useState('')
 
+  const chatMenu = getChatMenu(sb.connectDetails, sb.shape)
   const modelConfig = UI_MODELS[model]
   const disabledMenuItems = {
     thinking: modelConfig?.thinking ? false : true,
   } as Record<string, boolean>
-  const canSend = !!sandboxId
+  const canSend = !!sb.id
 
   const handleSubmit = () => {
     if (input === 'showHiddenModels') {
@@ -89,23 +92,28 @@ export function InputArea({
     await exportChatHistory(chat)
   }
 
+  const handleSetLocation = () => {
+    onOpenMapDialog()
+  }
+
   const handleMenuItemClick = (key: string) => {
     if (key === 'system-prompt') {
       onOpenSystemPromptDialog()
-    }
-    if (key === 'export-chat') {
-      handleExportChat()
+    } else if (key === 'export-chat') {
+      void handleExportChat()
+    } else if (key === 'location') {
+      handleSetLocation()
     }
   }
 
   return (
     <div className="message-input p-2">
       <Textarea
-        placeholder={sandboxId ? 'Use the computer to ...' : 'Select or create a sandbox to start'}
+        placeholder={sb.id ? 'Use the computer to ...' : 'Select or create a sandbox to start'}
         className="resize-none"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        disabled={!sandboxId}
+        disabled={!sb.id}
       />
       <div className="flex gap-2 mt-2 justify-between items-center">
         <div className="text-xs text-muted-foreground flex items-center">
@@ -144,9 +152,9 @@ export function InputArea({
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {CHAT_MENU.map((menuItem) =>
+              {chatMenu.map((menuItem) =>
                 'options' in menuItem ? (
-                  <DropdownMenuSub>
+                  <DropdownMenuSub key={menuItem.key}>
                     <DropdownMenuSubTrigger disabled={disabledMenuItems[menuItem.key] ?? false}>
                       <ChatMenuItem
                         disabled={disabledMenuItems[menuItem.key] ?? false}
@@ -210,7 +218,7 @@ export function InputArea({
                 </Button>
               </TooltipTrigger>
               <TooltipContent collisionPadding={12}>
-                <p>{!sandboxId ? 'Select or create a sandbox first' : 'Send'}</p>
+                <p>{!sb.id ? 'Select or create a sandbox first' : 'Send'}</p>
               </TooltipContent>
             </Tooltip>
           )}

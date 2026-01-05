@@ -1,12 +1,12 @@
 import { ComponentType } from 'react'
-import { CHAT_MENU } from './chat-menu'
+import { Item } from './chat-menu'
 import { cn } from '@/lib/utils'
 
 export function ChatMenuItem({
   menuItem,
   disabled,
 }: {
-  menuItem: Pick<(typeof CHAT_MENU)[0], 'label' | 'icon'> & { description?: string | ComponentType }
+  menuItem: Pick<Item, 'label' | 'icon'> & { description?: string | ComponentType }
   disabled?: boolean
 }) {
   return (

@@ -14,6 +14,7 @@ import { InputArea } from './conversation/input-area'
 import { MessageAssistant } from './conversation/message-assistant'
 import { MessageUser } from './conversation/message-user'
 import { SystemPromptDialog } from './conversation/system-prompt-dialog'
+import { MapDialog } from './conversation/map-dialog'
 import { nanoid } from 'nanoid'
 import { useQueryClient } from '@tanstack/react-query'
 import { llmBudgetQuery } from '@/queries/llm-budget-query'
@@ -74,6 +75,7 @@ export function Conversation() {
   )
 
   const [openSystemPromptDialog, setOpenSystemPromptDialog] = useState(false)
+  const [openMapDialog, setOpenMapDialog] = useState(false)
 
   const autoSendTimer = useRef<NodeJS.Timeout | null>(null)
   const clearAutoSendTimer = () => {
@@ -228,6 +230,7 @@ export function Conversation() {
         onNewChat={handleNewChat}
         waitingForAutoSend={chat.status === 'submitted' || waitingForAutoSend}
         onStop={handleStop}
+        onOpenMapDialog={() => setOpenMapDialog(true)}
       />
       <SystemPromptDialog
         open={openSystemPromptDialog}
@@ -236,6 +239,12 @@ export function Conversation() {
           conversationConfigState.systemPrompt = systemPrompt
         }}
         initialSystemPrompt={systemPrompt}
+      />
+      <MapDialog
+        open={openMapDialog}
+        onLocationChange={(location) => {
+          setOpenMapDialog(false)
+        }}
       />
     </div>
   )

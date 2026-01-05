@@ -14,6 +14,13 @@ export default defineConfig(({ mode }) => {
           target: env.DEV_PLAYGROUND_PROXY_URL ?? 'http://localhost:5305',
           changeOrigin: true,
         },
+        '/_AMapService/': {
+          target: env.VITE_LYBIC_AMAP_URL ?? 'https://amap.lybic.cn',
+          changeOrigin: true,
+          headers: {
+            Referer: 'https://playground.lybic.cn',
+          },
+        },
       },
     },
     plugins: [
