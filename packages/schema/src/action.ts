@@ -253,8 +253,16 @@ export const mobileUseActionStartAppByNameSchema = z
 export const mobileUseActionCloseAppSchema = z
   .object({
     type: z.literal('os:closeApp'),
+    packageName: z.string().describe(/* i18n */ 'App package name'),
   })
-  .describe(/* i18n */ 'Close the current app')
+  .describe(/* i18n */ 'Close an app by its package name')
+
+export const mobileUseActionCloseAppByNameSchema = z
+  .object({
+    type: z.literal('os:closeAppByName'),
+    name: z.string().describe(/* i18n */ 'App name'),
+  })
+  .describe(/* i18n */ 'Close an app by its name')
 
 export const mobileUseActionSwipeSchema = z
   .object({
@@ -318,6 +326,7 @@ export const mobileUseActionSchema = z
     mobileUseActionStartAppSchema,
     mobileUseActionStartAppByNameSchema,
     mobileUseActionCloseAppSchema,
+    mobileUseActionCloseAppByNameSchema,
   ])
   .and(
     z.object({
@@ -403,6 +412,7 @@ export const executeSandboxActionSchema = z.object({
     generalActionUserTakeoverSchema,
     generalActionWaitSchema,
     mobileUseActionCloseAppSchema,
+    mobileUseActionCloseAppByNameSchema,
     mobileUseActionDragSchema,
     mobileUseActionListAppsSchema,
     mobileUseActionLongPressSchema,
