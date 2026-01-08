@@ -3,6 +3,7 @@ import Map from '@/components/ui/map'
 import { myAxios } from '@/lib/axios'
 import { sessionStore } from '@/stores/session'
 import { sandboxStore } from '@/stores/sandbox'
+import { toast } from 'sonner'
 
 interface MapDialogProps {
   open: boolean
@@ -11,12 +12,17 @@ interface MapDialogProps {
 
 export function MapDialog({ open, onLocationChange }: MapDialogProps) {
   const locationChange = async (location?: { lng: number; lat: number }) => {
-    await myAxios.post(`/api/orgs/${sessionStore.orgId}/sandboxes/${sandboxStore.id}/process`, {
-      executable: 'settings',
-      args: ['put', 'global', 'gps_inject_info', `"${location?.lng},${location?.lat}"`],
-    })
-
-    onLocationChange(location)
+    try {
+      await myAxios.post(`/api/orgs/${sessionStore.orgId}/sandboxes/${sandboxStore.id}/process`, {
+        executable: 'settings',
+        args: ['put', 'global', 'gps_inject_info', `${location?.lng},${location?.lat}`],
+      })
+      onLocationChange(location)
+    } catch (error: any) {
+      toast.error('Failed to inject location', {
+        description: error?.message || error?.response?.data?.message || String(error),
+      })
+    }
   }
 
   return (

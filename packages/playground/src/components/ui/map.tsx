@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 interface MapProps {
   style?: React.CSSProperties
   className?: string
-  onLocationChange?: (location?: { lng: number; lat: number }) => void
+  onLocationChange?: (location?: { lng: number; lat: number }) => Promise<void>
 }
 
 declare global {
@@ -25,6 +25,7 @@ export default function Map({ style, className, onLocationChange }: MapProps) {
   const mapRef = useRef<any>(null)
   const markerRef = useRef<any>(null)
   const element = useRef(null)
+  const [isLoading, setIsLoading] = useState(false)
   const [location, setLocation] = useState<{
     lng: number
     lat: number
@@ -159,12 +160,6 @@ export default function Map({ style, className, onLocationChange }: MapProps) {
     }
   }, [element])
 
-  const confirm = () => {
-    if (location.lng !== 0 || location.lat !== 0) {
-      onLocationChange?.(location)
-    }
-  }
-
   return (
     <div className="w-full h-full flex flex-col relative">
       <div className="absolute top-4 left-4 w-[400px] z-50">
@@ -214,7 +209,20 @@ export default function Map({ style, className, onLocationChange }: MapProps) {
               </span>
             </div>
           </div>
-          <Button onClick={confirm} size="icon" title="Confirm location">
+          <Button
+            onClick={async () => {
+              if (location.lng !== 0 || location.lat !== 0) {
+                setIsLoading(true)
+
+                onLocationChange?.(location).finally(() => {
+                  setIsLoading(false)
+                })
+              }
+            }}
+            size="icon"
+            title="Confirm location"
+            isLoading={isLoading}
+          >
             <Check />
           </Button>
         </div>
