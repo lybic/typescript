@@ -287,3 +287,43 @@ export type SandboxFileCopyRequest = z.infer<typeof sandboxFileCopyRequestSchema
 export type SandboxFileCopyResponse = z.infer<typeof sandboxFileCopyResponseSchema>
 export type SandboxProcessRequest = z.infer<typeof sandboxProcessRequestSchema>
 export type SandboxProcessResponse = z.infer<typeof sandboxProcessResponseSchema>
+
+export const createHttpMappingSchema = z.object({
+  targetEndpoint: z
+    .string()
+    .min(1)
+    .refine((value) => {
+      const match = /^(?<host>.+):(?<port>\d+)$/.exec(value)
+      if (!match) {
+        return false
+      }
+
+      const { port: rawPort } = match.groups!
+      const port = Number(rawPort)
+
+      if (port < 1 || port > 65535) {
+        return false
+      }
+
+      return true
+    }, 'target_endpoint must be host:port (no scheme/path), e.g. 127.0.0.1:3000')
+    .describe(/* i18n */ 'Sandbox-local TCP endpoint in host:port form, e.g., 127.0.0.1:3000'),
+})
+
+export type CreateHttpMapping = z.infer<typeof createHttpMappingSchema>
+
+export const httpMappingSchema = z.object({
+  domain: z.string().describe(/* i18n */ 'Public HTTP/HTTPS domain for this mapping'),
+  targetEndpoint: z.string().describe(/* i18n */ 'Sandbox-local TCP endpoint (host:port)'),
+  accessToken: z.string().describe(/* i18n */ 'Access token used to reach the mapped domain'),
+})
+
+export type HttpMapping = z.infer<typeof httpMappingSchema>
+
+export const createHttpMappingResponseSchema = httpMappingSchema
+
+export type CreateHttpMappingResponse = z.infer<typeof createHttpMappingResponseSchema>
+
+export const deleteHttpMappingResponseSchema = z.object({}).describe(/* i18n */ 'Empty response on success')
+
+export type DeleteHttpMappingResponse = z.infer<typeof deleteHttpMappingResponseSchema>
