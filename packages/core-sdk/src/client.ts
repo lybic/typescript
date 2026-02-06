@@ -242,6 +242,81 @@ export class LybicClient {
     })
   }
 
+  public listHttpMappings(
+    sandboxId: string,
+    initParam?: Omit<MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings'], 'get'>, 'params'>,
+  ) {
+    return this.client.GET('/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+        },
+      },
+      ...initParam,
+    })
+  }
+
+  public createHttpMapping(
+    sandboxId: string,
+    data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings']['post']['requestBody']['content']['application/json'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings'], 'post'>,
+      'body' | 'params'
+    >,
+  ) {
+    return this.client.POST('/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+        },
+      },
+      body: data,
+      ...initParam,
+    })
+  }
+
+  public getHttpMapping(
+    sandboxId: string,
+    targetEndpoint: operations['getHttpMapping']['parameters']['path']['targetEndpoint'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings/{targetEndpoint}'], 'get'>,
+      'params'
+    >,
+  ) {
+    return this.client.GET('/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings/{targetEndpoint}', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+          targetEndpoint,
+        },
+      },
+      ...initParam,
+    })
+  }
+
+  public deleteHttpMapping(
+    sandboxId: string,
+    targetEndpoint: operations['deleteHttpMapping']['parameters']['path']['targetEndpoint'],
+    initParam?: Omit<
+      MaybeOptionalInit<paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings/{targetEndpoint}'], 'delete'>,
+      'params'
+    >,
+  ) {
+    return this.client.DELETE('/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings/{targetEndpoint}', {
+      params: {
+        path: {
+          orgId: this.orgId,
+          sandboxId,
+          targetEndpoint,
+        },
+      },
+      ...initParam,
+    })
+  }
+
   public copyFilesWithSandbox(
     sandboxId: string,
     data: paths['/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy']['post']['requestBody']['content']['application/json'],

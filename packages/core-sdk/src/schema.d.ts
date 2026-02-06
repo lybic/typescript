@@ -4,3250 +4,3659 @@
  */
 
 export interface paths {
-    "/api/orgs/{orgId}/mcp-servers": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List MCP servers
-         * @description Returns a list of MCP servers for the organization.
-         */
-        get: operations["listMcpServers"];
-        put?: never;
-        /**
-         * Create MCP server
-         * @description Creates a new MCP server.
-         */
-        post: operations["createMcpServer"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/mcp-servers/default": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Default MCP server
-         * @description Returns the default MCP server for the organization. If not set, it will create a new one.
-         */
-        get: operations["getDefaultMcpServer"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/mcp-servers/{mcpServerId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * Delete MCP server
-         * @description Deletes an MCP server by its ID.
-         */
-        delete: operations["deleteMcpServer"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/mcp-servers/{mcpServerId}/sandbox": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Set MCP server to Sandbox
-         * @description Sets the specified MCP server to the given Sandbox.
-         */
-        post: operations["setMcpServerToSandbox"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List Sandboxes
-         * @description Returns a list of sandboxes for the organization.
-         */
-        get: operations["listSandboxes"];
-        put?: never;
-        /**
-         * Create Sandbox
-         * @description Creates a new sandbox.
-         */
-        post: operations["createSandbox"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Copy Sandbox Files */
-        post: operations["copyFilesWithSandbox"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/{sandboxId}/process": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Execute Command in Sandbox */
-        post: operations["execSandboxProcess"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/from-image": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Create Sandbox from Image
-         * @description Creates a new sandbox from a machine image.
-         */
-        post: operations["createSandboxFromImage"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/{sandboxId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Sandbox Details
-         * @description Get the sandbox details by id
-         */
-        get: operations["getSandbox"];
-        put?: never;
-        post?: never;
-        /**
-         * Delete Sandbox
-         * @description Deletes a sandbox by its ID.
-         */
-        delete: operations["deleteSandbox"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/{sandboxId}/extend": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Extend Sandbox
-         * @description Extends a sandbox expire time by its ID.
-         */
-        post: operations["extendSandbox"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/{sandboxId}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Sandbox Status
-         * @description Returns the status of a sandbox (PENDING/RUNNING/STOPPED/ERROR).
-         */
-        get: operations["getSandboxStatus"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/computer-use": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Execute Computer Use Action (Deprecated)
-         * @description Deprecated, use executeSandboxAction instead
-         */
-        post: operations["executeComputerUseAction"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/execute": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Execute Computer Use or Mobile Use action
-         * @description Executes a computer use or mobile use action on the sandbox.
-         */
-        post: operations["executeSandboxAction"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/sandboxes/{sandboxId}/preview": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Preview Sandbox
-         * @description Takes a screenshot and gets cursor position of the sandbox.
-         */
-        post: operations["previewSandbox"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/machine-images": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List all machine images */
-        get: operations["MachineImageController_listMachineImages"];
-        put?: never;
-        /** Create a machine image from a sandbox */
-        post: operations["MachineImageController_createMachineImage"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/machine-images/{imageId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Delete a machine image */
-        delete: operations["MachineImageController_deleteMachineImage"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/projects": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List Projects
-         * @description Returns a list of projects for the organization.
-         */
-        get: operations["listProjects"];
-        put?: never;
-        /**
-         * Create Project
-         * @description Creates a new project.
-         */
-        post: operations["createProject"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/projects/{projectId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * Delete Project
-         * @description Deletes a project by its ID.
-         */
-        delete: operations["deleteProject"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/computer-use/parse": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Parse LLM Output (Deprecated)
-         * @description Deprecated, use parseModelTextOutput instead
-         */
-        post: operations["parseModelOutput"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/computer-use/parse/{type}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Parse LLM Text Output
-         * @description Parses the output text of computer use model and returns the parsed actions.
-         */
-        post: operations["parseModelTextOutput"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/mobile-use/parse/{type}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Parse Mobile Use Model Text Output
-         * @description Parses the output text of mobile use model and returns the parsed actions.
-         */
-        post: operations["parseMobileUseModelTextOutput"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/orgs/{orgId}/stats": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Organization Stats
-         * @description Returns the stats of the organization, such as number of members, computers, etc.
-         */
-        get: operations["getStats"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
+  '/api/orgs/{orgId}/mcp-servers': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * List MCP servers
+     * @description Returns a list of MCP servers for the organization.
+     */
+    get: operations['listMcpServers']
+    put?: never
+    /**
+     * Create MCP server
+     * @description Creates a new MCP server.
+     */
+    post: operations['createMcpServer']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/mcp-servers/default': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Get Default MCP server
+     * @description Returns the default MCP server for the organization. If not set, it will create a new one.
+     */
+    get: operations['getDefaultMcpServer']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/mcp-servers/{mcpServerId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /**
+     * Delete MCP server
+     * @description Deletes an MCP server by its ID.
+     */
+    delete: operations['deleteMcpServer']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/mcp-servers/{mcpServerId}/sandbox': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Set MCP server to Sandbox
+     * @description Sets the specified MCP server to the given Sandbox.
+     */
+    post: operations['setMcpServerToSandbox']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * List Sandboxes
+     * @description Returns a list of sandboxes for the organization.
+     */
+    get: operations['listSandboxes']
+    put?: never
+    /**
+     * Create Sandbox
+     * @description Creates a new sandbox.
+     */
+    post: operations['createSandbox']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/file/copy': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Copy Sandbox Files */
+    post: operations['copyFilesWithSandbox']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/process': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Execute Command in Sandbox */
+    post: operations['execSandboxProcess']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/from-image': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Create Sandbox from Image
+     * @description Creates a new sandbox from a machine image.
+     */
+    post: operations['createSandboxFromImage']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Get Sandbox Details
+     * @description Get the sandbox details by id
+     */
+    get: operations['getSandbox']
+    put?: never
+    post?: never
+    /**
+     * Delete Sandbox
+     * @description Deletes a sandbox by its ID.
+     */
+    delete: operations['deleteSandbox']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/extend': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Extend Sandbox
+     * @description Extends a sandbox expire time by its ID.
+     */
+    post: operations['extendSandbox']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/restart': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Restart Sandbox
+     * @description Restarts a sandbox by its ID.
+     */
+    post: operations['restartSandbox']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/status': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Get Sandbox Status
+     * @description Returns the status of a sandbox (PENDING/RUNNING/STOPPED/ERROR).
+     */
+    get: operations['getSandboxStatus']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/computer-use': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Execute Computer Use Action (Deprecated)
+     * @description Deprecated, use executeSandboxAction instead
+     */
+    post: operations['executeComputerUseAction']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/actions/execute': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Execute Computer Use or Mobile Use action
+     * @description Executes a computer use or mobile use action on the sandbox.
+     */
+    post: operations['executeSandboxAction']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/preview': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Preview Sandbox
+     * @description Takes a screenshot and gets cursor position of the sandbox.
+     */
+    post: operations['previewSandbox']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * List HTTP Gateway Mappings
+     * @description Returns a list of HTTP gateway mappings for a sandbox.
+     */
+    get: operations['listHttpMappings']
+    put?: never
+    /**
+     * Create HTTP Gateway Mapping
+     * @description Creates a new HTTP gateway mapping for a sandbox.
+     */
+    post: operations['createHttpMapping']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/sandboxes/{sandboxId}/mappings/{targetEndpoint}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Get HTTP Gateway Mapping
+     * @description Returns a single HTTP gateway mapping by its target endpoint.
+     */
+    get: operations['getHttpMapping']
+    put?: never
+    post?: never
+    /**
+     * Delete HTTP Gateway Mapping
+     * @description Deletes an HTTP gateway mapping by its target endpoint.
+     */
+    delete: operations['deleteHttpMapping']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/machine-images': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** List all machine images */
+    get: operations['MachineImageController_listMachineImages']
+    put?: never
+    /** Create a machine image from a sandbox */
+    post: operations['MachineImageController_createMachineImage']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/machine-images/{imageId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /** Delete a machine image */
+    delete: operations['MachineImageController_deleteMachineImage']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/projects': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * List Projects
+     * @description Returns a list of projects for the organization.
+     */
+    get: operations['listProjects']
+    put?: never
+    /**
+     * Create Project
+     * @description Creates a new project.
+     */
+    post: operations['createProject']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/projects/{projectId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /**
+     * Delete Project
+     * @description Deletes a project by its ID.
+     */
+    delete: operations['deleteProject']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/computer-use/parse': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Parse LLM Output (Deprecated)
+     * @description Deprecated, use parseModelTextOutput instead
+     */
+    post: operations['parseModelOutput']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/computer-use/parse/{type}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Parse LLM Text Output
+     * @description Parses the output text of computer use model and returns the parsed actions.
+     */
+    post: operations['parseModelTextOutput']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/mobile-use/parse/{type}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * Parse Mobile Use Model Text Output
+     * @description Parses the output text of mobile use model and returns the parsed actions.
+     */
+    post: operations['parseMobileUseModelTextOutput']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/orgs/{orgId}/stats': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Get Organization Stats
+     * @description Returns the stats of the organization, such as number of members, computers, etc.
+     */
+    get: operations['getStats']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
 }
-export type webhooks = Record<string, never>;
+export type webhooks = Record<string, never>
 export interface components {
-    schemas: {
-        ListMcpServerResponse: {
-            /** @description ID of the MCP server. */
-            id: string;
-            /** @description Name of the MCP server. */
-            name: string;
-            /** @description Creation date of the MCP server. */
-            createdAt: string;
-            /** @description Whether this is the default MCP server for the organization. */
-            defaultMcpServer: boolean;
-            /** @description Project ID to which the MCP server belongs. */
-            projectId: string;
-            policy: {
-                /** @description The shape of the sandbox created by the MCP server. */
-                sandboxShape: string;
-                /**
-                 * @description The maximum lifetime of a sandbox.
-                 * @default 3600
-                 */
-                sandboxMaxLifetimeSeconds: number;
-                /**
-                 * @description The maximum idle time of a sandbox.
-                 * @default 3600
-                 */
-                sandboxMaxIdleTimeSeconds: number;
-                /**
-                 * @description Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools.
-                 * @default false
-                 */
-                sandboxAutoCreation: boolean;
-                /**
-                 * @description Whether to expose recreate tool to LLMs.
-                 * @default false
-                 */
-                sandboxExposeRecreateTool: boolean;
-                /**
-                 * @description Whether to expose restart tool to LLMs.
-                 * @default false
-                 */
-                sandboxExposeRestartTool: boolean;
-                /**
-                 * @description Whether to expose delete tool to LLMs.
-                 * @default false
-                 */
-                sandboxExposeDeleteTool: boolean;
-            };
-            /** @description ID of the currently connected sandbox. */
-            currentSandboxId: string | null;
-        }[];
-        McpServerResponseDto: {
-            /** @description ID of the MCP server. */
-            id: string;
-            /** @description Name of the MCP server. */
-            name: string;
-            /** @description Creation date of the MCP server. */
-            createdAt: string;
-            /** @description Whether this is the default MCP server for the organization. */
-            defaultMcpServer: boolean;
-            /** @description Project ID to which the MCP server belongs. */
-            projectId: string;
-            policy: {
-                /** @description The shape of the sandbox created by the MCP server. */
-                sandboxShape: string;
-                /**
-                 * @description The maximum lifetime of a sandbox.
-                 * @default 3600
-                 */
-                sandboxMaxLifetimeSeconds: number;
-                /**
-                 * @description The maximum idle time of a sandbox.
-                 * @default 3600
-                 */
-                sandboxMaxIdleTimeSeconds: number;
-                /**
-                 * @description Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools.
-                 * @default false
-                 */
-                sandboxAutoCreation: boolean;
-                /**
-                 * @description Whether to expose recreate tool to LLMs.
-                 * @default false
-                 */
-                sandboxExposeRecreateTool: boolean;
-                /**
-                 * @description Whether to expose restart tool to LLMs.
-                 * @default false
-                 */
-                sandboxExposeRestartTool: boolean;
-                /**
-                 * @description Whether to expose delete tool to LLMs.
-                 * @default false
-                 */
-                sandboxExposeDeleteTool: boolean;
-            };
-            /** @description ID of the currently connected sandbox. */
-            currentSandboxId: string | null;
-        };
-        CreateMcpServerDto: {
-            /** @description Name of the MCP server. */
-            name: string;
-            /** @description Project to which the MCP server belongs to. */
-            projectId?: string;
-            /** @description The shape of the sandbox created by the MCP server. */
-            sandboxShape: string;
-            /**
-             * @description The maximum lifetime of a sandbox.
-             * @default 3600
-             */
-            sandboxMaxLifetimeSeconds: number;
-            /**
-             * @description The maximum idle time of a sandbox.
-             * @default 3600
-             */
-            sandboxMaxIdleTimeSeconds: number;
-            /**
-             * @description Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools.
-             * @default false
-             */
-            sandboxAutoCreation: boolean;
-            /**
-             * @description Whether to expose recreate tool to LLMs.
-             * @default false
-             */
-            sandboxExposeRecreateTool: boolean;
-            /**
-             * @description Whether to expose restart tool to LLMs.
-             * @default false
-             */
-            sandboxExposeRestartTool: boolean;
-            /**
-             * @description Whether to expose delete tool to LLMs.
-             * @default false
-             */
-            sandboxExposeDeleteTool: boolean;
-        };
-        SetMcpServerToSandboxResponseDto: {
-            /** @description The ID of the sandbox to connect the MCP server to. */
-            sandboxId: string | null;
-        };
-        SandboxListResponseDto: {
-            id: string;
-            name: string;
-            /**
-             * Format: date-time
-             * @description Deprecated, use `expiresAt` instead.
-             */
-            expiredAt: string;
-            /** Format: date-time */
-            expiresAt: string;
-            /** Format: date-time */
-            createdAt: string;
-            projectId: string;
-            shapeName: string;
-            /**
-             * @description Current sandbox status
-             * @enum {string}
-             */
-            status?: "PENDING" | "RUNNING" | "STOPPED" | "ERROR";
-        }[];
-        CreateSandboxDto: {
-            /**
-             * @description The name of the sandbox.
-             * @default sandbox
-             */
-            name: string;
-            /**
-             * @description The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 day.
-             * @default 3600
-             */
-            maxLifeSeconds: number;
-            /** @description The project id to use for the sandbox. Use default if not provided. */
-            projectId?: string;
-            /** @description Specs and datacenter of the sandbox. */
-            shape: string;
-        };
-        CreateSandboxResponseDto: {
-            id: string;
-            name: string;
-            /**
-             * Format: date-time
-             * @description Deprecated, use `expiresAt` instead.
-             */
-            expiredAt: string;
-            /** Format: date-time */
-            expiresAt: string;
-            /** Format: date-time */
-            createdAt: string;
-            projectId: string;
-            shapeName: string;
-            /**
-             * @description Current sandbox status
-             * @enum {string}
-             */
-            status?: "PENDING" | "RUNNING" | "STOPPED" | "ERROR";
-        };
-        SandboxFileCopyRequestDto: {
-            files: {
-                /** @description A caller-defined unique identifier for this item. The value is included in the response to associate results with their corresponding requests */
-                id?: string;
-                /** @description Copy file source */
-                src: {
-                    /** @enum {string} */
-                    type: "sandboxFileLocation";
-                    /** @description File path in sandbox */
-                    path: string;
-                } | {
-                    /** @enum {string} */
-                    type: "httpPutLocation";
-                    /**
-                     * Format: uri
-                     * @description PUT upload URL
-                     */
-                    url: string;
-                    /** @description Optional HTTP headers */
-                    headers?: {
-                        [key: string]: string;
-                    };
-                } | {
-                    /** @enum {string} */
-                    type: "httpGetLocation";
-                    /**
-                     * Format: uri
-                     * @description GET download URL
-                     */
-                    url: string;
-                    /** @description Optional HTTP headers */
-                    headers?: {
-                        [key: string]: string;
-                    };
-                } | {
-                    /** @enum {string} */
-                    type: "httpPostFormLocation";
-                    /**
-                     * Format: uri
-                     * @description POST form upload URL
-                     */
-                    url: string;
-                    /** @description Form fields */
-                    form: {
-                        [key: string]: string;
-                    };
-                    /**
-                     * @description File field name in form
-                     * @default file
-                     */
-                    fileField: string;
-                    /** @description Optional HTTP headers */
-                    headers?: {
-                        [key: string]: string;
-                    };
-                };
-                /** @description Copy file destination */
-                dest: {
-                    /** @enum {string} */
-                    type: "sandboxFileLocation";
-                    /** @description File path in sandbox */
-                    path: string;
-                } | {
-                    /** @enum {string} */
-                    type: "httpPutLocation";
-                    /**
-                     * Format: uri
-                     * @description PUT upload URL
-                     */
-                    url: string;
-                    /** @description Optional HTTP headers */
-                    headers?: {
-                        [key: string]: string;
-                    };
-                } | {
-                    /** @enum {string} */
-                    type: "httpGetLocation";
-                    /**
-                     * Format: uri
-                     * @description GET download URL
-                     */
-                    url: string;
-                    /** @description Optional HTTP headers */
-                    headers?: {
-                        [key: string]: string;
-                    };
-                } | {
-                    /** @enum {string} */
-                    type: "httpPostFormLocation";
-                    /**
-                     * Format: uri
-                     * @description POST form upload URL
-                     */
-                    url: string;
-                    /** @description Form fields */
-                    form: {
-                        [key: string]: string;
-                    };
-                    /**
-                     * @description File field name in form
-                     * @default file
-                     */
-                    fileField: string;
-                    /** @description Optional HTTP headers */
-                    headers?: {
-                        [key: string]: string;
-                    };
-                };
-            }[];
-        };
-        SandboxFileCopyResponseDto: {
-            results: {
-                /** @description unique identifier of the files item from the request */
-                id?: string;
-                /** @description Whether the operation succeeded */
-                success: boolean;
-                /** @description Error message if failed */
-                error?: string;
-            }[];
-        };
-        SandboxProcessRequestDto: {
-            /** @description Executable path */
-            executable: string;
-            /**
-             * @description Arguments
-             * @default []
-             */
-            args: string[];
-            /** @description Working directory */
-            workingDirectory?: string;
-            /** @description Optional stdin as base64-encoded bytes */
-            stdinBase64?: string;
-        };
-        SandboxProcessResponseDto: {
-            /**
-             * @description stdout as base64-encoded bytes
-             * @default
-             */
-            stdoutBase64: string;
-            /**
-             * @description stderr as base64-encoded bytes
-             * @default
-             */
-            stderrBase64: string;
-            /** @description Exit code */
-            exitCode: number;
-        };
-        CreateSandboxFromImageDto: {
-            /** @description The machine image ID to create sandbox from. */
-            imageId: string;
-            /** @description The name of the sandbox. */
-            name: string;
-            /** @description The maximum life time of the sandbox in seconds. */
-            maxLifeSeconds: number;
-            /** @description The project id to use for the sandbox. Use default if not provided. */
-            projectId?: string;
-        };
-        CreateSandboxFromImageResponseDto: {
-            sandbox: {
-                id: string;
-                name: string;
-                /**
-                 * Format: date-time
-                 * @description Deprecated, use `expiresAt` instead.
-                 */
-                expiredAt: string;
-                /** Format: date-time */
-                expiresAt: string;
-                /** Format: date-time */
-                createdAt: string;
-                projectId: string;
-                shapeName: string;
-                /**
-                 * @description Current sandbox status
-                 * @enum {string}
-                 */
-                status?: "PENDING" | "RUNNING" | "STOPPED" | "ERROR";
-            };
-            bookId: string;
-        };
-        ExtendSandboxDto: {
-            /**
-             * @description The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days.
-             * @default 3600
-             */
-            maxLifeSeconds: number;
-        };
-        GetSandboxResponseDto: {
-            sandbox: {
-                id: string;
-                name: string;
-                /**
-                 * Format: date-time
-                 * @description Deprecated, use `expiresAt` instead.
-                 */
-                expiredAt: string;
-                /** Format: date-time */
-                expiresAt: string;
-                /** Format: date-time */
-                createdAt: string;
-                projectId: string;
-                shapeName: string;
-                /**
-                 * @description Current sandbox status
-                 * @enum {string}
-                 */
-                status?: "PENDING" | "RUNNING" | "STOPPED" | "ERROR";
-                shape: {
-                    name: string;
-                    description: string;
-                    hardwareAcceleratedEncoding: boolean;
-                    /** @description This price acts as a multiplier, e.g. if it is set to 0.5, each hour of usage will be billed as 0.5 hours. */
-                    pricePerHour: number;
-                    requiredPlanTier: number;
-                    /** @enum {string} */
-                    os: "Windows" | "Linux" | "Android";
-                    /** @enum {string} */
-                    virtualization: "KVM" | "Container";
-                    /** @enum {string} */
-                    architecture: "x86_64" | "aarch64";
-                };
-            };
-            connectDetails: {
-                gatewayAddresses: {
-                    address: string;
-                    port: number;
-                    name: string;
-                    preferredProviders: ("CHINA_TELECOM" | "CHINA_UNICOM" | "CHINA_MOBILE" | "GLOBAL_BGP" | 1 | 2 | 3 | 4)[];
-                    /** @enum {string} */
-                    gatewayType: "KCP" | "QUIC" | "WEB_TRANSPORT" | "WEBSOCKET" | "WEBSOCKET_SECURE" | 4 | 5 | 6 | 7 | 8;
-                    path?: string;
-                }[];
-                certificateHashBase64: string;
-                endUserToken: string;
-                roomId: string;
-            };
-        };
-        ComputerUseActionDto: {
-            /** @description All possible computer use actions, with optional callId */
-            action: {
-                /** @description Optional call identifier */
-                callId?: string;
-            } & ({
-                /** @enum {string} */
-                type: "mouse:click";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once. */
-                button: number;
-                /** @description Key to hold down during click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:doubleClick";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button: number;
-                /** @description Key to hold down during double click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:tripleClick";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button: number;
-                /** @description Key to hold down during triple click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:move";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Key to hold down during move, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:scroll";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Vertical scroll steps */
-                stepVertical: number;
-                /** @description Horizontal scroll steps */
-                stepHorizontal: number;
-                /** @description Key to hold down during scroll, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:drag";
-                /** @description Start X coordinate */
-                startX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Start Y coordinate */
-                startY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End X coordinate */
-                endX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End Y coordinate */
-                endY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button?: number;
-                /** @description Key to hold down during drag, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                startRelative?: boolean;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                endRelative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "keyboard:type";
-                /** @description Text content to type */
-                content: string;
-                /**
-                 * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
-                 * @default false
-                 */
-                treatNewLineAsEnter: boolean | null;
-            } | {
-                /** @enum {string} */
-                type: "keyboard:hotkey";
-                /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
-                keys: string;
-                /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
-                duration?: number;
-            } | {
-                /** @enum {string} */
-                type: "screenshot";
-            } | {
-                /** @enum {string} */
-                type: "wait";
-                /** @description Duration in milliseconds */
-                duration: number;
-            } | {
-                /** @enum {string} */
-                type: "finished";
-                /** @description Completion message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "failed";
-                /** @description Failure message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "client:user-takeover";
-            } | {
-                /** @enum {string} */
-                type: "key:down";
-                /** @description Key to press */
-                key: string;
-            } | {
-                /** @enum {string} */
-                type: "key:up";
-                /** @description Key to release */
-                key: string;
-            });
-            /**
-             * @description Whether to include the screenshot url after action in the response
-             * @default true
-             */
-            includeScreenShot: boolean;
-            /**
-             * @description Whether to include the cursor position after action in the response
-             * @default true
-             */
-            includeCursorPosition: boolean;
-        };
-        SandboxActionResponseDto: {
-            /**
-             * Format: uri
-             * @description The screenshot of the sandbox after the action is executed.
-             */
-            screenShot?: string;
-            cursorPosition?: {
-                /** @description The x position of the cursor. */
-                x: number;
-                /** @description The y position of the cursor. */
-                y: number;
-                /** @description The width of the screen. */
-                screenWidth: number;
-                /** @description The height of the screen. */
-                screenHeight: number;
-                /** @description The index of the screen. */
-                screenIndex: number;
-            };
-            /** @description The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists. */
-            actionResult?: unknown;
-        };
-        ExecuteSandboxActionDto: {
-            action: ({
-                /** @description Optional call identifier */
-                callId?: string;
-            } & ({
-                /** @enum {string} */
-                type: "mouse:click";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once. */
-                button: number;
-                /** @description Key to hold down during click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:doubleClick";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button: number;
-                /** @description Key to hold down during double click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:tripleClick";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button: number;
-                /** @description Key to hold down during triple click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:move";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Key to hold down during move, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:scroll";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Vertical scroll steps */
-                stepVertical: number;
-                /** @description Horizontal scroll steps */
-                stepHorizontal: number;
-                /** @description Key to hold down during scroll, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:drag";
-                /** @description Start X coordinate */
-                startX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Start Y coordinate */
-                startY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End X coordinate */
-                endX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End Y coordinate */
-                endY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button?: number;
-                /** @description Key to hold down during drag, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                startRelative?: boolean;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                endRelative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "keyboard:type";
-                /** @description Text content to type */
-                content: string;
-                /**
-                 * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
-                 * @default false
-                 */
-                treatNewLineAsEnter: boolean | null;
-            } | {
-                /** @enum {string} */
-                type: "keyboard:hotkey";
-                /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
-                keys: string;
-                /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
-                duration?: number;
-            } | {
-                /** @enum {string} */
-                type: "screenshot";
-            } | {
-                /** @enum {string} */
-                type: "wait";
-                /** @description Duration in milliseconds */
-                duration: number;
-            } | {
-                /** @enum {string} */
-                type: "finished";
-                /** @description Completion message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "failed";
-                /** @description Failure message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "client:user-takeover";
-            } | {
-                /** @enum {string} */
-                type: "key:down";
-                /** @description Key to press */
-                key: string;
-            } | {
-                /** @enum {string} */
-                type: "key:up";
-                /** @description Key to release */
-                key: string;
-            })) | ({
-                /** @description Optional call identifier */
-                callId?: string;
-            } & ({
-                /** @enum {string} */
-                type: "screenshot";
-            } | {
-                /** @enum {string} */
-                type: "wait";
-                /** @description Duration in milliseconds */
-                duration: number;
-            } | {
-                /** @enum {string} */
-                type: "finished";
-                /** @description Completion message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "failed";
-                /** @description Failure message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "client:user-takeover";
-            } | {
-                /** @enum {string} */
-                type: "keyboard:type";
-                /** @description Text content to type */
-                content: string;
-                /**
-                 * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
-                 * @default false
-                 */
-                treatNewLineAsEnter: boolean | null;
-            } | {
-                /** @enum {string} */
-                type: "keyboard:hotkey";
-                /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
-                keys: string;
-                /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
-                duration?: number;
-            } | {
-                /** @enum {string} */
-                type: "touch:tap";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-            } | {
-                /** @enum {string} */
-                type: "touch:drag";
-                /** @description Start X coordinate */
-                startX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Start Y coordinate */
-                startY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End X coordinate */
-                endX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End Y coordinate */
-                endY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-            } | {
-                /** @enum {string} */
-                type: "touch:swipe";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /**
-                 * @description Scroll direction
-                 * @enum {string}
-                 */
-                direction: "up" | "down" | "left" | "right";
-                /** @description Scroll distance */
-                distance: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-            } | {
-                /** @enum {string} */
-                type: "touch:longPress";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Duration in milliseconds */
-                duration: number;
-            } | {
-                /** @enum {string} */
-                type: "android:back";
-            } | {
-                /** @enum {string} */
-                type: "android:home";
-            } | {
-                /** @enum {string} */
-                type: "os:listApps";
-            } | {
-                /** @enum {string} */
-                type: "os:startApp";
-                /** @description App package name */
-                packageName: string;
-            } | {
-                /** @enum {string} */
-                type: "os:startAppByName";
-                /** @description App name */
-                name: string;
-            } | {
-                /** @enum {string} */
-                type: "os:closeApp";
-            }));
-            /**
-             * @description Whether to include the screenshot url after action in the response
-             * @default true
-             */
-            includeScreenShot: boolean;
-            /**
-             * @description Whether to include the cursor position after action in the response. On some cursor-less devices, only width and height are meaningful.
-             * @default true
-             */
-            includeCursorPosition: boolean;
-        };
-        CreateMachineImageDto: {
-            /** @description The sandbox ID to create image from. */
-            sandboxId: string;
-            /** @description The name of the machine image. */
-            name: string;
-            /** @description Optional description of the machine image. */
-            description?: string;
-        };
-        MachineImageResponseDto: {
-            id: string;
-            name: string;
-            description: string | null;
-            /** Format: date-time */
-            createdAt: string;
-            shapeName: string;
+  schemas: {
+    ListMcpServerResponse: {
+      /** @description ID of the MCP server. */
+      id: string
+      /** @description Name of the MCP server. */
+      name: string
+      /** @description Creation date of the MCP server. */
+      createdAt: string
+      /** @description Whether this is the default MCP server for the organization. */
+      defaultMcpServer: boolean
+      /** @description Project ID to which the MCP server belongs. */
+      projectId: string
+      policy: {
+        /** @description The shape of the sandbox created by the MCP server. */
+        sandboxShape: string
+        /**
+         * @description The maximum lifetime of a sandbox.
+         * @default 3600
+         */
+        sandboxMaxLifetimeSeconds: number
+        /**
+         * @description The maximum idle time of a sandbox.
+         * @default 3600
+         */
+        sandboxMaxIdleTimeSeconds: number
+        /**
+         * @description Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools.
+         * @default false
+         */
+        sandboxAutoCreation: boolean
+        /**
+         * @description Whether to expose recreate tool to LLMs.
+         * @default false
+         */
+        sandboxExposeRecreateTool: boolean
+        /**
+         * @description Whether to expose restart tool to LLMs.
+         * @default false
+         */
+        sandboxExposeRestartTool: boolean
+        /**
+         * @description Whether to expose delete tool to LLMs.
+         * @default false
+         */
+        sandboxExposeDeleteTool: boolean
+      }
+      /** @description ID of the currently connected sandbox. */
+      currentSandboxId: string | null
+    }[]
+    McpServerResponseDto: {
+      /** @description ID of the MCP server. */
+      id: string
+      /** @description Name of the MCP server. */
+      name: string
+      /** @description Creation date of the MCP server. */
+      createdAt: string
+      /** @description Whether this is the default MCP server for the organization. */
+      defaultMcpServer: boolean
+      /** @description Project ID to which the MCP server belongs. */
+      projectId: string
+      policy: {
+        /** @description The shape of the sandbox created by the MCP server. */
+        sandboxShape: string
+        /**
+         * @description The maximum lifetime of a sandbox.
+         * @default 3600
+         */
+        sandboxMaxLifetimeSeconds: number
+        /**
+         * @description The maximum idle time of a sandbox.
+         * @default 3600
+         */
+        sandboxMaxIdleTimeSeconds: number
+        /**
+         * @description Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools.
+         * @default false
+         */
+        sandboxAutoCreation: boolean
+        /**
+         * @description Whether to expose recreate tool to LLMs.
+         * @default false
+         */
+        sandboxExposeRecreateTool: boolean
+        /**
+         * @description Whether to expose restart tool to LLMs.
+         * @default false
+         */
+        sandboxExposeRestartTool: boolean
+        /**
+         * @description Whether to expose delete tool to LLMs.
+         * @default false
+         */
+        sandboxExposeDeleteTool: boolean
+      }
+      /** @description ID of the currently connected sandbox. */
+      currentSandboxId: string | null
+    }
+    CreateMcpServerDto: {
+      /** @description Name of the MCP server. */
+      name: string
+      /** @description Project to which the MCP server belongs to. */
+      projectId?: string
+      /** @description The shape of the sandbox created by the MCP server. */
+      sandboxShape: string
+      /**
+       * @description The maximum lifetime of a sandbox.
+       * @default 3600
+       */
+      sandboxMaxLifetimeSeconds: number
+      /**
+       * @description The maximum idle time of a sandbox.
+       * @default 3600
+       */
+      sandboxMaxIdleTimeSeconds: number
+      /**
+       * @description Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools.
+       * @default false
+       */
+      sandboxAutoCreation: boolean
+      /**
+       * @description Whether to expose recreate tool to LLMs.
+       * @default false
+       */
+      sandboxExposeRecreateTool: boolean
+      /**
+       * @description Whether to expose restart tool to LLMs.
+       * @default false
+       */
+      sandboxExposeRestartTool: boolean
+      /**
+       * @description Whether to expose delete tool to LLMs.
+       * @default false
+       */
+      sandboxExposeDeleteTool: boolean
+    }
+    SetMcpServerToSandboxResponseDto: {
+      /** @description The ID of the sandbox to connect the MCP server to. */
+      sandboxId: string | null
+    }
+    SandboxListResponseDto: {
+      id: string
+      name: string
+      /**
+       * Format: date-time
+       * @description Deprecated, use `expiresAt` instead.
+       */
+      expiredAt: string
+      /** Format: date-time */
+      expiresAt: string
+      /** Format: date-time */
+      createdAt: string
+      projectId: string
+      shapeName: string
+      /**
+       * @description Current sandbox status
+       * @enum {string}
+       */
+      status?: 'PENDING' | 'RUNNING' | 'STOPPED' | 'ERROR'
+    }[]
+    CreateSandboxDto: {
+      /**
+       * @description The name of the sandbox.
+       * @default sandbox
+       */
+      name: string
+      /**
+       * @description The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 day.
+       * @default 3600
+       */
+      maxLifeSeconds: number
+      /** @description The project id to use for the sandbox. Use default if not provided. */
+      projectId?: string
+      /** @description Specs and datacenter of the sandbox. */
+      shape: string
+    }
+    CreateSandboxResponseDto: {
+      id: string
+      name: string
+      /**
+       * Format: date-time
+       * @description Deprecated, use `expiresAt` instead.
+       */
+      expiredAt: string
+      /** Format: date-time */
+      expiresAt: string
+      /** Format: date-time */
+      createdAt: string
+      projectId: string
+      shapeName: string
+      /**
+       * @description Current sandbox status
+       * @enum {string}
+       */
+      status?: 'PENDING' | 'RUNNING' | 'STOPPED' | 'ERROR'
+    }
+    SandboxFileCopyRequestDto: {
+      files: {
+        /** @description A caller-defined unique identifier for this item. The value is included in the response to associate results with their corresponding requests */
+        id?: string
+        /** @description Copy file source */
+        src:
+          | {
+              /** @enum {string} */
+              type: 'sandboxFileLocation'
+              /** @description File path in sandbox */
+              path: string
+            }
+          | {
+              /** @enum {string} */
+              type: 'httpPutLocation'
+              /**
+               * Format: uri
+               * @description PUT upload URL
+               */
+              url: string
+              /** @description Optional HTTP headers */
+              headers?: {
+                [key: string]: string
+              }
+            }
+          | {
+              /** @enum {string} */
+              type: 'httpGetLocation'
+              /**
+               * Format: uri
+               * @description GET download URL
+               */
+              url: string
+              /** @description Optional HTTP headers */
+              headers?: {
+                [key: string]: string
+              }
+            }
+          | {
+              /** @enum {string} */
+              type: 'httpPostFormLocation'
+              /**
+               * Format: uri
+               * @description POST form upload URL
+               */
+              url: string
+              /** @description Form fields */
+              form: {
+                [key: string]: string
+              }
+              /**
+               * @description File field name in form
+               * @default file
+               */
+              fileField: string
+              /** @description Optional HTTP headers */
+              headers?: {
+                [key: string]: string
+              }
+            }
+        /** @description Copy file destination */
+        dest:
+          | {
+              /** @enum {string} */
+              type: 'sandboxFileLocation'
+              /** @description File path in sandbox */
+              path: string
+            }
+          | {
+              /** @enum {string} */
+              type: 'httpPutLocation'
+              /**
+               * Format: uri
+               * @description PUT upload URL
+               */
+              url: string
+              /** @description Optional HTTP headers */
+              headers?: {
+                [key: string]: string
+              }
+            }
+          | {
+              /** @enum {string} */
+              type: 'httpGetLocation'
+              /**
+               * Format: uri
+               * @description GET download URL
+               */
+              url: string
+              /** @description Optional HTTP headers */
+              headers?: {
+                [key: string]: string
+              }
+            }
+          | {
+              /** @enum {string} */
+              type: 'httpPostFormLocation'
+              /**
+               * Format: uri
+               * @description POST form upload URL
+               */
+              url: string
+              /** @description Form fields */
+              form: {
+                [key: string]: string
+              }
+              /**
+               * @description File field name in form
+               * @default file
+               */
+              fileField: string
+              /** @description Optional HTTP headers */
+              headers?: {
+                [key: string]: string
+              }
+            }
+      }[]
+    }
+    SandboxFileCopyResponseDto: {
+      results: {
+        /** @description unique identifier of the files item from the request */
+        id?: string
+        /** @description Whether the operation succeeded */
+        success: boolean
+        /** @description Error message if failed */
+        error?: string
+      }[]
+    }
+    SandboxProcessRequestDto: {
+      /** @description Executable path */
+      executable: string
+      /**
+       * @description Arguments
+       * @default []
+       */
+      args: string[]
+      /** @description Working directory */
+      workingDirectory?: string
+      /** @description Optional stdin as base64-encoded bytes */
+      stdinBase64?: string
+    }
+    SandboxProcessResponseDto: {
+      /**
+       * @description stdout as base64-encoded bytes
+       * @default
+       */
+      stdoutBase64: string
+      /**
+       * @description stderr as base64-encoded bytes
+       * @default
+       */
+      stderrBase64: string
+      /** @description Exit code */
+      exitCode: number
+    }
+    CreateSandboxFromImageDto: {
+      /** @description The machine image ID to create sandbox from. */
+      imageId: string
+      /** @description The name of the sandbox. */
+      name: string
+      /** @description The maximum life time of the sandbox in seconds. */
+      maxLifeSeconds: number
+      /** @description The project id to use for the sandbox. Use default if not provided. */
+      projectId?: string
+    }
+    CreateSandboxFromImageResponseDto: {
+      sandbox: {
+        id: string
+        name: string
+        /**
+         * Format: date-time
+         * @description Deprecated, use `expiresAt` instead.
+         */
+        expiredAt: string
+        /** Format: date-time */
+        expiresAt: string
+        /** Format: date-time */
+        createdAt: string
+        projectId: string
+        shapeName: string
+        /**
+         * @description Current sandbox status
+         * @enum {string}
+         */
+        status?: 'PENDING' | 'RUNNING' | 'STOPPED' | 'ERROR'
+      }
+      bookId: string
+    }
+    ExtendSandboxDto: {
+      /**
+       * @description The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days.
+       * @default 3600
+       */
+      maxLifeSeconds: number
+    }
+    GetSandboxResponseDto: {
+      sandbox: {
+        id: string
+        name: string
+        /**
+         * Format: date-time
+         * @description Deprecated, use `expiresAt` instead.
+         */
+        expiredAt: string
+        /** Format: date-time */
+        expiresAt: string
+        /** Format: date-time */
+        createdAt: string
+        projectId: string
+        shapeName: string
+        /**
+         * @description Current sandbox status
+         * @enum {string}
+         */
+        status?: 'PENDING' | 'RUNNING' | 'STOPPED' | 'ERROR'
+        shape: {
+          name: string
+          description: string
+          hardwareAcceleratedEncoding: boolean
+          /** @description This price acts as a multiplier, e.g. if it is set to 0.5, each hour of usage will be billed as 0.5 hours. */
+          pricePerHour: number
+          requiredPlanTier: number
+          /** @description The feature flag required by creating the shape of sandbox. */
+          requiredFeatureFlag: string
+          /** @enum {string} */
+          os: 'Windows' | 'Linux' | 'Android'
+          /** @enum {string} */
+          virtualization: 'KVM' | 'Container'
+          /** @enum {string} */
+          architecture: 'x86_64' | 'aarch64'
+        }
+      }
+      connectDetails: {
+        gatewayAddresses: {
+          address: string
+          port: number
+          name: string
+          preferredProviders: ('CHINA_TELECOM' | 'CHINA_UNICOM' | 'CHINA_MOBILE' | 'GLOBAL_BGP' | 1 | 2 | 3 | 4)[]
+          /** @enum {string} */
+          gatewayType: 'KCP' | 'QUIC' | 'WEB_TRANSPORT' | 'WEBSOCKET' | 'WEBSOCKET_SECURE' | 4 | 5 | 6 | 7 | 8
+          path?: string
+        }[]
+        certificateHashBase64: string
+        endUserToken: string
+        roomId: string
+      }
+    }
+    ComputerUseActionDto: {
+      /** @description All possible computer use actions, with optional callId */
+      action: {
+        /** @description Optional call identifier */
+        callId?: string
+      } & (
+        | {
             /** @enum {string} */
-            status: "CREATING" | "READY" | "ERROR";
-        };
-        MachineImagesResponseDto: {
-            images: {
-                id: string;
-                name: string;
-                description: string | null;
-                /** Format: date-time */
-                createdAt: string;
-                shapeName: string;
-                /** @enum {string} */
-                status: "CREATING" | "READY" | "ERROR";
-            }[];
-            quota: {
-                used: number;
-                limit: number;
-            };
-        };
-        ListProjectsResponseDto: {
-            id: string;
-            name: string;
-            createdAt: string;
-            defaultProject: boolean;
-        }[];
-        CreateProjectDto: {
-            /** @description Name of the project. */
-            name: string;
-        };
-        SingleProjectResponseDto: {
-            id: string;
-            name: string;
-            createdAt: string;
-            defaultProject: boolean;
-        };
-        ParseRequestDto: {
+            type: 'mouse:click'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once. */
+            button: number
+            /** @description Key to hold down during click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:doubleClick'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button: number
+            /** @description Key to hold down during double click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:tripleClick'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button: number
+            /** @description Key to hold down during triple click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:move'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Key to hold down during move, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:scroll'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Vertical scroll steps */
+            stepVertical: number
+            /** @description Horizontal scroll steps */
+            stepHorizontal: number
+            /** @description Key to hold down during scroll, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:drag'
+            /** @description Start X coordinate */
+            startX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Start Y coordinate */
+            startY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End X coordinate */
+            endX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End Y coordinate */
+            endY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button?: number
+            /** @description Key to hold down during drag, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            startRelative?: boolean
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            endRelative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'keyboard:type'
+            /** @description Text content to type */
+            content: string
             /**
-             * @description The model to parse the input for
+             * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
+             * @default false
+             */
+            treatNewLineAsEnter: boolean | null
+          }
+        | {
+            /** @enum {string} */
+            type: 'keyboard:hotkey'
+            /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
+            keys: string
+            /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
+            duration?: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'screenshot'
+          }
+        | {
+            /** @enum {string} */
+            type: 'wait'
+            /** @description Duration in milliseconds */
+            duration: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'finished'
+            /** @description Completion message */
+            message?: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'failed'
+            /** @description Failure message */
+            message?: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'client:user-takeover'
+          }
+        | {
+            /** @enum {string} */
+            type: 'key:down'
+            /** @description Key to press */
+            key: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'key:up'
+            /** @description Key to release */
+            key: string
+          }
+      )
+      /**
+       * @description Whether to include the screenshot url after action in the response
+       * @default true
+       */
+      includeScreenShot: boolean
+      /**
+       * @description Whether to include the cursor position after action in the response
+       * @default true
+       */
+      includeCursorPosition: boolean
+    }
+    SandboxActionResponseDto: {
+      /**
+       * Format: uri
+       * @description The screenshot of the sandbox after the action is executed.
+       */
+      screenShot?: string
+      cursorPosition?: {
+        /** @description The x position of the cursor. */
+        x: number
+        /** @description The y position of the cursor. */
+        y: number
+        /** @description The width of the screen. */
+        screenWidth: number
+        /** @description The height of the screen. */
+        screenHeight: number
+        /** @description The index of the screen. */
+        screenIndex: number
+      }
+      /** @description The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists. */
+      actionResult?: unknown
+    }
+    ExecuteSandboxActionDto: {
+      action:
+        | {
+            /** @enum {string} */
+            type: 'key:down'
+            /** @description Key to press */
+            key: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'key:up'
+            /** @description Key to release */
+            key: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:click'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once. */
+            button: number
+            /** @description Key to hold down during click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:doubleClick'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button: number
+            /** @description Key to hold down during double click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:drag'
+            /** @description Start X coordinate */
+            startX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Start Y coordinate */
+            startY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End X coordinate */
+            endX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End Y coordinate */
+            endY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button?: number
+            /** @description Key to hold down during drag, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            startRelative?: boolean
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            endRelative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:move'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Key to hold down during move, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:scroll'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Vertical scroll steps */
+            stepVertical: number
+            /** @description Horizontal scroll steps */
+            stepHorizontal: number
+            /** @description Key to hold down during scroll, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:tripleClick'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button: number
+            /** @description Key to hold down during triple click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'failed'
+            /** @description Failure message */
+            message?: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'finished'
+            /** @description Completion message */
+            message?: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'keyboard:hotkey'
+            /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
+            keys: string
+            /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
+            duration?: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'keyboard:type'
+            /** @description Text content to type */
+            content: string
+            /**
+             * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
+             * @default false
+             */
+            treatNewLineAsEnter: boolean | null
+          }
+        | {
+            /** @enum {string} */
+            type: 'screenshot'
+          }
+        | {
+            /** @enum {string} */
+            type: 'client:user-takeover'
+          }
+        | {
+            /** @enum {string} */
+            type: 'wait'
+            /** @description Duration in milliseconds */
+            duration: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:closeApp'
+            /** @description App package name */
+            packageName: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:closeAppByName'
+            /** @description App name */
+            name: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'touch:drag'
+            /** @description Start X coordinate */
+            startX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Start Y coordinate */
+            startY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End X coordinate */
+            endX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End Y coordinate */
+            endY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:listApps'
+          }
+        | {
+            /** @enum {string} */
+            type: 'touch:longPress'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Duration in milliseconds */
+            duration: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'android:back'
+          }
+        | {
+            /** @enum {string} */
+            type: 'android:home'
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:startAppByName'
+            /** @description App name */
+            name: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:startApp'
+            /** @description App package name */
+            packageName: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'touch:swipe'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /**
+             * @description Scroll direction
              * @enum {string}
              */
-            model: "ui-tars" | "seed" | "oai-compute-use";
-            /** @description The text content to parse */
-            textContent: string;
-        };
-        ComputerUseActionResponseDto: {
-            actions: ({
-                /** @description Optional call identifier */
-                callId?: string;
-            } & ({
-                /** @enum {string} */
-                type: "mouse:click";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once. */
-                button: number;
-                /** @description Key to hold down during click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:doubleClick";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button: number;
-                /** @description Key to hold down during double click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:tripleClick";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button: number;
-                /** @description Key to hold down during triple click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:move";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Key to hold down during move, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:scroll";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Vertical scroll steps */
-                stepVertical: number;
-                /** @description Horizontal scroll steps */
-                stepHorizontal: number;
-                /** @description Key to hold down during scroll, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                relative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "mouse:drag";
-                /** @description Start X coordinate */
-                startX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Start Y coordinate */
-                startY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End X coordinate */
-                endX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End Y coordinate */
-                endY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Mouse button index */
-                button?: number;
-                /** @description Key to hold down during drag, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
-                holdKey?: string;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                startRelative?: boolean;
-                /** @description Whether the coordinates are relative to the current mouse position. */
-                endRelative?: boolean;
-            } | {
-                /** @enum {string} */
-                type: "keyboard:type";
-                /** @description Text content to type */
-                content: string;
-                /**
-                 * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
-                 * @default false
-                 */
-                treatNewLineAsEnter: boolean | null;
-            } | {
-                /** @enum {string} */
-                type: "keyboard:hotkey";
-                /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
-                keys: string;
-                /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
-                duration?: number;
-            } | {
-                /** @enum {string} */
-                type: "screenshot";
-            } | {
-                /** @enum {string} */
-                type: "wait";
-                /** @description Duration in milliseconds */
-                duration: number;
-            } | {
-                /** @enum {string} */
-                type: "finished";
-                /** @description Completion message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "failed";
-                /** @description Failure message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "client:user-takeover";
-            } | {
-                /** @enum {string} */
-                type: "key:down";
-                /** @description Key to press */
-                key: string;
-            } | {
-                /** @enum {string} */
-                type: "key:up";
-                /** @description Key to release */
-                key: string;
-            }))[];
-            /** @description Unknown text that is not thoughts nor actions, commonly due to the misformat of model output */
-            unknown?: string;
-            /** @description Memory that is not parsed */
-            memory?: string;
-            /** @description Thoughts that are not parsed */
-            thoughts?: string;
-        };
-        ParseTextRequestDto: {
-            /** @description The text content to parse */
-            textContent: string;
-        };
-        MobileUseActionResponseDto: {
-            actions: ({
-                /** @description Optional call identifier */
-                callId?: string;
-            } & ({
-                /** @enum {string} */
-                type: "screenshot";
-            } | {
-                /** @enum {string} */
-                type: "wait";
-                /** @description Duration in milliseconds */
-                duration: number;
-            } | {
-                /** @enum {string} */
-                type: "finished";
-                /** @description Completion message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "failed";
-                /** @description Failure message */
-                message?: string;
-            } | {
-                /** @enum {string} */
-                type: "client:user-takeover";
-            } | {
-                /** @enum {string} */
-                type: "keyboard:type";
-                /** @description Text content to type */
-                content: string;
-                /**
-                 * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
-                 * @default false
-                 */
-                treatNewLineAsEnter: boolean | null;
-            } | {
-                /** @enum {string} */
-                type: "keyboard:hotkey";
-                /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
-                keys: string;
-                /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
-                duration?: number;
-            } | {
-                /** @enum {string} */
-                type: "touch:tap";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-            } | {
-                /** @enum {string} */
-                type: "touch:drag";
-                /** @description Start X coordinate */
-                startX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Start Y coordinate */
-                startY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End X coordinate */
-                endX: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description End Y coordinate */
-                endY: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-            } | {
-                /** @enum {string} */
-                type: "touch:swipe";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /**
-                 * @description Scroll direction
-                 * @enum {string}
-                 */
-                direction: "up" | "down" | "left" | "right";
-                /** @description Scroll distance */
-                distance: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-            } | {
-                /** @enum {string} */
-                type: "touch:longPress";
-                /** @description X coordinate */
-                x: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Y coordinate */
-                y: {
-                    /**
-                     * @description Indicates the unit is pixel
-                     * @enum {string}
-                     */
-                    type: "px";
-                    /** @description Length in pixels */
-                    value: number;
-                } | {
-                    /** @enum {string} */
-                    type: "/";
-                    /** @description Numerator of the fraction */
-                    numerator: number;
-                    /** @description Denominator of the fraction */
-                    denominator: number;
-                };
-                /** @description Duration in milliseconds */
-                duration: number;
-            } | {
-                /** @enum {string} */
-                type: "android:back";
-            } | {
-                /** @enum {string} */
-                type: "android:home";
-            } | {
-                /** @enum {string} */
-                type: "os:listApps";
-            } | {
-                /** @enum {string} */
-                type: "os:startApp";
-                /** @description App package name */
-                packageName: string;
-            } | {
-                /** @enum {string} */
-                type: "os:startAppByName";
-                /** @description App name */
-                name: string;
-            } | {
-                /** @enum {string} */
-                type: "os:closeApp";
-            }))[];
-            /** @description Unknown text that is not thoughts nor actions, commonly due to the misformat of model output */
-            unknown?: string;
-            /** @description Memory that is not parsed */
-            memory?: string;
-            /** @description Thoughts that are not parsed */
-            thoughts?: string;
-        };
-        StatsResponseDto: {
-            /** @description Number of MCP servers */
-            mcpServers: number;
-            /** @description Number of sandboxes */
-            sandboxes: number;
-            /** @description Number of projects */
-            projects: number;
-        };
-    };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+            direction: 'up' | 'down' | 'left' | 'right'
+            /** @description Scroll distance */
+            distance:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+          }
+        | {
+            /** @enum {string} */
+            type: 'touch:tap'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+          }
+      /**
+       * @description Whether to include the screenshot url after action in the response
+       * @default true
+       */
+      includeScreenShot: boolean
+      /**
+       * @description Whether to include the cursor position after action in the response. On some cursor-less devices, only width and height are meaningful.
+       * @default true
+       */
+      includeCursorPosition: boolean
+    }
+    HttpMappingListResponseDto: {
+      /** @description Public HTTP/HTTPS domain for this mapping */
+      domain: string
+      /** @description Sandbox-local TCP endpoint (host:port) */
+      targetEndpoint: string
+      /** @description Access token used to reach the mapped domain */
+      accessToken: string
+    }[]
+    CreateHttpMappingDto: {
+      /** @description Sandbox-local TCP endpoint in host:port form, e.g., 127.0.0.1:3000 */
+      targetEndpoint: string
+    }
+    CreateHttpMappingResponseDto: {
+      /** @description Public HTTP/HTTPS domain for this mapping */
+      domain: string
+      /** @description Sandbox-local TCP endpoint (host:port) */
+      targetEndpoint: string
+      /** @description Access token used to reach the mapped domain */
+      accessToken: string
+    }
+    DeleteHttpMappingResponseDto: Record<string, never>
+    CreateMachineImageDto: {
+      /** @description The sandbox ID to create image from. */
+      sandboxId: string
+      /** @description The name of the machine image. */
+      name: string
+      /** @description Optional description of the machine image. */
+      description?: string
+    }
+    MachineImageResponseDto: {
+      id: string
+      name: string
+      description: string | null
+      /** Format: date-time */
+      createdAt: string
+      shapeName: string
+      /** @enum {string} */
+      status: 'CREATING' | 'READY' | 'ERROR'
+    }
+    MachineImagesResponseDto: {
+      images: {
+        id: string
+        name: string
+        description: string | null
+        /** Format: date-time */
+        createdAt: string
+        shapeName: string
+        /** @enum {string} */
+        status: 'CREATING' | 'READY' | 'ERROR'
+      }[]
+      quota: {
+        used: number
+        limit: number
+      }
+    }
+    ListProjectsResponseDto: {
+      id: string
+      name: string
+      createdAt: string
+      defaultProject: boolean
+    }[]
+    CreateProjectDto: {
+      /** @description Name of the project. */
+      name: string
+    }
+    SingleProjectResponseDto: {
+      id: string
+      name: string
+      createdAt: string
+      defaultProject: boolean
+    }
+    ParseRequestDto: {
+      /**
+       * @description The model to parse the input for
+       * @enum {string}
+       */
+      model: 'ui-tars' | 'seed' | 'oai-compute-use'
+      /** @description The text content to parse */
+      textContent: string
+    }
+    ComputerUseActionResponseDto: {
+      actions: ({
+        /** @description Optional call identifier */
+        callId?: string
+      } & (
+        | {
+            /** @enum {string} */
+            type: 'mouse:click'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once. */
+            button: number
+            /** @description Key to hold down during click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:doubleClick'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button: number
+            /** @description Key to hold down during double click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:tripleClick'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button: number
+            /** @description Key to hold down during triple click, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:move'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Key to hold down during move, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:scroll'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Vertical scroll steps */
+            stepVertical: number
+            /** @description Horizontal scroll steps */
+            stepHorizontal: number
+            /** @description Key to hold down during scroll, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            relative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'mouse:drag'
+            /** @description Start X coordinate */
+            startX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Start Y coordinate */
+            startY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End X coordinate */
+            endX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End Y coordinate */
+            endY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Mouse button index */
+            button?: number
+            /** @description Key to hold down during drag, in xdotool key syntax. Example: "ctrl", "alt", "alt+shift". */
+            holdKey?: string
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            startRelative?: boolean
+            /** @description Whether the coordinates are relative to the current mouse position. */
+            endRelative?: boolean
+          }
+        | {
+            /** @enum {string} */
+            type: 'keyboard:type'
+            /** @description Text content to type */
+            content: string
+            /**
+             * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
+             * @default false
+             */
+            treatNewLineAsEnter: boolean | null
+          }
+        | {
+            /** @enum {string} */
+            type: 'keyboard:hotkey'
+            /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
+            keys: string
+            /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
+            duration?: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'screenshot'
+          }
+        | {
+            /** @enum {string} */
+            type: 'wait'
+            /** @description Duration in milliseconds */
+            duration: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'finished'
+            /** @description Completion message */
+            message?: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'failed'
+            /** @description Failure message */
+            message?: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'client:user-takeover'
+          }
+        | {
+            /** @enum {string} */
+            type: 'key:down'
+            /** @description Key to press */
+            key: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'key:up'
+            /** @description Key to release */
+            key: string
+          }
+      ))[]
+      /** @description Unknown text that is not thoughts nor actions, commonly due to the misformat of model output */
+      unknown?: string
+      /** @description Memory that is not parsed */
+      memory?: string
+      /** @description Thoughts that are not parsed */
+      thoughts?: string
+    }
+    ParseTextRequestDto: {
+      /** @description The text content to parse */
+      textContent: string
+    }
+    MobileUseActionResponseDto: {
+      actions: ({
+        /** @description Optional call identifier */
+        callId?: string
+      } & (
+        | {
+            /** @enum {string} */
+            type: 'screenshot'
+          }
+        | {
+            /** @enum {string} */
+            type: 'wait'
+            /** @description Duration in milliseconds */
+            duration: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'finished'
+            /** @description Completion message */
+            message?: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'failed'
+            /** @description Failure message */
+            message?: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'client:user-takeover'
+          }
+        | {
+            /** @enum {string} */
+            type: 'keyboard:type'
+            /** @description Text content to type */
+            content: string
+            /**
+             * @description Whether to treat line breaks as enter. If true, any line breaks(\n) in content will be treated as enter key press, and content will be split into multiple lines.
+             * @default false
+             */
+            treatNewLineAsEnter: boolean | null
+          }
+        | {
+            /** @enum {string} */
+            type: 'keyboard:hotkey'
+            /** @description Hotkey combination, in xdotool key syntax. Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key). */
+            keys: string
+            /** @description Duration in milliseconds. If specified, the hotkey will be held for a while and then released. */
+            duration?: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'touch:tap'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+          }
+        | {
+            /** @enum {string} */
+            type: 'touch:drag'
+            /** @description Start X coordinate */
+            startX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Start Y coordinate */
+            startY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End X coordinate */
+            endX:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description End Y coordinate */
+            endY:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+          }
+        | {
+            /** @enum {string} */
+            type: 'touch:swipe'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /**
+             * @description Scroll direction
+             * @enum {string}
+             */
+            direction: 'up' | 'down' | 'left' | 'right'
+            /** @description Scroll distance */
+            distance:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+          }
+        | {
+            /** @enum {string} */
+            type: 'touch:longPress'
+            /** @description X coordinate */
+            x:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Y coordinate */
+            y:
+              | {
+                  /**
+                   * @description Indicates the unit is pixel
+                   * @enum {string}
+                   */
+                  type: 'px'
+                  /** @description Length in pixels */
+                  value: number
+                }
+              | {
+                  /** @enum {string} */
+                  type: '/'
+                  /** @description Numerator of the fraction */
+                  numerator: number
+                  /** @description Denominator of the fraction */
+                  denominator: number
+                }
+            /** @description Duration in milliseconds */
+            duration: number
+          }
+        | {
+            /** @enum {string} */
+            type: 'android:back'
+          }
+        | {
+            /** @enum {string} */
+            type: 'android:home'
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:listApps'
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:startApp'
+            /** @description App package name */
+            packageName: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:startAppByName'
+            /** @description App name */
+            name: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:closeApp'
+            /** @description App package name */
+            packageName: string
+          }
+        | {
+            /** @enum {string} */
+            type: 'os:closeAppByName'
+            /** @description App name */
+            name: string
+          }
+      ))[]
+      /** @description Unknown text that is not thoughts nor actions, commonly due to the misformat of model output */
+      unknown?: string
+      /** @description Memory that is not parsed */
+      memory?: string
+      /** @description Thoughts that are not parsed */
+      thoughts?: string
+    }
+    StatsResponseDto: {
+      /** @description Number of MCP servers */
+      mcpServers: number
+      /** @description Number of sandboxes */
+      sandboxes: number
+      /** @description Number of projects */
+      projects: number
+    }
+  }
+  responses: never
+  parameters: never
+  requestBodies: never
+  headers: never
+  pathItems: never
 }
-export type $defs = Record<string, never>;
+export type $defs = Record<string, never>
 export interface operations {
-    listMcpServers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ListMcpServerResponse"];
-                };
-            };
-        };
-    };
-    createMcpServer: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateMcpServerDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["McpServerResponseDto"];
-                };
-            };
-        };
-    };
-    getDefaultMcpServer: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["McpServerResponseDto"];
-                };
-            };
-        };
-    };
-    deleteMcpServer: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                mcpServerId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    setMcpServerToSandbox: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                mcpServerId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SetMcpServerToSandboxResponseDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    listSandboxes: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SandboxListResponseDto"];
-                };
-            };
-        };
-    };
-    createSandbox: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateSandboxDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CreateSandboxResponseDto"];
-                };
-            };
-        };
-    };
-    copyFilesWithSandbox: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SandboxFileCopyRequestDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SandboxFileCopyResponseDto"];
-                };
-            };
-        };
-    };
-    execSandboxProcess: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SandboxProcessRequestDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SandboxProcessResponseDto"];
-                };
-            };
-        };
-    };
-    createSandboxFromImage: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateSandboxFromImageDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CreateSandboxFromImageResponseDto"];
-                };
-            };
-        };
-    };
-    getSandbox: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["GetSandboxResponseDto"];
-                };
-            };
-        };
-    };
-    deleteSandbox: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    extendSandbox: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ExtendSandboxDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getSandboxStatus: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    executeComputerUseAction: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ComputerUseActionDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SandboxActionResponseDto"];
-                };
-            };
-        };
-    };
-    executeSandboxAction: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ExecuteSandboxActionDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SandboxActionResponseDto"];
-                };
-            };
-        };
-    };
-    previewSandbox: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                sandboxId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SandboxActionResponseDto"];
-                };
-            };
-        };
-    };
-    MachineImageController_listMachineImages: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["MachineImagesResponseDto"];
-                };
-            };
-        };
-    };
-    MachineImageController_createMachineImage: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateMachineImageDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["MachineImageResponseDto"];
-                };
-            };
-        };
-    };
-    MachineImageController_deleteMachineImage: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The machine image ID */
-                imageId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    listProjects: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ListProjectsResponseDto"];
-                };
-            };
-        };
-    };
-    createProject: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateProjectDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SingleProjectResponseDto"];
-                };
-            };
-        };
-    };
-    deleteProject: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                projectId: string;
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    parseModelOutput: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ParseRequestDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ComputerUseActionResponseDto"];
-                };
-            };
-        };
-    };
-    parseModelTextOutput: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The type of the prompt to parse the input for */
-                type: "ui-tars" | "seed" | "glm-4.1v" | "glm-4.5v" | "qwen-2.5-vl" | "pyautogui";
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ParseTextRequestDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ComputerUseActionResponseDto"];
-                };
-            };
-        };
-    };
-    parseMobileUseModelTextOutput: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The type of the prompt to parse the input for */
-                type: "ui-tars" | "seed" | "glm-4.1v" | "glm-4.5v" | "qwen-2.5-vl" | "pyautogui";
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ParseTextRequestDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["MobileUseActionResponseDto"];
-                };
-            };
-        };
-    };
-    getStats: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The organization ID */
-                orgId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["StatsResponseDto"];
-                };
-            };
-        };
-    };
+  listMcpServers: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ListMcpServerResponse']
+        }
+      }
+    }
+  }
+  createMcpServer: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateMcpServerDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['McpServerResponseDto']
+        }
+      }
+    }
+  }
+  getDefaultMcpServer: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['McpServerResponseDto']
+        }
+      }
+    }
+  }
+  deleteMcpServer: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        mcpServerId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  setMcpServerToSandbox: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        mcpServerId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SetMcpServerToSandboxResponseDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  listSandboxes: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['SandboxListResponseDto']
+        }
+      }
+    }
+  }
+  createSandbox: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateSandboxDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['CreateSandboxResponseDto']
+        }
+      }
+    }
+  }
+  copyFilesWithSandbox: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SandboxFileCopyRequestDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['SandboxFileCopyResponseDto']
+        }
+      }
+    }
+  }
+  execSandboxProcess: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SandboxProcessRequestDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['SandboxProcessResponseDto']
+        }
+      }
+    }
+  }
+  createSandboxFromImage: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateSandboxFromImageDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['CreateSandboxFromImageResponseDto']
+        }
+      }
+    }
+  }
+  getSandbox: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['GetSandboxResponseDto']
+        }
+      }
+    }
+  }
+  deleteSandbox: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  extendSandbox: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ExtendSandboxDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  restartSandbox: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  getSandboxStatus: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  executeComputerUseAction: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ComputerUseActionDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['SandboxActionResponseDto']
+        }
+      }
+    }
+  }
+  executeSandboxAction: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ExecuteSandboxActionDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['SandboxActionResponseDto']
+        }
+      }
+    }
+  }
+  previewSandbox: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['SandboxActionResponseDto']
+        }
+      }
+    }
+  }
+  listHttpMappings: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HttpMappingListResponseDto']
+        }
+      }
+    }
+  }
+  createHttpMapping: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateHttpMappingDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['CreateHttpMappingResponseDto']
+        }
+      }
+    }
+  }
+  getHttpMapping: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The sandbox-local target endpoint (host:port) */
+        targetEndpoint: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['CreateHttpMappingResponseDto']
+        }
+      }
+    }
+  }
+  deleteHttpMapping: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The sandbox ID */
+        sandboxId: string
+        /** @description The sandbox-local target endpoint (host:port) */
+        targetEndpoint: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['DeleteHttpMappingResponseDto']
+        }
+      }
+    }
+  }
+  MachineImageController_listMachineImages: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['MachineImagesResponseDto']
+        }
+      }
+    }
+  }
+  MachineImageController_createMachineImage: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateMachineImageDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['MachineImageResponseDto']
+        }
+      }
+    }
+  }
+  MachineImageController_deleteMachineImage: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The machine image ID */
+        imageId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  listProjects: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ListProjectsResponseDto']
+        }
+      }
+    }
+  }
+  createProject: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateProjectDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['SingleProjectResponseDto']
+        }
+      }
+    }
+  }
+  deleteProject: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        projectId: string
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  parseModelOutput: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ParseRequestDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ComputerUseActionResponseDto']
+        }
+      }
+    }
+  }
+  parseModelTextOutput: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The type of the prompt to parse the input for */
+        type: 'ui-tars' | 'seed' | 'glm-4.1v' | 'glm-4.5v' | 'qwen-2.5-vl' | 'pyautogui'
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ParseTextRequestDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ComputerUseActionResponseDto']
+        }
+      }
+    }
+  }
+  parseMobileUseModelTextOutput: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The type of the prompt to parse the input for */
+        type: 'ui-tars' | 'seed' | 'glm-4.1v' | 'glm-4.5v' | 'qwen-2.5-vl' | 'pyautogui'
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ParseTextRequestDto']
+      }
+    }
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['MobileUseActionResponseDto']
+        }
+      }
+    }
+  }
+  getStats: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        /** @description The organization ID */
+        orgId: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['StatsResponseDto']
+        }
+      }
+    }
+  }
 }
