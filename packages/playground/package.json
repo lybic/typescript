@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build"
+    "build:prod:intl": "VITE_LYBIC_BASE_URL=https://dashboard.lybic.cn vite build",
+    "build:dev:intl": "VITE_LYBIC_BASE_URL=https://lybic-dev.swecan.tingyutech.cn vite build"
   },
   "devDependencies": {
+    "@amap/amap-jsapi-types": "^0.0.15",
+    "@lybic/tsconfig": "workspace:*",
     "@swc/cli": "^0.7.8",
     "@swc/core": "^1.13.3",
     "@tailwindcss/typography": "^0.5.16",
@@ -25,8 +28,10 @@
     "@ai-sdk/openai": "^2.0.0",
     "@ai-sdk/openai-compatible": "^1.0.1",
     "@ai-sdk/react": "^2.0.1",
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "@hookform/resolvers": "^5.2.1",
     "@lybic/core": "workspace:*",
+    "@lybic/proto": "workspace:*",
     "@lybic/schema": "workspace:*",
     "@radix-ui/react-collapsible": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.14",
@@ -34,6 +39,7 @@
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-navigation-menu": "^1.2.13",
     "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.12",
     "@radix-ui/react-tooltip": "^1.2.7",
@@ -64,6 +70,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.61.1",
+    "rxjs": "^7.8.2",
     "sonner": "^2.0.7",
     "streamdown": "^1.1.4",
     "tailwind-merge": "^3.3.1",

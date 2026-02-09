@@ -14,11 +14,18 @@ export default defineConfig(({ mode }) => {
           target: env.DEV_PLAYGROUND_PROXY_URL ?? 'http://localhost:5305',
           changeOrigin: true,
         },
+        '/_AMapService/': {
+          target: env.VITE_LYBIC_AMAP_URL ?? 'https://amap.lybic.cn',
+          changeOrigin: true,
+          headers: {
+            Referer: 'https://playground.lybic.cn',
+          },
+        },
       },
     },
     plugins: [
       tsConfigPaths(),
-      tanstackStart({ customViteReactPlugin: true, spa: { enabled: true }, target: 'node-server' }),
+      tanstackStart({ customViteReactPlugin: true, spa: { enabled: true }, target: 'static' }),
       viteReact({
         babel: {
           plugins: ['babel-plugin-react-compiler'],

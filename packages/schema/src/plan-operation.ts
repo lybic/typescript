@@ -3,11 +3,11 @@ import { attachMeta } from './utils.js'
 
 export const createPurchasePlanOperationSchema = z.object({
   planName: attachMeta(z.string(), {
-    title: 'Plan Name',
+    title: /* i18n */ 'Plan Name',
     fieldComponent: 'string',
   }),
   months: attachMeta(z.coerce.number().int().min(1).max(12), {
-    title: 'Months',
+    title: /* i18n */ 'Months',
   }),
 })
 
@@ -15,11 +15,11 @@ export type CreatePurchasePlanOperation = z.infer<typeof createPurchasePlanOpera
 
 export const createExtendPlanOperationSchema = z.object({
   planName: attachMeta(z.string(), {
-    title: 'Plan Name',
+    title: /* i18n */ 'Plan Name',
     fieldComponent: 'string',
   }),
   months: attachMeta(z.coerce.number().int().min(1).max(12), {
-    title: 'Months',
+    title: /* i18n */ 'Months',
   }),
 })
 
@@ -27,14 +27,14 @@ export type CreateExtendPlanOperation = z.infer<typeof createExtendPlanOperation
 
 export const createUpgradePlanOperationSchema = z.object({
   planName: attachMeta(z.string(), {
-    title: 'Plan Name',
+    title: /* i18n */ 'Plan Name',
     fieldComponent: 'string',
   }),
   months: attachMeta(z.coerce.number().int().min(1).max(12), {
-    title: 'Months',
+    title: /* i18n */ 'Months',
   }),
   expectedDeductionAmount: attachMeta(z.string().optional(), {
-    title: 'Expected Deduction Amount',
+    title: /* i18n */ 'Expected Deduction Amount',
     fieldComponent: 'string',
   }),
 })

@@ -27,6 +27,8 @@ export function LiveStream({
       videoFps: shape.hardwareAcceleratedEncoding ? 30 : 12,
       videoBitrate: 1200 * 1024,
       pointerTouchInput: shape.os === 'Android',
+      reportKeyboardWithAndroidVkOnly: shape.os === 'Android',
+      relativeMouseWheelOnly: shape.os === 'Linux',
     })
     const sub = sc.screenSize$.subscribe((size) => {
       indicatorStore.screenSize = size

@@ -13,7 +13,7 @@ import { ChatMenuSystemPrompt } from './chat-menu-system-prompt'
 
 const showHidden = localStorage.getItem('lybicPlaygroundShowHiddenModels') === 'true'
 
-export const CHAT_MENU = [
+const ALL_MENU_ITEMS = [
   {
     key: 'export-chat',
     label: 'Export Chat',
@@ -66,7 +66,28 @@ export const CHAT_MENU = [
       { key: 'en', value: 'en', label: 'English' },
     ],
   },
-] satisfies Array<Item> as Array<Item>
+  {
+    key: 'location',
+    label: 'Set Location',
+    description: 'Set your current location for better results',
+    icon: IconLanguage,
+    requireConnection: true,
+  },
+] satisfies Array<ItemInternal> as Array<ItemInternal>
+
+export function getChatMenu(connectDetails?: any, shape?: any): Item[] {
+  const isConnected = !!connectDetails
+  const isAndroid = shape?.os === 'Android'
+
+  return ALL_MENU_ITEMS.filter((item) => {
+    // show only when connected and on Android
+    if (item.key === 'location') {
+      return isConnected && isAndroid
+    }
+
+    return true
+  }) as Item[]
+}
 
 type OptionItem = { key: string; value: any; label: string }
 type Common = { label: string; icon: ComponentType<{ className?: string }> }
@@ -75,4 +96,5 @@ type RadioGroupItem = Common & {
   key: keyof typeof conversationConfigState
   options: OptionItem[]
 }
-type Item = CommandItem | RadioGroupItem
+export type Item = CommandItem | RadioGroupItem
+type ItemInternal = (CommandItem | RadioGroupItem) & { requireConnection?: boolean }

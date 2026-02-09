@@ -1,0 +1,1127 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-11-28 02:00+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: zh-CN\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:33
+msgid "The feature flag required by creating the shape of sandbox."
+msgstr "要创建该形状的沙盒，组织所必须的特性标记"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:35
+msgid "Required Feature Flag"
+msgstr "必须的特性标记"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:14
+msgid "The organization ID to set the feature flag for."
+msgstr "设置特性标记的组织 ID"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:18
+msgid "The feature flag to set."
+msgstr "要设置的特性标记名"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:19
+#: src/feature-flag.ts:40
+msgid "Feature Flag"
+msgstr "特性标记"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:26
+msgid "The value of the feature flag. If not provided, the feature flag will be set to true."
+msgstr "要设置的特性标记值。如果不提供，默认为开。"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:28
+msgid "Feature Flag Value (optional)"
+msgstr "特性标记值（可选）"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:35
+msgid "The organization ID to remove the feature flag for."
+msgstr "要移除特性标记的组织 ID。"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:39
+msgid "The feature flag to remove."
+msgstr "要移除的特性标记名。"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:22
+#: src/plan.ts:6
+#: src/shape.ts:6
+msgid "Name"
+msgstr "名称"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:16
+#: src/shape.ts:10
+msgid "Description"
+msgstr "描述"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:14
+msgid "Hardware Accelerated Encoding"
+msgstr "硬件加速编码"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:21
+msgid "This price acts as a multiplier, e.g. if it is set to 0.5, each hour of usage will be billed as 0.5 hours."
+msgstr "此价格作为乘数，例如，如果设置为 0.5，每使用 1 小时将按 0.5 小时计费。"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:24
+msgid "Price Per Hour"
+msgstr "每小时价格"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:29
+msgid "Required Plan Tier"
+msgstr "所需套餐等级"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:40
+msgid "OS"
+msgstr "操作系统"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:60
+msgid "Virtualization"
+msgstr "虚拟化"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:76
+msgid "Architecture"
+msgstr "架构"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:95
+msgid "Nomos Spec ID"
+msgstr "Nomos 规格 ID"
+
+#. js-lingui-explicit-id
+#: src/shape.ts:99
+msgid "Nomos Datacenter ID"
+msgstr "Nomos 数据中心 ID"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:51
+#: src/sandbox.ts:6
+#: src/sandbox.ts:100
+msgid "The name of the sandbox."
+msgstr "沙箱的名称。"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:52
+#: src/sandbox.ts:7
+#: src/sandbox.ts:101
+msgid "Sandbox Name"
+msgstr "沙箱名称"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:15
+msgid "The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 day."
+msgstr "沙箱的最大生命周期（以秒为单位）。默认为 1 小时，最大为 1 天。"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:62
+#: src/sandbox.ts:17
+#: src/sandbox.ts:118
+msgid "Max Life Time"
+msgstr "最大生命周期"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:66
+#: src/sandbox.ts:21
+#: src/sandbox.ts:104
+msgid "The project id to use for the sandbox. Use default if not provided."
+msgstr "用于沙箱的项目 ID。如果未提供，则使用默认值。"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:68
+#: src/mcp-servers.ts:36
+#: src/sandbox.ts:23
+#: src/sandbox.ts:106
+msgid "Project"
+msgstr "项目"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:27
+msgid "Specs and datacenter of the sandbox."
+msgstr "沙箱的规格和数据中心。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:28
+msgid "Shape"
+msgstr "规格"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:38
+msgid "Deprecated, use `expiresAt` instead."
+msgstr "已弃用，请改用 `expiresAt`。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:43
+msgid "Current sandbox status"
+msgstr "当前沙箱状态"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:85
+msgid "The screenshot URL of the sandbox. Only available if includeScreenShot is true."
+msgstr "沙箱的截图 URL。仅在 includeScreenShot 为 true 时可用。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:88
+#: src/sandbox.ts:167
+msgid "The x position of the cursor."
+msgstr "光标的 x 位置。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:89
+#: src/sandbox.ts:168
+msgid "The y position of the cursor."
+msgstr "光标的 y 位置。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:90
+#: src/sandbox.ts:169
+msgid "The width of the screen."
+msgstr "屏幕宽度。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:91
+#: src/sandbox.ts:170
+msgid "The height of the screen."
+msgstr "屏幕高度。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:92
+#: src/sandbox.ts:171
+msgid "The index of the screen."
+msgstr "屏幕索引。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:94
+msgid "The cursor position of the sandbox. Only available if includeCursorPosition is true."
+msgstr "沙箱的光标位置。仅在 includeCursorPosition 为 true 时可用。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:116
+msgid "The maximum life time of the sandbox in seconds. Default is 1 hour, max is 1 year."
+msgstr "沙箱的最大生命周期（以秒为单位）。默认为 1 小时，最大为 1 年。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:121
+msgid "The gateway address of the sandbox."
+msgstr "沙箱的网关地址。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:122
+msgid "Gateway Address"
+msgstr "网关地址"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:124
+msgid "The QUIC and WebTransport port of the sandbox."
+msgstr "沙箱的 QUIC 和 WebTransport 端口。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:125
+msgid "Port"
+msgstr "端口"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:128
+msgid "The base64 encoded room certificate hash of the sandbox."
+msgstr "沙箱的 base64 编码的房间证书哈希。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:130
+msgid "Room Certificate Hash"
+msgstr "房间证书哈希"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:133
+msgid "The x of the jwk of the sandbox."
+msgstr "沙箱的 JWK 的 x 值。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:134
+msgid "JWK X"
+msgstr "JWK X"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:136
+msgid "The d of the jwk of the sandbox."
+msgstr "沙箱的 JWK 的 d 值。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:137
+msgid "JWK D"
+msgstr "JWK D"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:139
+msgid "The room id of the sandbox."
+msgstr "沙箱的房间 ID。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:140
+msgid "Room ID"
+msgstr "房间 ID"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:164
+msgid "The screenshot of the sandbox after the action is executed."
+msgstr "执行操作后沙箱的截图。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:178
+msgid "The result of the action. Schema is based on the action type and there's no guarantee on the schema. Pass it directly to the LLM if it exists."
+msgstr "操作的结果。架构基于操作类型，不保证架构的一致性。如果存在，请直接传递给 LLM。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:185
+msgid "The ID of the sandbox to connect the MCP server to."
+msgstr "要连接 MCP 服务器的沙箱 ID。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:198
+msgid "The new max life time of the sandbox (relative to the current time) in seconds. Should not less than 30 seconds or more than 24 hours. Note that the total maximum lifetime of a sandbox should not longer than 13 days."
+msgstr "沙箱的新最大生命周期（相对于当前时间，以秒为单位）。不应少于 30 秒或超过 24 小时。请注意，沙箱的总最大生命周期不应超过 13 天。"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:201
+msgid "New Max Life Time"
+msgstr "新最大生命周期"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:210
+msgid "File path in sandbox"
+msgstr "沙箱中的文件路径"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:215
+msgid "PUT upload URL"
+msgstr "PUT 上传 URL"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:216
+#: src/sandbox.ts:222
+#: src/sandbox.ts:230
+msgid "Optional HTTP headers"
+msgstr "可选的 HTTP 头"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:221
+msgid "GET download URL"
+msgstr "GET 下载 URL"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:227
+msgid "POST form upload URL"
+msgstr "POST 表单上传 URL"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:228
+msgid "Form fields"
+msgstr "表单字段"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:229
+msgid "File field name in form"
+msgstr "表单中的文件字段名"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:246
+msgid "A caller-defined unique identifier for this item. The value is included in the response to associate results with their corresponding requests"
+msgstr "调用者为此项定义的唯一标识符。该值包含在响应中，用于将结果与其对应的请求关联起来"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:248
+msgid "Copy file source"
+msgstr "复制文件源"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:249
+msgid "Copy file destination"
+msgstr "复制文件目标"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:251
+msgid "Single file copy item"
+msgstr "单个文件复制项"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:254
+msgid "copy files"
+msgstr "复制文件"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:259
+msgid "unique identifier of the files item from the request"
+msgstr "请求中文件项的唯一标识符"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:260
+msgid "Whether the operation succeeded"
+msgstr "操作是否成功"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:261
+msgid "Error message if failed"
+msgstr "失败时的错误消息"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:263
+msgid "Single file copy result"
+msgstr "单个文件复制结果"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:271
+msgid "Executable path"
+msgstr "可执行文件路径"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:272
+msgid "Arguments"
+msgstr "参数"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:273
+msgid "Working directory"
+msgstr "工作目录"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:274
+msgid "Optional stdin as base64-encoded bytes"
+msgstr "可选的 stdin，以 base64 编码的字节"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:276
+msgid "Create a process in sandbox"
+msgstr "在沙箱中创建进程"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:280
+msgid "stdout as base64-encoded bytes"
+msgstr "stdout，以 base64 编码的字节"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:281
+msgid "stderr as base64-encoded bytes"
+msgstr "stderr，以 base64 编码的字节"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:282
+msgid "Exit code"
+msgstr "退出代码"
+
+#. js-lingui-explicit-id
+#: src/sandbox.ts:284
+msgid "Process execution result"
+msgstr "进程执行结果"
+
+#. js-lingui-explicit-id
+#: src/project.ts:14
+msgid "Name of the project."
+msgstr "项目名称。"
+
+#. js-lingui-explicit-id
+#: src/project.ts:14
+msgid "Project Name"
+msgstr "项目名称"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:10
+msgid "Tier"
+msgstr "等级"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:14
+msgid "Concurrent Sandboxes"
+msgstr "并发沙箱数"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:18
+msgid "Price Per Month"
+msgstr "每月价格"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:22
+msgid "Sandbox Hours Included Per Month"
+msgstr "每月包含的沙箱小时数"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:26
+msgid "Agent Credits Included Per Month"
+msgstr "每月包含的推理点数"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:30
+msgid "One Time"
+msgstr "一次性"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:34
+msgid "Purchasable"
+msgstr "可购买"
+
+#. js-lingui-explicit-id
+#: src/feature-flag.ts:15
+#: src/feature-flag.ts:36
+#: src/plan.ts:43
+msgid "Organization ID"
+msgstr "组织 ID"
+
+#. js-lingui-explicit-id
+#: src/plan-operation.ts:6
+#: src/plan-operation.ts:18
+#: src/plan-operation.ts:30
+#: src/plan.ts:47
+msgid "Plan Name"
+msgstr "套餐名称"
+
+#. js-lingui-explicit-id
+#: src/plan.ts:51
+msgid "Expired At"
+msgstr "过期时间"
+
+#. js-lingui-explicit-id
+#: src/plan-operation.ts:10
+#: src/plan-operation.ts:22
+#: src/plan-operation.ts:34
+msgid "Months"
+msgstr "月数"
+
+#. js-lingui-explicit-id
+#: src/plan-operation.ts:37
+msgid "Expected Deduction Amount"
+msgstr "预期扣除金额"
+
+#. js-lingui-explicit-id
+#: src/member.ts:37
+msgid "The email address of the user to invite. They must sign up with this email in order to accept invitation."
+msgstr "要邀请的用户的电子邮件地址。他们必须使用此电子邮件注册才能接受邀请。"
+
+#. js-lingui-explicit-id
+#: src/member.ts:40
+msgid "Email"
+msgstr "电子邮件"
+
+#. js-lingui-explicit-id
+#: src/member.ts:47
+msgid "The role of the user in the organization if they accept the invitation."
+msgstr "如果用户接受邀请，他们在组织中的角色。"
+
+#. js-lingui-explicit-id
+#: src/member.ts:49
+msgid "Role"
+msgstr "角色"
+
+#. js-lingui-explicit-id
+#: src/member.ts:54
+msgid "Owner"
+msgstr "所有者"
+
+#. js-lingui-explicit-id
+#: src/member.ts:58
+msgid "Admin"
+msgstr "管理员"
+
+#. js-lingui-explicit-id
+#: src/member.ts:62
+msgid "Member"
+msgstr "成员"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:5
+#: src/mcp-servers.ts:39
+msgid "The shape of the sandbox created by the MCP server."
+msgstr "MCP 服务器创建的沙箱规格。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:6
+#: src/mcp-servers.ts:44
+msgid "The maximum lifetime of a sandbox."
+msgstr "沙箱的最大生命周期。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:7
+#: src/mcp-servers.ts:50
+msgid "The maximum idle time of a sandbox."
+msgstr "沙箱的最大空闲时间。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:12
+#: src/mcp-servers.ts:60
+msgid "Whether to create a new sandbox automatically when old sandbox is deleted. If not, new sandboxes will be created when calling computer use tools."
+msgstr "是否在旧沙箱被删除时自动创建新沙箱。如果不启用，新沙箱将在调用计算机使用工具时创建。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:14
+#: src/mcp-servers.ts:68
+msgid "Whether to expose recreate tool to LLMs."
+msgstr "是否向 LLM 暴露重新创建工具。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:15
+#: src/mcp-servers.ts:72
+msgid "Whether to expose restart tool to LLMs."
+msgstr "是否向 LLM 暴露重启工具。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:16
+#: src/mcp-servers.ts:79
+msgid "Whether to expose delete tool to LLMs."
+msgstr "是否向 LLM 暴露删除工具。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:22
+msgid "ID of the MCP server."
+msgstr "MCP 服务器的 ID。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:23
+#: src/mcp-servers.ts:34
+msgid "Name of the MCP server."
+msgstr "MCP 服务器的名称。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:24
+msgid "Creation date of the MCP server."
+msgstr "MCP 服务器的创建日期。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:25
+msgid "Whether this is the default MCP server for the organization."
+msgstr "这是否为组织的默认 MCP 服务器。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:26
+msgid "Project ID to which the MCP server belongs."
+msgstr "MCP 服务器所属的项目 ID。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:28
+msgid "ID of the currently connected sandbox."
+msgstr "当前连接的沙箱 ID。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:34
+msgid "MCP Server Name"
+msgstr "MCP 服务器名称"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:35
+msgid "Project to which the MCP server belongs to."
+msgstr "MCP 服务器所属的项目。"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:40
+msgid "Sandbox Shape"
+msgstr "沙箱规格"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:46
+msgid "Sandbox Max Lifetime"
+msgstr "沙箱最大生命周期"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:52
+msgid "Sandbox Max Idle Time"
+msgstr "沙箱最大空闲时间"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:63
+msgid "Sandbox Auto Creation"
+msgstr "沙箱自动创建"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:69
+msgid "Sandbox Expose Recreate Tool"
+msgstr "沙箱暴露重新创建工具"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:74
+msgid "Sandbox Expose Restart Tool"
+msgstr "沙箱暴露重启工具"
+
+#. js-lingui-explicit-id
+#: src/mcp-servers.ts:81
+msgid "Sandbox Expose Delete Tool"
+msgstr "沙箱暴露删除工具"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:6
+msgid "The sandbox ID to create image from."
+msgstr "用于创建镜像的沙箱 ID。"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:7
+msgid "Sandbox ID"
+msgstr "沙箱 ID"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:10
+msgid "The name of the machine image."
+msgstr "机器镜像的名称。"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:11
+msgid "Image Name"
+msgstr "镜像名称"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:14
+msgid "Optional description of the machine image."
+msgstr "机器镜像的可选描述。"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:47
+msgid "The machine image ID to create sandbox from."
+msgstr "用于创建沙箱的机器镜像 ID。"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:48
+msgid "Image ID"
+msgstr "镜像 ID"
+
+#. js-lingui-explicit-id
+#: src/machine-image.ts:60
+msgid "The maximum life time of the sandbox in seconds."
+msgstr "沙箱的最大生命周期（以秒为单位）。"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:4
+msgid "Number of MCP servers"
+msgstr "MCP 服务器数量"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:5
+msgid "Number of sandboxes"
+msgstr "沙箱数量"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:6
+msgid "Number of projects"
+msgstr "项目数量"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:12
+msgid "API URL"
+msgstr "API URL"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:13
+msgid "Site URL"
+msgstr "站点 URL"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:14
+msgid "Site region"
+msgstr "站点区域"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:15
+msgid "Turnstile site key"
+msgstr "Turnstile 站点密钥"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:21
+msgid "E-Mail"
+msgstr "电子邮件"
+
+#. js-lingui-explicit-id
+#: src/dashboard.ts:23
+msgid "Use Case"
+msgstr "使用场景"
+
+#. js-lingui-explicit-id
+#: src/action.ts:5
+msgid "Indicates the unit is pixel"
+msgstr "表示单位为像素"
+
+#. js-lingui-explicit-id
+#: src/action.ts:6
+#: src/action.ts:8
+msgid "Length in pixels"
+msgstr "以像素为单位的长度"
+
+#. js-lingui-explicit-id
+#: src/action.ts:13
+msgid "Numerator of the fraction"
+msgstr "分数的分子"
+
+#. js-lingui-explicit-id
+#: src/action.ts:14
+msgid "Denominator of the fraction"
+msgstr "分数的分母"
+
+#. js-lingui-explicit-id
+#: src/action.ts:16
+msgid "Length as a fraction"
+msgstr "以分数表示的长度"
+
+#. js-lingui-explicit-id
+#: src/action.ts:20
+msgid "Length, either in pixels or as a fraction"
+msgstr "长度，可以是像素或分数"
+
+#. js-lingui-explicit-id
+#: src/action.ts:25
+msgid "Key to press"
+msgstr "要按下的键"
+
+#. js-lingui-explicit-id
+#: src/action.ts:28
+msgid "Press ONE key down, in xdotool key syntax. Only use this action if hotkey or type cannot satisfy your needs."
+msgstr "按下单个键，使用 xdotool 键语法。仅在快捷键或输入操作无法满足需求时使用此操作。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:34
+msgid "Key to release"
+msgstr "要释放的键"
+
+#. js-lingui-explicit-id
+#: src/action.ts:37
+msgid "Release ONE key, in xdotool key syntax. Only use this action if keydown cannot satisfy your needs and only after a key down."
+msgstr "释放单个键，使用 xdotool 键语法。仅在按下键操作无法满足需求时使用此操作，且只能在按下键之后使用。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:43
+#: src/action.ts:66
+#: src/action.ts:85
+#: src/action.ts:104
+#: src/action.ts:120
+#: src/action.ts:197
+#: src/action.ts:215
+#: src/action.ts:262
+msgid "X coordinate"
+msgstr "X 坐标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:44
+#: src/action.ts:67
+#: src/action.ts:86
+#: src/action.ts:105
+#: src/action.ts:121
+#: src/action.ts:198
+#: src/action.ts:216
+#: src/action.ts:263
+msgid "Y coordinate"
+msgstr "Y 坐标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:48
+msgid "Mouse button flag combination. 1: left, 2: right, 4: middle, 8: back, 16: forward; add them together to press multiple buttons at once."
+msgstr "鼠标按钮标志组合。1：左键，2：右键，4：中键，8：后退，16：前进；将它们相加可同时按下多个按钮。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:54
+msgid "Key to hold down during click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "点击时按住不放的键，使用 xdotool 键语法。例如：\"ctrl\"、\"alt\"、\"alt+shift\"。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:59
+#: src/action.ts:78
+#: src/action.ts:97
+#: src/action.ts:113
+#: src/action.ts:133
+#: src/action.ts:152
+#: src/action.ts:156
+msgid "Whether the coordinates are relative to the current mouse position."
+msgstr "坐标是否相对于当前鼠标位置。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:61
+msgid "Click the mouse at the specified coordinates"
+msgstr "在指定坐标处点击鼠标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:68
+#: src/action.ts:87
+#: src/action.ts:144
+msgid "Mouse button index"
+msgstr "鼠标按钮索引"
+
+#. js-lingui-explicit-id
+#: src/action.ts:73
+msgid "Key to hold down during double click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "双击时按住不放的键，使用 xdotool 键语法。例如：\"ctrl\"、\"alt\"、\"alt+shift\"。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:80
+msgid "Double click the mouse at the specified coordinates"
+msgstr "在指定坐标处双击鼠标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:92
+msgid "Key to hold down during triple click, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "三击时按住不放的键，使用 xdotool 键语法。例如：\"ctrl\"、\"alt\"、\"alt+shift\"。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:99
+msgid "Triple click the mouse at the specified coordinates"
+msgstr "在指定坐标处三击鼠标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:109
+msgid "Key to hold down during move, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "移动时按住不放的键，使用 xdotool 键语法。例如：\"ctrl\"、\"alt\"、\"alt+shift\"。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:115
+msgid "Move the mouse to the specified coordinates"
+msgstr "将鼠标移动到指定坐标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:122
+msgid "Vertical scroll steps"
+msgstr "垂直滚动步数"
+
+#. js-lingui-explicit-id
+#: src/action.ts:123
+msgid "Horizontal scroll steps"
+msgstr "水平滚动步数"
+
+#. js-lingui-explicit-id
+#: src/action.ts:128
+msgid "Key to hold down during scroll, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "滚动时按住不放的键，使用 xdotool 键语法。例如：\"ctrl\"、\"alt\"、\"alt+shift\"。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:135
+msgid "Scroll the mouse"
+msgstr "滚动鼠标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:140
+#: src/action.ts:205
+msgid "Start X coordinate"
+msgstr "起始 X 坐标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:141
+#: src/action.ts:206
+msgid "Start Y coordinate"
+msgstr "起始 Y 坐标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:142
+#: src/action.ts:207
+msgid "End X coordinate"
+msgstr "结束 X 坐标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:143
+#: src/action.ts:208
+msgid "End Y coordinate"
+msgstr "结束 Y 坐标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:148
+msgid "Key to hold down during drag, in xdotool key syntax. Example: \"ctrl\", \"alt\", \"alt+shift\"."
+msgstr "拖拽时按住不放的键，使用 xdotool 键语法。例如：\"ctrl\"、\"alt\"、\"alt+shift\"。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:158
+msgid "Drag the mouse from start to end coordinates"
+msgstr "从起始坐标拖拽鼠标到结束坐标"
+
+#. js-lingui-explicit-id
+#: src/action.ts:163
+msgid "Text content to type"
+msgstr "要输入的文本内容"
+
+#. js-lingui-explicit-id
+#: src/action.ts:170
+msgid "Whether to treat line breaks as enter. If true, any line breaks(\\n) in content will be treated as enter key press, and content will be split into multiple lines."
+msgstr "是否将换行符视为回车键。如果为 true，内容中的任何换行符（\\n）将被视为按下回车键，内容将被分割成多行。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:173
+msgid "Type text content"
+msgstr "输入文本内容"
+
+#. js-lingui-explicit-id
+#: src/action.ts:181
+msgid "Hotkey combination, in xdotool key syntax. Examples: \"a\", \"Return\", \"alt+Tab\", \"ctrl+s\", \"Up\", \"KP_0\" (for the numpad 0 key)."
+msgstr "快捷键组合，使用 xdotool 键语法。例如：\"a\"、\"Return\"、\"alt+Tab\"、\"ctrl+s\"、\"Up\"、\"KP_0\"（数字键盘 0 键）。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:189
+msgid "Duration in milliseconds. If specified, the hotkey will be held for a while and then released."
+msgstr "持续时间（毫秒）。如果指定，快捷键将被按住一段时间后释放。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:192
+msgid "Press a keyboard hotkey"
+msgstr "按下键盘快捷键"
+
+#. js-lingui-explicit-id
+#: src/action.ts:200
+msgid "Tap the screen at the specified coordinates"
+msgstr "在指定坐标处轻触屏幕"
+
+#. js-lingui-explicit-id
+#: src/action.ts:210
+msgid "Touch and hold at start coordinates, then move to end coordinates and release"
+msgstr "在起始坐标处触摸并按住，然后移动到结束坐标并释放"
+
+#. js-lingui-explicit-id
+#: src/action.ts:217
+#: src/action.ts:278
+msgid "Duration in milliseconds"
+msgstr "持续时间（毫秒）"
+
+#. js-lingui-explicit-id
+#: src/action.ts:219
+msgid "Long press the screen at the specified coordinates"
+msgstr "在指定坐标处长按屏幕"
+
+#. js-lingui-explicit-id
+#: src/action.ts:225
+msgid "Press the back button"
+msgstr "按下返回按钮"
+
+#. js-lingui-explicit-id
+#: src/action.ts:231
+msgid "Press the home button"
+msgstr "按下主页按钮"
+
+#. js-lingui-explicit-id
+#: src/action.ts:237
+msgid "List all installed apps"
+msgstr "列出所有已安装的应用"
+
+#. js-lingui-explicit-id
+#: src/action.ts:242
+msgid "App package name"
+msgstr "应用包名"
+
+#. js-lingui-explicit-id
+#: src/action.ts:244
+msgid "Start an app by its package name"
+msgstr "通过包名启动应用"
+
+#. js-lingui-explicit-id
+#: src/action.ts:249
+msgid "App name"
+msgstr "应用名称"
+
+#. js-lingui-explicit-id
+#: src/action.ts:251
+msgid "Start an app by its name"
+msgstr "通过名称启动应用"
+
+#. js-lingui-explicit-id
+#: src/action.ts:257
+msgid "Close the current app"
+msgstr "关闭当前应用"
+
+#. js-lingui-explicit-id
+#: src/action.ts:264
+msgid "Scroll direction"
+msgstr "滚动方向"
+
+#. js-lingui-explicit-id
+#: src/action.ts:265
+msgid "Scroll distance"
+msgstr "滚动距离"
+
+#. js-lingui-explicit-id
+#: src/action.ts:267
+msgid "Swipe the screen in a specified direction by a specified distance"
+msgstr "在指定方向上滑动屏幕指定距离"
+
+#. js-lingui-explicit-id
+#: src/action.ts:273
+msgid "Take a screenshot of the current screen"
+msgstr "截取当前屏幕的截图"
+
+#. js-lingui-explicit-id
+#: src/action.ts:280
+msgid "Wait for a specified duration"
+msgstr "等待指定时长"
+
+#. js-lingui-explicit-id
+#: src/action.ts:285
+msgid "Completion message"
+msgstr "完成消息"
+
+#. js-lingui-explicit-id
+#: src/action.ts:287
+msgid "Indicates the action has finished"
+msgstr "表示操作已完成"
+
+#. js-lingui-explicit-id
+#: src/action.ts:292
+msgid "Failure message"
+msgstr "失败消息"
+
+#. js-lingui-explicit-id
+#: src/action.ts:294
+msgid "Indicates the action has failed"
+msgstr "表示操作已失败"
+
+#. js-lingui-explicit-id
+#: src/action.ts:300
+msgid "Indicates the human user should take over the control"
+msgstr "表示人类用户应该接管控制"
+
+#. js-lingui-explicit-id
+#: src/action.ts:324
+#: src/action.ts:349
+msgid "Optional call identifier"
+msgstr "可选的调用标识符"
+
+#. js-lingui-explicit-id
+#: src/action.ts:327
+msgid "All possible mobile use actions, with optional callId"
+msgstr "所有可能的移动设备使用操作，带有可选的 callId"
+
+#. js-lingui-explicit-id
+#: src/action.ts:352
+msgid "All possible computer use actions, with optional callId"
+msgstr "所有可能的计算机使用操作，带有可选的 callId"
+
+#. js-lingui-explicit-id
+#: src/action.ts:356
+msgid "All possible sandbox actions"
+msgstr "所有可能的沙箱操作"
+
+#. js-lingui-explicit-id
+#: src/action.ts:364
+#: src/action.ts:378
+#: src/action.ts:420
+msgid "Whether to include the screenshot url after action in the response"
+msgstr "是否在响应中包含操作后的截图 URL"
+
+#. js-lingui-explicit-id
+#: src/action.ts:369
+msgid "Whether to include the cursor position after action in the response"
+msgstr "是否在响应中包含操作后的光标位置"
+
+#. js-lingui-explicit-id
+#: src/action.ts:384
+msgid "Whether to include the cursor position after action in the response. Only width and height are meaningful."
+msgstr "是否在响应中包含操作后的光标位置。仅宽度和高度有意义。"
+
+#. js-lingui-explicit-id
+#: src/action.ts:426
+msgid "Whether to include the cursor position after action in the response. On some cursor-less devices, only width and height are meaningful."
+msgstr "是否在响应中包含操作后的光标位置。在某些无光标设备上，仅宽度和高度有意义。"
