@@ -5,7 +5,7 @@ rust = "1.87.0"
 [tasks.merge-upstream]
 description = "Merge from upstream internal git repo"
 run = [
-  "git fetch private master",
-  "josh-filter ':[::packages/schema,::packages/core-sdk,::packages/playground,::packages/tsconfig]' private/master",
+  "git fetch private production",
+  "josh-filter ':[::packages/schema,::packages/core-sdk,::packages/playground,::packages/tsconfig]' private/production",
   "git merge --allow-unrelated FILTERED_HEAD -m 'Sync with internal development branch'"
 ]
