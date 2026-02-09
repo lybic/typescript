@@ -25,3 +25,24 @@ dist
 
 # IDEA IDE files
 .idea/
+
+# Environment and secret files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+*.der
+secrets.json
+secrets.*.json
+credentials.json
+service-account.json
+.aws/
+.gcp/
